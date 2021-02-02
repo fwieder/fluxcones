@@ -1,7 +1,8 @@
 import numpy as np
 import cdd
 import efmtool
-from itertools import chain
+from util import printProgressBar
+import time
 
 def get_gens(S,rev, algo = "cdd"):
     if algo == "cdd":
@@ -13,10 +14,9 @@ def get_gens(S,rev, algo = "cdd"):
         mat.extend(S,linear = True)
         poly = cdd.Polyhedron(mat)
         gens = poly.get_generators()
-        
     return(gens)
 
-def get_efms(S,rev, algo = "cdd"):
+def get_efvs(S,rev, algo = "cdd"):
     if algo == "cdd":
         original_shape = np.shape(S)
         rev = np.nonzero(rev)[0]
@@ -32,14 +32,14 @@ def get_efms(S,rev, algo = "cdd"):
         for index,vector in enumerate(unsplit):
             if np.count_nonzero(np.round(vector,5)) > 0:
                 tokeep.append(index)
-        efms = unsplit[tokeep]
-        return(efms)
+        efvs = unsplit[tokeep]
+        return(efvs)
     
     if algo == "efmtool":
         reaction_names = np.arange(np.shape(S)[1]).astype(str)
         metabolite_names = np.arange(np.shape(S)[0]).astype(str)
-        efms = efmtool.calculate_efms(S,list(rev),reaction_names,metabolite_names).T
-        return(efms)
+        efvs = efmtool.calculate_efms(S,list(rev),reaction_names,metabolite_names).T
+        return(efvs)
     
     
 
@@ -55,7 +55,7 @@ def get_mmbs(S,rev):
                 mmb.append(index)
         if mmb != []:
             mmbs.append(mmb)
-            
+    mmbs.sort()
     return(mmbs)
 
 def sort_efms(efms,mmbs,rev):
@@ -74,70 +74,26 @@ def sort_efms(efms,mmbs,rev):
                 frev_reactions.append(efm)
         else:
             norev_reactions.append(efm)
-    d = {}
-    d2 = {}
-    count = 0 
     
-    for i in mmbs:
-        
-        count = count + 1
-        set2 = set(i)
-        d['set'+str(count)] = set2
-        
-        d['lists'+str(count)] = []
-        first = []
-        
-        d2['match'+str(count)]  = []
-        
-        for a in norev_reactions:
-        
-            set1 = set(a)
-            if d['set'+str(count)].issubset(set1) == True:
-              
-                first.append(a)    
-        d['lists'+str(count)].append(first)  
-        d2['match'+str(count)].append(d['lists'+str(count)])
-        
-    count = 0 
-    count2 = -1
-    d3 = {}
-    all_sub_lists = []
-    for i in d2.values():
-        
-        count = count + 1
-        count2 = count2 + 1
-        d3['final'+str(count)]  = []
     
-        real = []
-        for item in i:
-
-            for each_item in item:
-                           
-                for each_each_item in each_item:
-                    seta= set(each_each_item)
-                    save = []
-                    
-                    
-                    for i in mmbs:
-                    
-                        setb = set(i)
-                        a=setb.issubset(seta)
+    mmb_efms = [[] for n in range(len(mmbs))]
+    int_efms = []
     
-                        save.append(a)
-                        
-                    index_to_remove = count2
-                    new_save = save[:index_to_remove] + save[index_to_remove + 1:]
-                    if True not in new_save:
-                        real.append(each_each_item)
-                        
-            d3['final'+str(count)].append(real)
+    start = time.perf_counter()
+    print("Filtering EFMs")
+    
+    for ind,efm in enumerate(norev_reactions):
+        matches = 0
+        for index,mmb in enumerate(mmbs):
+            if set(mmb).intersection(set(efm)) == set(mmb):
+                matches +=1
+                if matches > 1:
+                    int_efms.append(efm)
+                    break
+                mmb_index = index
+        if matches == 1:
+            mmb_efms[mmb_index].append(efm)
+        if ind % 100 == 0:
+            printProgressBar(ind,len(norev_reactions),starttime = start)
             
-            all_sub_lists.append(real)
-            
-    mpf_efms = list(chain(*all_sub_lists))
-    setA = set(map(tuple, mpf_efms))
-    setB = set(map(tuple, norev_reactions))
-
-    int_efms = [i for i in setB if i not in setA]
-    
-    return (frev_reactions,mpf_efms, int_efms)
+    return mmb_efms, int_efms , frev_reactions
