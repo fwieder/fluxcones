@@ -6,6 +6,15 @@ Created on Tue Feb  2 08:48:55 2021
 """
 import time
 
+
+'''
+utility function that outputs a progress-bar. Suitable for computations, where the amount of iterations is large and
+known in advance. "iteration" is the current iterarion, while "total" is the total number of iterations.
+
+An estimated time until the computation is finished will be displayed.
+'''
+
+
 def printProgressBar(iteration, total, starttime=0, decimals=1, length=50, fill='█', printEnd="\r"):
     
     '''
