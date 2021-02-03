@@ -22,14 +22,14 @@ from sbml_import import read_sbml, get_reversibility, get_stoichiometry
 
 
 
-S = np.genfromtxt("C:/Users/User/Desktop/Biomodels/small_examples/illusnet_stoichiometry")
-rev = np.genfromtxt("C:/Users/User/Desktop/Biomodels/small_examples/illusnet_reversibility").astype(int)
+S = np.genfromtxt("C:/Users/User/Desktop/Biomodels/models_halim/Sulfur/kegg920_stoichiometry")
+rev = np.genfromtxt("C:/Users/User/Desktop/Biomodels/models_halim/Sulfur/kegg920_reversibility").astype(int)
 
-
+'''
 model = read_sbml("C:/Users/User/Desktop/Biomodels/bioModels_MEPs/e_coli_core.xml")
 S = get_stoichiometry(model)
 rev = get_reversibility(model)
-
+'''
 
 efv_start_time = time.time()
 efvs = get_efvs(S,rev,"efmtool")

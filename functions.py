@@ -15,18 +15,18 @@ tol = 1e-5
 get_gens returns a V-representation of a steady-state fluxcone defined by stoich and rev (stoichiometric matrix and {0,1}-reversible-reactions-vector c.f. sbml_import)
 algo determines which algorithm is used to compute the V-representation of the fluxcone
 '''
-def get_gens(stoich,rev, algo = "cdd"):
+def get_gens(equations,free_inds, algo = "cdd"):
     
     if algo == "cdd":
         
         
         # nonegs is the matrix defining the inequalities for each irreversible reachtion
-        irr = (np.ones(len(rev)) - rev).astype(int)
-        nonegs = np.eye(len(rev))[np.nonzero(irr)[0]]
+        noneg_inds = (np.ones(len(free_inds)) - free_inds).astype(int)
+        nonegs = np.eye(len(free_inds))[np.nonzero(noneg_inds)[0]]
         
         # initiate Matrix for cdd
         mat = cdd.Matrix(nonegs)
-        mat.extend(stoich,linear = True)
+        mat.extend(equations,linear = True)
         
         # generate polytope and compute generators
         poly = cdd.Polyhedron(mat)
