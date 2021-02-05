@@ -1,0 +1,52 @@
+-ENZREV
+rn:R00509 rn:R00860 rn:R00121 rn:R00781 cpd:C00263_Rx cpd:C01861_Rx cpd:C00065_Rx cpd:C00087_Rx cpd:C01077_Rx cpd:C00054_Rx cpd:C00033_Rx cpd:C00097_Rx cpd:C00155_Rx 
+ 
+ -ENZIRREV
+rn:R00859 rn:R01777 rn:R01776 rn:R01027 rn:R02180 rn:R02350 rn:R01861 rn:R00629 rn:R01242 rn:R02508 rn:R02021 rn:R00508 rn:R00861 rn:R00507 rn:R05072 rn:R00528 rn:R00533 rn:R00531 rn:R00530 rn:R00529 rn:R01930 rn:R00897 rn:R00586 rn:R00858 rn:R01283 rn:R01285 
+ 
+ -METINT
+cpd:C00094 cpd:C00263 cpd:C00053 cpd:C00053 cpd:C00053 cpd:C00053 cpd:C00053 cpd:C00053 cpd:C01118 cpd:C00053 cpd:C00224 cpd:C00053 cpd:C00094 cpd:C00094 cpd:C00053 cpd:C00320 cpd:C00094 cpd:C00094 cpd:C00224 cpd:C00059 cpd:C00059 cpd:C00283 cpd:C00979 cpd:C00094 cpd:C00283 cpd:C00542 cpd:C00087 cpd:C00283 cpd:C01118 cpd:C00054 cpd:C00054 cpd:C00054 cpd:C00054 cpd:C00054 cpd:C00542 cpd:C00094 cpd:C00053 cpd:C00224 cpd:C00283 cpd:C00224 cpd:C00054 cpd:C00059 cpd:C00094 cpd:C00283 cpd:C00059 cpd:C00059 cpd:C00059 cpd:C00224 cpd:C00224 cpd:C00320 cpd:C00059 cpd:C00979 cpd:C00283 cpd:C00155 cpd:C00094 cpd:C00094 cpd:C00263 cpd:C01861 cpd:C00065 cpd:C00087 cpd:C01077 cpd:C00054 cpd:C00033 cpd:C00097 cpd:C00155 
+ 
+ -METEXT
+cpd:C00263_x cpd:C01861_x cpd:C00065_x cpd:C00087_x cpd:C01077_x cpd:C00054_x cpd:C00033_x cpd:C00097_x cpd:C00155_x 
+ 
+ -CAT
+rn:R00859 :  + 1 cpd:C00094 =  + 1 cpd:C00283
+rn:R01777 :  + 1 cpd:C00263 =  + 1 cpd:C01118
+rn:R01776 :  + 1 cpd:C00263 =  + 1 cpd:C01077
+rn:R01027 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R02180 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R02350 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R01861 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R00629 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R01242 :  + 1 cpd:C00053 =  + 1 cpd:C00054
+rn:R02508 :  + 1 cpd:C01118 =  + 1 cpd:C00542
+rn:R02021 :  + 1 cpd:C00053 =  + 1 cpd:C00094
+rn:R00509 :  + 1 cpd:C00224 =  + 1 cpd:C00053
+rn:R00508 :  + 1 cpd:C00053 =  + 1 cpd:C00224
+rn:R00861 :  + 1 cpd:C00094 =  + 1 cpd:C00283
+rn:R00860 :  + 1 cpd:C00094 =  + 1 cpd:C00224
+rn:R00507 :  + 1 cpd:C00053 =  + 1 cpd:C00054 + 1 cpd:C00059
+rn:R05072 :  + 1 cpd:C00320 =  + 1 cpd:C00094 + 1 cpd:C00283
+rn:R00528 :  + 1 cpd:C00094 =  + 1 cpd:C00059
+rn:R00533 :  + 1 cpd:C00094 =  + 1 cpd:C00059
+rn:R00531 :  + 1 cpd:C00224 =  + 1 cpd:C00059
+rn:R00530 :  + 1 cpd:C00059 =  + 1 cpd:C00224
+rn:R00529 :  + 1 cpd:C00059 =  + 1 cpd:C00224
+rn:R01930 :  + 1 cpd:C01861 =  + 1 cpd:C00320 + 1 cpd:C00059
+rn:R00897 :  + 1 cpd:C00283 + 1 cpd:C00979 =  + 1 cpd:C00033 + 1 cpd:C00097
+rn:R00586 :  + 1 cpd:C00065 =  + 1 cpd:C00979
+rn:R00858 :  + 1 cpd:C00094 =  + 1 cpd:C00283
+rn:R01283 :  + 1 cpd:C00283 =  + 1 cpd:C00155
+rn:R01285 :  + 1 cpd:C00542 =  + 1 cpd:C00155
+rn:R00121 :  + 1 cpd:C00087 =  + 1 cpd:C00094
+rn:R00781 :  + 1 cpd:C00087 =  + 1 cpd:C00094
+cpd:C00263_Rx : cpd:C00263_x = cpd:C00263
+cpd:C01861_Rx : cpd:C01861_x = cpd:C01861
+cpd:C00065_Rx : cpd:C00065_x = cpd:C00065
+cpd:C00087_Rx : cpd:C00087_x = cpd:C00087
+cpd:C01077_Rx : cpd:C01077_x = cpd:C01077
+cpd:C00054_Rx : cpd:C00054_x = cpd:C00054
+cpd:C00033_Rx : cpd:C00033_x = cpd:C00033
+cpd:C00097_Rx : cpd:C00097_x = cpd:C00097
+cpd:C00155_Rx : cpd:C00155_x = cpd:C00155

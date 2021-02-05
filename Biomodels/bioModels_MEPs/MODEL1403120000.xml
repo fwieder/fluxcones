@@ -1,0 +1,2542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" metaid="_8e2f3982-b151-4d82-92da-86567a7cf77b" version="1">
+  <model id="MODEL1403120000" name="Grunwald2008 - Gene regulation of the Duchenne muscular dystrophy (Petri-net model)" metaid="_72c8fff1_43a9_4f2b_860d_1261aeea11a6">
+    <annotation>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_72c8fff1_43a9_4f2b_860d_1261aeea11a6">
+	<dc:creator>
+	<rdf:Bag>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Grunwald</vCard:Family>
+	<vCard:Given>Stefanie</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>stefanie.grunwald@charite.de</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>Technical University of Applied Sciences Berlin</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Speer</vCard:Family>
+	<vCard:Given>Astrid</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>speer@beuth-hochschule.de</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>Technical University of Applied Sciences Berlin</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Ackermann</vCard:Family>
+	<vCard:Given>Jörg</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>J.Ackermann@bioinformatik.uni-frankfurt.de</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>Technical University of Applied Sciences Berlin</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Koch</vCard:Family>
+	<vCard:Given>Ina</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>ina.koch@bioinformatik.uni-frankfurt.de</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>Technical University of Applied Sciences Berlin</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	</rdf:Bag>
+	</dc:creator>
+	<dcterms:created rdf:parseType="Resource">
+	<dcterms:W3CDTF>2008-02-15T11:00:00Z</dcterms:W3CDTF>
+	</dcterms:created>
+	<bqmodel:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/pubmed/18372101"/>
+	</rdf:Bag>
+	</bqmodel:is>
+	<bqmodel:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.db/MODEL1403120000"/>
+	</rdf:Bag>
+	</bqmodel:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+      <listOfCompartments>
+      <compartment id="default_compartment" constant="true" spatialDimensions="3" metaid="_3b6a003d-1cdf-46d3-b2af-3772cd1214f8" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="P0" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="PLCe" metaid="_743b4719_096d_4b1c_9b27_18546b1503ba" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_743b4719_096d_4b1c_9b27_18546b1503ba">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P9P212"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P1" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="compl_PIP2_PLCe" metaid="dbf91e98_944f_41a7_96fd_1c563de0868d" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#dbf91e98_944f_41a7_96fd_1c563de0868d">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/pubchem.compound/5497157"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P9P212"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P2" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="compl_Ca-channel" metaid="_92e7e900_98b2_4b08_8bde_146e1be7cc4a" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_92e7e900_98b2_4b08_8bde_146e1be7cc4a">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P62942"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q14643"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P3" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="free_Ca_ER" metaid="fe7e5e6c_426c_4fd8_88a1_5e951d898c1f" boundaryCondition="false" sboTerm="SBO:0000299" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#fe7e5e6c_426c_4fd8_88a1_5e951d898c1f">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:64301"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P4" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CALR_Ca" metaid="_910fe038_d13f_433b_81bf_920540af09b1" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_910fe038_d13f_433b_81bf_920540af09b1">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="identifiers.org/uniprot/P27797"/>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:64301"/>
+	<rdf:li rdf:resource="P27797"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P5" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Ca" metaid="a48a1880_69d4_4e2b_b1eb_ff4e241859f7" boundaryCondition="false" sboTerm="SBO:0000299" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a48a1880_69d4_4e2b_b1eb_ff4e241859f7">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:64301"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P6" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CAM" metaid="_481d4788_cc9b_49a1_bd32_8c3d1babf425" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_481d4788_cc9b_49a1_bd32_8c3d1babf425">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P62158"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P7" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CAM_Ca" metaid="_70e5349a_fa2f_423f_a606_bf562b51d3dc" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_70e5349a_fa2f_423f_a606_bf562b51d3dc">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P62158"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P8" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="act_Calcineurin" metaid="_3efbee1b_5100_4a7a_9b02_3a4fe1a86112" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_3efbee1b_5100_4a7a_9b02_3a4fe1a86112">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q08209"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P9" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_P" metaid="_1a4b0174_77e8_47bf_bb71_08d1d0e3bbc0" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1a4b0174_77e8_47bf_bb71_08d1d0e3bbc0">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P10" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc" metaid="_9ee6b514_263c_496d_9244_ab6cb3465210" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9ee6b514_263c_496d_9244_ab6cb3465210">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P11" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="JNK1" metaid="ba2fc129_771a_4fc6_a8e0_838a8ed4b402" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ba2fc129_771a_4fc6_a8e0_838a8ed4b402">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P45983"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P12" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CSNK1A1" metaid="ba83961d_faae_4600_b279_262db8ccda8b" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ba83961d_faae_4600_b279_262db8ccda8b">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q6PJ06"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P13" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="RAC1" metaid="b85ff436_f415_46ad_90eb_a7d0bfe7b78a" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b85ff436_f415_46ad_90eb_a7d0bfe7b78a">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P63000"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P14" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="DGC" metaid="c283ce86_644e_433f_b85b_a85b7bc982f5" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#c283ce86_644e_433f_b85b_a85b7bc982f5">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P11532"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P15" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Grb2" metaid="_4ac70fb5_254e_4f6d_98e8_747734264cc7" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4ac70fb5_254e_4f6d_98e8_747734264cc7">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P62993"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P17" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_MEF2c_GATA4_DNA" metaid="_213a0763_5a2e_40dd_8733_19f8d779ef08" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_213a0763_5a2e_40dd_8733_19f8d779ef08">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P43694"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q06413"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P16" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="PAK1" metaid="bb837ac8_752d_4771_a0cd_bcc2e515a986" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#bb837ac8_752d_4771_a0cd_bcc2e515a986">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q13153"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P19" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_com_DNA" metaid="da20b18b_43c5_4c09_893c_f32a0bdd15b5" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#da20b18b_43c5_4c09_893c_f32a0bdd15b5">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P18" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_SP1_SP3_DNA" metaid="_6739b096_93f7_44d1_89eb_eb74f9cd654c" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_6739b096_93f7_44d1_89eb_eb74f9cd654c">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q02447"/>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P08047"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P21" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="ANF" metaid="_402f9158_08d4_48e5_88e3_2dd25cf06a1b" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_402f9158_08d4_48e5_88e3_2dd25cf06a1b">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P01160"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P20" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="aActin" metaid="_2cf027b0_4f91_4515_916e_c14ca29ab244" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_2cf027b0_4f91_4515_916e_c14ca29ab244">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P68133"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P23" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="p21" metaid="_95fa5624_83b9_4ce3_838f_cc05c76c43ba" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_95fa5624_83b9_4ce3_838f_cc05c76c43ba">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P38936"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P22" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="MLC2" metaid="a8d78d45_cd15_4fa4_b883_0e24ec8cf788" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a8d78d45_cd15_4fa4_b883_0e24ec8cf788">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="identifiers.org/uniprot/P24844"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P25" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="MYF5" metaid="_7ce0325f_ee4d_4c99_ae80_9c1059fa8046" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7ce0325f_ee4d_4c99_ae80_9c1059fa8046">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P13349"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P24" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="UTRNA" metaid="a8dc13cc_6ebc_4594_b432_834fae72fc34" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a8dc13cc_6ebc_4594_b432_834fae72fc34">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P46939"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P27" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E+RAP2B" metaid="e17103c5_1f03_4c28_a9c4_3ff66614d9b2" boundaryCondition="false" sboTerm="SBO:0000501" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#e17103c5_1f03_4c28_a9c4_3ff66614d9b2">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P26" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-RAP2B" metaid="_1f043369_dbd7_4014_99af_8a485702a112" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1f043369_dbd7_4014_99af_8a485702a112">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P29" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Dys+" metaid="_5ef032b1_572b_4304_acc9_7dfdde0b6962" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_5ef032b1_572b_4304_acc9_7dfdde0b6962">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/fma/FMA:62357"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P28" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="RAP2B" metaid="e1e8acf5_6b8e_401a_a86b_6baa9b474ba6" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#e1e8acf5_6b8e_401a_a86b_6baa9b474ba6">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P61225"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P31" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-CSNK1A1" metaid="_689af8f4_8bd6_4134_b534_33feb5ad5cec" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_689af8f4_8bd6_4134_b534_33feb5ad5cec">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P30" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Dys-" metaid="_1aeb1edc_e577_44b9_bcf8_0306328f658d" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1aeb1edc_e577_44b9_bcf8_0306328f658d">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/fma/FMA:62357"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P34" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-UTRNA" metaid="_288c504f_f183_4f8f_9cb5_c13ee1b6043b" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_288c504f_f183_4f8f_9cb5_c13ee1b6043b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P35" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-NFATc" metaid="f237b189_6a5f_4d7f_a11e_e6f069f6d148" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f237b189_6a5f_4d7f_a11e_e6f069f6d148">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P32" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E+CSNK1A1" metaid="f9f5708f_2dfa_42bd_96d2_8b939ad623f5" boundaryCondition="false" sboTerm="SBO:0000501" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f9f5708f_2dfa_42bd_96d2_8b939ad623f5">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P33" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-MYF5" metaid="_0aac70b2_b463_4f2c_9d63_7557507059ec" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_0aac70b2_b463_4f2c_9d63_7557507059ec">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P38" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-Calcineurin" metaid="_51db53f4_d735_428d_ad69_280350f8998c" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_51db53f4_d735_428d_ad69_280350f8998c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P39" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E+JNK1" metaid="bf2529cf_032a_400d_a047_8c8572f79687" boundaryCondition="false" sboTerm="SBO:0000501" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#bf2529cf_032a_400d_a047_8c8572f79687">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P36" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E+NFATc" metaid="c6b71304_6d0b_4733_8835_af8bad29ea31" boundaryCondition="false" sboTerm="SBO:0000501" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#c6b71304_6d0b_4733_8835_af8bad29ea31">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P37" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E+calcineurin" metaid="_4fbf5e0e_9787_45d5_8447_c1a6e492d072" boundaryCondition="false" sboTerm="SBO:0000501" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4fbf5e0e_9787_45d5_8447_c1a6e492d072">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P42" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="active_DGC" metaid="_4f820ccb_9cbc_47bd_9d02_48843a406700" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4f820ccb_9cbc_47bd_9d02_48843a406700">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P11532"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P43" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="MEK" metaid="a4ab16b4_a2b5_448b_8f41_290a28a1c8b5" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a4ab16b4_a2b5_448b_8f41_290a28a1c8b5">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q02750"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P40" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Si-JNK1" metaid="ed930812_2c63_4704_8a1c_a10c7abd4520" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ed930812_2c63_4704_8a1c_a10c7abd4520">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000625"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P41" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="SOS1" metaid="b2364b54_d5f9_40ad_8d7e_0b8d3362f63b" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b2364b54_d5f9_40ad_8d7e_0b8d3362f63b">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q07889"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P46" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="free_NFATc_nuc" metaid="b4921d5b_f3ac_498b_a36e_ab28e573ee4e" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b4921d5b_f3ac_498b_a36e_ab28e573ee4e">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P47" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="active_JNK1" metaid="_73f4ee0a_60b3_447e_b182_f203bfeef62b" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_73f4ee0a_60b3_447e_b182_f203bfeef62b">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P45983"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P44" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="c-Jun_P" metaid="_21d0fdf3_0e7e_4e92_a4bf_c4530f908db9" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_21d0fdf3_0e7e_4e92_a4bf_c4530f908db9">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P05412"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P45" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_nuc" metaid="_1b93ccd4_5ed3_4d4e_8f12_6c4054d4d5cb" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1b93ccd4_5ed3_4d4e_8f12_6c4054d4d5cb">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P51" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E2F_active" metaid="_2e41713a_9a62_46d0_a9e4_02956f405de5" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_2e41713a_9a62_46d0_a9e4_02956f405de5">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q01094"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P50" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CDK6" metaid="d79041db_0b1c_418c_9b81_94e83eea6870" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d79041db_0b1c_418c_9b81_94e83eea6870">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q00534"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P49" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CDK4" metaid="c225ce6b_8f49_44bc_a6bd_286fef0fed79" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#c225ce6b_8f49_44bc_a6bd_286fef0fed79">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P11802"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P48" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="CDK2" metaid="_2dcb017d_9679_4c06_8bc1_bbcd6af5da3d" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_2dcb017d_9679_4c06_8bc1_bbcd6af5da3d">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P24941"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P55" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E2F" metaid="_73582087_717a_4e60_955c_2883d20b7ec8" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_73582087_717a_4e60_955c_2883d20b7ec8">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q01094"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P54" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="RB" metaid="_1df0d8a3_3149_4d9a_9e51_73ed32b60d22" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1df0d8a3_3149_4d9a_9e51_73ed32b60d22">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P06400"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P53" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E2F_phos" metaid="_4b227a65_95bd_4a24_ab3a_99a8d721275a" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4b227a65_95bd_4a24_ab3a_99a8d721275a">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q01094"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P52" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="RB_phos_inactive" metaid="be60c009_52cb_4e27_a2c0_fc6550e79d36" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#be60c009_52cb_4e27_a2c0_fc6550e79d36">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P06400"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P59" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="Calcineurin" metaid="_96dd0319_3cf8_415e_a0ac_6f186a88a63b" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_96dd0319_3cf8_415e_a0ac_6f186a88a63b">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/Q08209"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P58" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="act_p53" metaid="_503f7b9b_dcc1_48f0_9eb0_352a2d26e6d9" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_503f7b9b_dcc1_48f0_9eb0_352a2d26e6d9">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P04637"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P57" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="E2F_RB_compl" metaid="bb8895ef_c7ce_4e8b_a789_960b536d0951" boundaryCondition="false" sboTerm="SBO:0000297" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#bb8895ef_c7ce_4e8b_a789_960b536d0951">
+	<bqbiol:hasPart>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P06400"/>
+	<rdf:li rdf:resource="Q01094"/>
+	</rdf:Bag>
+	</bqbiol:hasPart>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P56" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="S-Phase_genes" metaid="_9aedf2db_b025_4afb_8c40_d7669e57b35b" boundaryCondition="false" sboTerm="SBO:0000243" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9aedf2db_b025_4afb_8c40_d7669e57b35b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:1901989"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P63" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="hypo_Silen_MYF5" metaid="dc093a58_eaa5_4076_9706_52b81b055946" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#dc093a58_eaa5_4076_9706_52b81b055946">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P62" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="hypo_Silen_UTRNA" metaid="_9a8ab36b_42a3_41e2_8f5f_cf45d751efa7" boundaryCondition="false" sboTerm="SBO:0000500" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9a8ab36b_42a3_41e2_8f5f_cf45d751efa7">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/so/SO:0000165"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P61" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="deact_NFATc_P" metaid="c65718ec_024e_40e1_b72f_46531ba0f766" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#c65718ec_024e_40e1_b72f_46531ba0f766">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P60" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="NFATc_comp_DNA" metaid="_97198a61_836d_483e_8c59_f19f49fffbe4" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_97198a61_836d_483e_8c59_f19f49fffbe4">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/O95644"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species id="P64" constant="false" initialAmount="0" hasOnlySubstanceUnits="true" name="p53" metaid="f13a8348_f05c_4aa1_a4ef_275b35e539f3" boundaryCondition="false" sboTerm="SBO:0000014" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f13a8348_f05c_4aa1_a4ef_275b35e539f3">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/uniprot/P04637"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+            </species>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="T0" name="bind_PIP2" metaid="_540ac9ab_e746_444b_a75b_79b14366487b" reversible="false" sboTerm="SBO:0000526" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_540ac9ab_e746_444b_a75b_79b14366487b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006461"/>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0005515"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P0" metaid="_74e16b8e-a176-4d01-9afe-564efbeb820d" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P1" metaid="_236b9ceb-7f6c-4147-a4b9-d63c0e579de5" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T1" name="act_IP3" metaid="_3c05d783_69ae_4847_88a9_7ac25502f46a" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_3c05d783_69ae_4847_88a9_7ac25502f46a">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:2000273"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P1" metaid="cf0c14a1-4869-4349-8fb8-aa05400aca3e" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P2" metaid="fbff9361-c9ea-4e1d-b627-6ce401c3951a" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T2" name="reg_Ca-channel" metaid="e419976a_c548_4840_bb73_1112fed67a00" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#e419976a_c548_4840_bb73_1112fed67a00">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0015278"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P2" metaid="_7ad0005f-7187-4e6b-b8a0-97490e1415c1" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P3" metaid="_4b7dbef6-ee1a-4b88-9e96-c6bf41663391" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T3" name="reg_CALR" metaid="_0822bb5e_d765_4f6c_b9e2_5a65cc8ac111" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_0822bb5e_d765_4f6c_b9e2_5a65cc8ac111">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0050790"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P2" metaid="_05a8c0f6-13a0-43ed-bae2-fdc5f8c8041a" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P4" metaid="_7226b55a-4683-46f8-afab-5232a55f40af" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T4" name="free_CALR" metaid="_722898ce_dc50_422f_ad95_1ad6155dd465" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_722898ce_dc50_422f_ad95_1ad6155dd465">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0015278"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P4" metaid="ff412043-dd28-45a9-a2d8-40161251c5ba" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P5" metaid="_6d130879-5309-40cd-adea-83a58a2f7ffd" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T5" name="free_channel" metaid="_561fc0fc_6e83_47ba_af0e_8e90d1450533" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_561fc0fc_6e83_47ba_af0e_8e90d1450533">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0015278"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P3" metaid="_578af02f-6ccd-4653-937f-fc2311979cd8" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P5" metaid="ff36a67b-b56c-440e-91b3-0cc20e622924" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T6" name="bind_CAM_Ca" metaid="fb6f573f_8046_493d_92b9_370a42afa6b6" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#fb6f573f_8046_493d_92b9_370a42afa6b6">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0005509"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P6" metaid="_9b78b256-4b79-4396-969c-6a4d1b916400" stoichiometry="1"/>
+          <speciesReference constant="true" species="P5" metaid="f2739776-5721-4608-acaf-d8825e1c50ee" stoichiometry="2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P7" metaid="_94dbde0a-fe3d-41dc-a0ad-403532dc981b" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T7" name="gen_CAM" metaid="_22456063_b96f_42e1_b25d_d07953560bda" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_22456063_b96f_42e1_b25d_d07953560bda">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P6" metaid="fef274ae-61df-44b0-9f28-b4b3124dc0a7" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T8" name="act_Calcineurin" metaid="_4f4d5c42_525e_4d6e_9d44_87fa6dd5da5f" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4f4d5c42_525e_4d6e_9d44_87fa6dd5da5f">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0032147"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P59" metaid="f8ed2faf-07f5-49e9-95a8-f0b8c5b397d9" stoichiometry="1"/>
+          <speciesReference constant="true" species="P7" metaid="_45604a3a-d5ce-4eca-89d4-f5f341d19338" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P8" metaid="_957862c6-acd8-4d40-a327-4d4e3ebf3e55" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T9" name="phosph_NFATc_CSNK1A1" metaid="_5032081b_c1b0_49c1_a870_9e190570ebe9" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_5032081b_c1b0_49c1_a870_9e190570ebe9">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P10" metaid="f0e7393a-390e-4916-82c1-e554312ebcd8" stoichiometry="2"/>
+          <speciesReference constant="true" species="P12" metaid="cf37a664-9254-4ac4-95ff-a4737254590a" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P9" metaid="ed70c524-8735-4b73-8b70-7f1291439c6c" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T10" name="dephosph" metaid="c3130d86_816d_4ddb_b04e_41a91922e11b" reversible="false" sboTerm="SBO:0000330" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#c3130d86_816d_4ddb_b04e_41a91922e11b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006470"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P8" metaid="e8097a70-c8bb-4a6e-96de-1f76faffd971" stoichiometry="1"/>
+          <speciesReference constant="true" species="P9" metaid="f63f1585-fd59-48a8-84fd-f10637083630" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P59" metaid="_0809ef8b-0fed-4953-8ef2-f4bf2cdcf618" stoichiometry="1"/>
+          <speciesReference constant="true" species="P10" metaid="_7576b8e2-0145-4e39-a7b6-0cf576071106" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T11" name="act_JNK1" metaid="_822ee8bf_d1c6_4e07_8321_f24eed3c3970" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_822ee8bf_d1c6_4e07_8321_f24eed3c3970">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0032147"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P43" metaid="be8b84be-2c2d-4ff2-8de9-8edbe9a90b25" stoichiometry="1"/>
+          <speciesReference constant="true" species="P11" metaid="_033b84bb-36be-477c-80f9-eda52469b9f5" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P47" metaid="_713ff76d-4c79-40fd-8d71-d85a228d714d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T12" name="act_RAC1" metaid="_1ae33ad7_dafd_4ac5_8c4c_e5cf3789c6a1" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1ae33ad7_dafd_4ac5_8c4c_e5cf3789c6a1">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P41" metaid="eda41c49-cc2e-49d3-a676-2ff29761e13e" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P13" metaid="b69bba7f-4948-4536-86f3-5ff16710340a" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T13" name="act_Grb2" metaid="_1fb5ea3f_9467_4352_b059_b822e24d12f1" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1fb5ea3f_9467_4352_b059_b822e24d12f1">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P42" metaid="_590953ab-cd8d-4b40-a20c-383cb4d29ec8" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P15" metaid="_5c007f3b-2982-45c0-9d6b-0d335c5326f8" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T14" name="act_PAK1" metaid="_05dc0363_5703_427c_ad6e_47e23741003c" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_05dc0363_5703_427c_ad6e_47e23741003c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P13" metaid="_0ada023a-f167-4543-936f-590d34154e8c" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P16" metaid="d09bf892-a4f1-4596-b195-5032c7de6be6" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T15" name="bind_NFATc_DNA_p21" metaid="_38e571ae_20f6_4ffa_9892_d2b6827064aa" reversible="false" sboTerm="SBO:0000342" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_38e571ae_20f6_4ffa_9892_d2b6827064aa">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051525"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P45" metaid="b956d7e5-2a88-4cb5-ada4-ef0ac9a69032" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P18" metaid="e00ba36c-56c3-4d42-a01c-c6693bb91b39" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T17" name="up-reg_p21" metaid="f8fd5801_d0eb_40f7_ab22_3449224b59fc" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f8fd5801_d0eb_40f7_ab22_3449224b59fc">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P18" metaid="_378b7625-c7ee-4b6a-bf6e-d148c3469967" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P46" metaid="_5b41d340-b6ee-4e01-840f-78d8f8d321f6" stoichiometry="1"/>
+          <speciesReference constant="true" species="P23" metaid="_06c48414-1509-4f11-8e45-f250fb0e850d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T16" name="up-reg_genes" metaid="_741b4d59_bb2e_4db5_8d4e_4d1e09f889e7" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_741b4d59_bb2e_4db5_8d4e_4d1e09f889e7">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P17" metaid="ad181bbf-063d-4923-9cad-c1ef38fd3ac2" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P46" metaid="_4b0f3e55-40ff-4fab-bb34-c350ecfbf31a" stoichiometry="1"/>
+          <speciesReference constant="true" species="P20" metaid="fb042eb5-6da4-432b-a98b-3f3a6f4eb960" stoichiometry="1"/>
+          <speciesReference constant="true" species="P21" metaid="_1bfd7eb9-58ee-41a0-a077-c6f1a9826a05" stoichiometry="1"/>
+          <speciesReference constant="true" species="P22" metaid="_58f0bac7-ac24-4488-821d-4e5bd6674fa5" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T19" name="up-reg_MYF5" metaid="e0a65548_c509_45b8_a717_201d33719f56" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#e0a65548_c509_45b8_a717_201d33719f56">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P60" metaid="_11c4d259-dac4-4476-bd3e-9d3ae75bb42a" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P63" metaid="_651af928-2978-43d4-ac64-a6a153279fde" stoichiometry="1"/>
+          <speciesReference constant="true" species="P46" metaid="d365def2-d79e-40bc-ab84-dd640c0ba5db" stoichiometry="1"/>
+          <speciesReference constant="true" species="P25" metaid="_7ccb323b-9589-4b50-8749-f3ada0db3d8d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T18" name="up-reg_UTRNA" metaid="_7187f127_cc3f_447b_b731_a77cf9e807f3" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7187f127_cc3f_447b_b731_a77cf9e807f3">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P19" metaid="_06cf1e16-8254-4d5c-b189-b75b4e3bee18" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P62" metaid="_0170c8a9-b511-4e3b-9b59-7bbbd876096b" stoichiometry="1"/>
+          <speciesReference constant="true" species="P46" metaid="_3370c64b-510d-47e2-bdf0-23d0735c259c" stoichiometry="1"/>
+          <speciesReference constant="true" species="P24" metaid="_9d70acca-fdc1-4061-94b9-52c973271097" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T21" name="rem_ANF" metaid="ab2f2557_c2ea_4a5a_afda_c43e70e76773" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ab2f2557_c2ea_4a5a_afda_c43e70e76773">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P21" metaid="_0ab094c0-2cb3-4fcf-836f-7760563d1d81" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T20" name="rem_MLC2" metaid="_4da9d345_96db_4ee8_8084_67ac185d6fda" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4da9d345_96db_4ee8_8084_67ac185d6fda">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P22" metaid="_5f631188-ede2-49ca-9e00-7bfef8231749" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T23" name="rem_p21" metaid="d63691e4_1987_4a92_ad5c_45586b798563" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d63691e4_1987_4a92_ad5c_45586b798563">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P23" metaid="_0a565933-7cd7-4131-90d9-94f7381ef394" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T22" name="rem_aActin" metaid="_3534e2d2_a453_4a96_a667_c95679580d5e" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_3534e2d2_a453_4a96_a667_c95679580d5e">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P20" metaid="_70c91e43-8de2-4a69-96fc-0e3f6c5a78d5" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T25" name="rem_MYF5" metaid="b720e895_39c7_4509_8694_de4bd3b39c2a" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b720e895_39c7_4509_8694_de4bd3b39c2a">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P25" metaid="_2d75cf76-f5df-4d35-9858-cadedf360e8a" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T24" name="rem_UTRNA" metaid="d901e4d5_c28b_4324_a7f4_1bd065adaaba" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d901e4d5_c28b_4324_a7f4_1bd065adaaba">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P24" metaid="_63ebfb10-07a3-4d76-b0b1-5cd0756241b6" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T27" name="init_E+RAP2B" metaid="a930c657_d183_43db_bbf3_1f5b042bf4eb" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a930c657_d183_43db_bbf3_1f5b042bf4eb">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P27" metaid="d989ef65-5f22-4f68-a64d-86285f3504be" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T26" name="rem_Si-RAP2B" metaid="_50701009_654b_433d_8aaf_0cc24334910f" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_50701009_654b_433d_8aaf_0cc24334910f">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P26" metaid="_000d7a33-60aa-44fc-b350-82945aa88a36" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T29" name="up-reg_RAP2B" metaid="fc89bf90_211e_43e8_8aa3_7727cee0441c" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#fc89bf90_211e_43e8_8aa3_7727cee0441c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P27" metaid="dd6c528b-5379-44b0-80d1-4edb3eec2f49" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P28" metaid="cfbbc06e-c92c-4fd6-9111-a230dc8317d9" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T28" name="down-reg_RAP2B" metaid="_06ff6b6b_c010_46e1_aa69_ab9e428e809d" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_06ff6b6b_c010_46e1_aa69_ab9e428e809d">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P28" metaid="_84d07808-7016-41c0-b7bd-8171e181c981" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P28" metaid="b20bbb6e-8496-4435-99a5-cd8ec00108fc" stoichiometry="2"/>
+          <speciesReference constant="true" species="P26" metaid="_572bd53e-748d-480d-a188-7e5d7aa8f53e" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T31" name="init_Dys" metaid="_38b32317_0cb6_4010_8287_0e067275accd" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_38b32317_0cb6_4010_8287_0e067275accd">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P29" metaid="d7e72e4e-f3fb-4672-947d-e7c256c402c4" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T30" name="act_PLCe" metaid="_7f7599b8_2328_48ad_a18b_897f5e659587" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7f7599b8_2328_48ad_a18b_897f5e659587">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P28" metaid="_6941066c-9a55-40a1-80c3-5f9b12d60997" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P0" metaid="_14f12b3b-b44b-4b54-a436-ade0c0dc1a04" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T34" name="DGC-loss" metaid="_33d839f2_85fe_4e46_bef9_c728e90ac625" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_33d839f2_85fe_4e46_bef9_c728e90ac625">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P14" metaid="_107e1b24-d065-4210-8143-dc015efe7d8c" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P30" metaid="_32a42009-17ab-4742-9cf7-e965c0ba2b6c" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T35" name="rem_Si-CSNK1A1" metaid="d38ae509_86d3_4f12_8398_08a0336c6c4a" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d38ae509_86d3_4f12_8398_08a0336c6c4a">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P31" metaid="_651f5e0f-0eb9-4aee-bded-9629142291df" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T32" name="rem_Dys" metaid="_568e86a9_f943_484d_af81_7859349221bb" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_568e86a9_f943_484d_af81_7859349221bb">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P30" metaid="dbb3092f-3d09-487e-b498-5e7d83094852" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T33" name="generat_DGC" metaid="_2a4ac5b1_f7c1_4f28_ba51_af412160b6b3" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_2a4ac5b1_f7c1_4f28_ba51_af412160b6b3">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006461"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P29" metaid="_779cba31-8b32-4eb8-9741-0f51749bad13" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P14" metaid="_01aadc52-f9a5-4686-8e55-6fd7d5f64ce6" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T38" name="up_reg_CSNK1A1" metaid="f1541f31_7f63_4df1_a56a_ebba0aa53417" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f1541f31_7f63_4df1_a56a_ebba0aa53417">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P32" metaid="_250d2ddd-04f1-4894-b27b-d9fa93516fb8" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P12" metaid="_9e1b90d8-64b6-4e32-bf7b-ef8b68b78d8a" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T39" name="inhib_transcr_p21" metaid="bd9ae013_f404_44c9_b564_490fbc5397f4" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#bd9ae013_f404_44c9_b564_490fbc5397f4">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P44" metaid="_7a6661fb-3eea-4db5-a8e7-470d24308339" stoichiometry="1"/>
+          <speciesReference constant="true" species="P23" metaid="c4fe95f0-82ee-4246-8c81-56985f1cf8cc" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T36" name="init_E+CSNK1A1" metaid="_2d2ffcb5_9c2f_49fb_ad6f_36b3e28113c5" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_2d2ffcb5_9c2f_49fb_ad6f_36b3e28113c5">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P32" metaid="_8c4d4c68-2d0c-4997-b593-f24c329f9e69" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T37" name="down-reg_CSNK1A1" metaid="_4180717f_49db_4748_b7d0_24439eb77770" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4180717f_49db_4748_b7d0_24439eb77770">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P12" metaid="dd3dc91a-c1cf-40b2-bb0f-8167f242e261" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P31" metaid="_3054cab6-cbed-4be3-841a-c71a47ea32cc" stoichiometry="1"/>
+          <speciesReference constant="true" species="P12" metaid="d4551fc4-848d-493a-aa42-25d5e6f9da74" stoichiometry="2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T42" name="down-reg_UTRNA" metaid="d18ad5e7_e832_4893_b1c8_dc61346a5abb" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d18ad5e7_e832_4893_b1c8_dc61346a5abb">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P24" metaid="_13d16236-ffbd-451c-a8d4-afd963d7e8df" stoichiometry="1"/>
+          <speciesReference constant="true" species="P62" metaid="_618bb950-8cdc-4394-aa42-9858980c945a" stoichiometry="2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P34" metaid="_0e1ae5df-ed37-404a-9358-964f1410727c" stoichiometry="1"/>
+          <speciesReference constant="true" species="P24" metaid="f52abcdb-810f-4ca8-bf6a-5430840c3d3a" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T43" name="rem_Si-MYF5" metaid="da402bd1_35b5_4ef6_8687_930e0f48ecce" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#da402bd1_35b5_4ef6_8687_930e0f48ecce">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P33" metaid="_43eda038-ff71-4026-ae14-c252c7eda3ba" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T40" name="rem_Si-UTRNA" metaid="_0715fb4e_85dd_4729_acf3_734413de4a44" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_0715fb4e_85dd_4729_acf3_734413de4a44">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P34" metaid="_9a53acf3-03d3-4383-82c8-bb811343c0a7" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T41" name="down-reg_MYF5" metaid="_98566a67_2013_4952_8449_906d04639410" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_98566a67_2013_4952_8449_906d04639410">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P63" metaid="_1d54436e-7214-468b-bb07-829fbf924fb0" stoichiometry="2"/>
+          <speciesReference constant="true" species="P25" metaid="_5ade67db-bf35-4506-b7b1-bff8fd30f2b3" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P33" metaid="c4bc368f-8c58-49de-a475-ab6117b8f447" stoichiometry="1"/>
+          <speciesReference constant="true" species="P25" metaid="_1380598f-c846-42d7-9ca2-bf405a73da51" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T46" name="up-reg_NFATc" metaid="a1278187_f695_4cbd_a2e0_1866c3916c33" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#a1278187_f695_4cbd_a2e0_1866c3916c33">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P35" metaid="_69df326c-ba90-4a99-b85c-c5256c645bbf" stoichiometry="1"/>
+          <speciesReference constant="true" species="P36" metaid="_1a767059-4921-44ff-9eec-994cf2bda4dd" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P10" metaid="dc246a21-981f-4c3b-b223-23e6110343e8" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T47" name="init_E+NFATc" metaid="_774f6cbe_a53b_43e3_9b63_79ffa40e43c1" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_774f6cbe_a53b_43e3_9b63_79ffa40e43c1">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P36" metaid="_22cc4155-1a93-4b73-b4b4-f4d7852fe689" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T44" name="rem_Si-NFATc" metaid="_8faf9ef6_c409_432a_8abd_487033dd404b" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_8faf9ef6_c409_432a_8abd_487033dd404b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P35" metaid="_2c0efa16-5ff9-4e80-ac97-4f3405edce1c" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T45" name="down-reg_NFATc" metaid="_82124ca6_ff88_48ea_92d3_caab6f459a41" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_82124ca6_ff88_48ea_92d3_caab6f459a41">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P36" metaid="aa7c5229-d5f4-4f1f-bbba-47507b628f7b" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P35" metaid="_713e76f9-d758-48a1-a748-743c01231ef4" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T51" name="rem_Si-Calcineurin" metaid="_463c7477_b859_455c_bf58_aefd70f26519" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_463c7477_b859_455c_bf58_aefd70f26519">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P38" metaid="b6aa9775-0144-49ff-b032-107e2c5bf8c6" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T50" name="down-reg_Calcineurin" metaid="_8eb2862e_677d_43f7_8360_c30c04b74e95" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_8eb2862e_677d_43f7_8360_c30c04b74e95">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P37" metaid="_1bb4a262-0de1-416b-97e6-1444da4c36a0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P38" metaid="_6208e0cf-66bb-4051-9884-4c2a9f3eafb3" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T49" name="up-reg_Calcineurin" metaid="_26a6997b_3dde_4191_a9bf_b151af207bbf" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_26a6997b_3dde_4191_a9bf_b151af207bbf">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P37" metaid="_1631ffb9-e7dd-4a60-a411-089432210d67" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P59" metaid="_5a83b6ce-01c5-467b-8941-9eca4fdcc570" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T48" name="init_E+Calcineurin" metaid="_7ff65701_245f_476d_b2b1_39af7b58715d" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7ff65701_245f_476d_b2b1_39af7b58715d">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P37" metaid="_25766fb9-bb4d-4e57-b196-b1c45b09f4a4" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T55" name="init_E+JNK1" metaid="_38a555ca_8ecf_42ad_a733_367d80279791" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_38a555ca_8ecf_42ad_a733_367d80279791">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P39" metaid="bf507ce9-fa25-48fd-a468-cca138acd6f1" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T54" name="rem_Si-JNK1" metaid="_9137b8f2_2cf9_44ec_87a0_27dcec1e17a6" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9137b8f2_2cf9_44ec_87a0_27dcec1e17a6">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P40" metaid="_0c902828-06c1-4914-a548-fd993bca9d86" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T53" name="down-reg_JNK1" metaid="f0463eaa_6738_4157_92e1_adbcb640c657" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f0463eaa_6738_4157_92e1_adbcb640c657">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010629"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P11" metaid="_5baab16f-8db2-4df2-a320-dae1ded8db6e" stoichiometry="2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P11" metaid="b6fcd6ab-239b-4f45-9e1b-2670b5fde081" stoichiometry="1"/>
+          <speciesReference constant="true" species="P40" metaid="c9074011-7f85-4089-86f7-043e3c3a76cb" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T52" name="up-reg_JNK1" metaid="_9d85bb30_e2c5_4f6a_8ae7_7c481c51ef7b" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9d85bb30_e2c5_4f6a_8ae7_7c481c51ef7b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0010628"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P39" metaid="db9a7337-da51-48db-9098-10426bd4a6fc" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P11" metaid="_711aecd1-aeb2-49d0-bb25-f8deb17b3911" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T59" name="phos_c-Jun" metaid="b395611c_fcb5_4c30_aa4f_1cfcb255c8bd" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b395611c_fcb5_4c30_aa4f_1cfcb255c8bd">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P47" metaid="_8175d228-1204-4e95-8cb4-a716f222e31e" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P44" metaid="a12ac94e-cde4-4ccf-aeb9-13281eafade4" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T58" name="act_MEK" metaid="_4e0c1d51_6f15_4d40_8b14_1086feba3e26" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4e0c1d51_6f15_4d40_8b14_1086feba3e26">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P16" metaid="c014db16-fc23-4e45-9091-e2f009e9a96b" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P43" metaid="_15305282-b176-4e90-a43c-385a36da51cc" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T57" name="act_SOS1" metaid="_9e93e021_5441_40cb_a1db_2029359d5310" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9e93e021_5441_40cb_a1db_2029359d5310">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P15" metaid="_59c1591e-e7de-410e-8607-76a6fd860b00" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P41" metaid="_67c83fc0-9444-4360-bfbe-65229f3cc67b" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T56" name="DGC_act" metaid="_283ef217_ffda_4347_aaed_f1bbbfa70b18" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_283ef217_ffda_4347_aaed_f1bbbfa70b18">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051247"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P14" metaid="ce03a362-04be-47ca-b90a-51ec8c88f67a" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P30" metaid="_312082ba-bfc3-418c-89f3-5ba19932bb46" stoichiometry="4"/>
+          <speciesReference constant="true" species="P42" metaid="_3445de0b-b4a4-4978-8d14-4b0faa00b0a2" stoichiometry="1"/>
+          <speciesReference constant="true" species="P14" metaid="_2f524821-4f44-48ac-b0b2-949850c4dce2" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T63" name="init_CDK4" metaid="_7a4b00a5_1362_4089_8a06_71e192fee900" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7a4b00a5_1362_4089_8a06_71e192fee900">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P49" metaid="_935dde2c-c1b4-4a43-93b3-171994eadea6" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T62" name="init_CDK2" metaid="_63210e19_7a72_44a6_9b7c_4d7c8aa9f86d" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_63210e19_7a72_44a6_9b7c_4d7c8aa9f86d">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P48" metaid="cad30d46-73ea-4465-8b70-9e953675063d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T61" name="Transfactor_in_nuc" metaid="ab2be26a_5280_45a0_aad0_67b8114fd112" reversible="false" sboTerm="SBO:0000185" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ab2be26a_5280_45a0_aad0_67b8114fd112">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051170"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P10" metaid="_5cddc769-17e8-432e-95d1-d5ad1c6f555c" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P45" metaid="_0b5c64cc-8ce6-4dbe-925e-18ce3138eee0" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T60" name="phosph_NFATc_JNK1" metaid="_1adaf858_908c_4dd8_948a_8cdd8fb2cc40" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_1adaf858_908c_4dd8_948a_8cdd8fb2cc40">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P47" metaid="a95eb8eb-5fdf-48eb-bc9c-a2349720c30f" stoichiometry="1"/>
+          <speciesReference constant="true" species="P10" metaid="feb9f365-4bad-4b2c-9bc3-90704cc9e8b7" stoichiometry="2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P9" metaid="_519fd13b-5da1-4ba9-834b-bc5c40a9d09b" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T68" name="phos_E2F" metaid="_27d28989_d3e8_4da7_b68a_63a728a35ee9" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_27d28989_d3e8_4da7_b68a_63a728a35ee9">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P48" metaid="_4ee6be06-2c71-41c7-a589-7bde0d46d69c" stoichiometry="2"/>
+          <speciesReference constant="true" species="P51" metaid="c2ac3aa4-d2bd-430a-9c76-ab00f9ab275b" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P53" metaid="_28730aaf-319f-4ed7-b1e7-2e39eb129e74" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T69" name="dephos_RB" metaid="_4349d5b7_656a_4911_afd0_43e5457df60b" reversible="false" sboTerm="SBO:0000330" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4349d5b7_656a_4911_afd0_43e5457df60b">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006470"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P52" metaid="_0afba4d9-1cee-40f0-93fe-ce70950126c5" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P54" metaid="_38b58659-4fb4-40c4-b175-c26998df98fa" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T70" name="init_compl" metaid="_7006a4c4_e561_4d06_8f91_740d01029bf3" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7006a4c4_e561_4d06_8f91_740d01029bf3">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P55" metaid="_1c3ffec2-b196-44d4-ad9b-03547af00d41" stoichiometry="1"/>
+          <speciesReference constant="true" species="P54" metaid="_54c7cd59-6b21-4c26-8881-5a3a0e8f7d8d" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P57" metaid="cf79f7d7-e73c-4cae-bedd-adc41780e5b0" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T71" name="init_RB" metaid="e2eb1a29_485c_4e9a_8ba7_4ad2d0a5ca78" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#e2eb1a29_485c_4e9a_8ba7_4ad2d0a5ca78">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P54" metaid="_16d65ffe-7ed6-41b6-b5c2-8068a8886c0d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T64" name="init_CDK6" metaid="b9690fed_3e3d_425f_bf07_f92ec5faa001" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#b9690fed_3e3d_425f_bf07_f92ec5faa001">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P50" metaid="_96f3dd0c-2436-4689-9f68-f96db5110947" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T65" name="phosph_RB" metaid="_532c3a01_e1ce_4644_b8e8_0372a52fcc92" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_532c3a01_e1ce_4644_b8e8_0372a52fcc92">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P48" metaid="_15789887-5530-4e37-b916-ff422a6a9cf7" stoichiometry="2"/>
+          <speciesReference constant="true" species="P57" metaid="cec9c586-996f-4eaa-8d08-6f79d8132f7e" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P52" metaid="ab76d64b-5d52-41b2-83f3-ce13254ea1a1" stoichiometry="1"/>
+          <speciesReference constant="true" species="P51" metaid="b3668fbc-b223-480a-ac21-36d396aa4e10" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T66" name="phos_RB" metaid="_7b3a0247_30e9_4faf_b9db_c4166051dac8" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_7b3a0247_30e9_4faf_b9db_c4166051dac8">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P50" metaid="_93745e49-b164-4912-8fed-ad7d7cfce048" stoichiometry="1"/>
+          <speciesReference constant="true" species="P57" metaid="_6a0d86ab-a69c-4592-ba01-2a722b9d34db" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P52" metaid="_0a8f0c05-456f-41c2-81bc-833d8e5153c6" stoichiometry="1"/>
+          <speciesReference constant="true" species="P51" metaid="_55f3dc63-8628-43ae-8c67-1ecdc71e4ce2" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T67" name="phosp_RB" metaid="_9c7d0bd0_208e_4c8e_ac83_6e2f3f788fc0" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_9c7d0bd0_208e_4c8e_ac83_6e2f3f788fc0">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P49" metaid="fa36b885-d6eb-4c70-b8cf-d766a72ba953" stoichiometry="1"/>
+          <speciesReference constant="true" species="P57" metaid="_8ff23e7a-3468-4434-ab1a-0da9ab94bc21" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P52" metaid="a17f8119-42a8-486b-9722-dac513ce9d9e" stoichiometry="1"/>
+          <speciesReference constant="true" species="P51" metaid="_4dd9f0ca-5741-4ae2-b6a8-67d41bb5492f" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T76" name="init_E2F" metaid="_5dd95eb8_9551_4984_9cec_d264133ad949" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_5dd95eb8_9551_4984_9cec_d264133ad949">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P55" metaid="af073ef1-5c91-43ea-8276-10884d7c03cb" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T77" name="phosph_p53_CSNK1A1" metaid="_65fd9f7d_b047_4171_afcd_379df70609e8" reversible="false" sboTerm="SBO:0000216" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_65fd9f7d_b047_4171_afcd_379df70609e8">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006468"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P64" metaid="_094e1ad2-a9b6-4180-b145-f7197c73bfee" stoichiometry="1"/>
+          <speciesReference constant="true" species="P12" metaid="f19e80ea-d472-4ff9-aee7-be4f2ce74b99" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P58" metaid="_79ecc84e-7611-413e-9a0d-c40a92a71d6f" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T78" name="reg_p21_p53" metaid="_33ae36df_daa3_493a_ad0c_8f20d1079403" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_33ae36df_daa3_493a_ad0c_8f20d1079403">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0070028"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P58" metaid="_74058cfb-f8d3-4d68-9b03-0486518d29b2" stoichiometry="5"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P23" metaid="_4f04e553-f520-45fb-8db9-cca77c1f6cbf" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T79" name="init_p53" metaid="d55a4b4e_e552_4f9c_9b5d_f155d8e73708" reversible="false" sboTerm="SBO:0000393" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#d55a4b4e_e552_4f9c_9b5d_f155d8e73708">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfProducts>
+          <speciesReference constant="true" species="P64" metaid="_03102e35-2ee1-4b85-8908-a722592f3e12" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T72" name="transcription" metaid="_833f43ee_4dfc_4beb_b3a9_5e0c0a2a25f0" reversible="false" sboTerm="SBO:0000183" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_833f43ee_4dfc_4beb_b3a9_5e0c0a2a25f0">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0006351"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P51" metaid="f0e456ed-a65d-48c6-8c8f-32e9ca3d5638" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P56" metaid="_44cba98e-981a-44f0-8975-619a0094847d" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T73" name="rem_S-Phase_genes" metaid="_3a212f75_866a_4ea0_a017_54844dcbc84c" reversible="false" sboTerm="SBO:0000394" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_3a212f75_866a_4ea0_a017_54844dcbc84c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000394"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P56" metaid="d122d685-5397-4ce5-8dbf-e9bf12245411" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T74" name="inhib_p21_CDK2" metaid="fa6a109a_718b_4503_a60d_691706a3df99" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#fa6a109a_718b_4503_a60d_691706a3df99">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051248"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P48" metaid="_3101c0b7-4862-42bd-bbef-9cb969c683d3" stoichiometry="1"/>
+          <speciesReference constant="true" species="P23" metaid="ba3e8a13-f383-4143-a9b7-ce92961a4d42" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T75" name="inhib_E2F_RB_phos" metaid="_4d3d8993_b9b9_47ba_beff_2733bd24b67c" reversible="false" sboTerm="SBO:0000168" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4d3d8993_b9b9_47ba_beff_2733bd24b67c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051248"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P53" metaid="_64e26cc8-8b35-41f6-a9e1-203f83cb9574" stoichiometry="1"/>
+          <speciesReference constant="true" species="P57" metaid="_2df25d5e-51fe-4cc5-becd-19b90affdec1" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T85" name="bind_NFATc_DNA_UTRNA" metaid="f453c683_46c0_46aa_b05f_b6ca858487f4" reversible="false" sboTerm="SBO:0000342" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#f453c683_46c0_46aa_b05f_b6ca858487f4">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051525"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P45" metaid="_43920d5e-0ce3-4024-9218-6d20aaba9721" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P19" metaid="f9833606-c66b-4858-b614-3d38d976d7f8" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T84" name="bind_NFATc_DNA_genes" metaid="_46cd74f1_b1e1_433a_b2bd_85aaae77b8f1" reversible="false" sboTerm="SBO:0000342" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_46cd74f1_b1e1_433a_b2bd_85aaae77b8f1">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051525"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P45" metaid="_856e212e-b94c-4e67-b48e-f673f1952b19" stoichiometry="3"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P17" metaid="_37f56e26-d557-43f4-b86f-ad1241eaf75b" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T87" name="degrad_Calcineurin" metaid="_28b0a0a5_acbf_4c59_b8f7_9c9a9995abfc" reversible="false" sboTerm="SBO:0000179" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_28b0a0a5_acbf_4c59_b8f7_9c9a9995abfc">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0030163"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P59" metaid="_9ff0f677-e622-4898-8520-9f2f4aacb5c4" stoichiometry="3"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T86" name="bind_NFATc_DNA_MYF5" metaid="_4b633647_17fb_415e_a390_ad913fb69804" reversible="false" sboTerm="SBO:0000342" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_4b633647_17fb_415e_a390_ad913fb69804">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051525"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P45" metaid="_1fb96aee-2c64-4e99-bd3e-03bcb95061d5" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P60" metaid="_704142f1-e1a7-46e0-b7f1-5fbbbcd4d95e" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T81" name="deact_NFATc_CSNK1A1" metaid="_27bdc655_a7fe_4be2_9e57_0236470e5c43" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_27bdc655_a7fe_4be2_9e57_0236470e5c43">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051248"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P46" metaid="_79876464-fb5a-4afd-a1af-ec2e4c0b25b4" stoichiometry="1"/>
+          <speciesReference constant="true" species="P12" metaid="_68b2434e-9c5e-4abd-beb0-6a0cda7864b0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P61" metaid="aa6ab815-6b78-4fb8-a7a3-d78f24960c18" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T80" name="degrad_NFATc" metaid="_072d227f_e920_4837_bf18_0ec946011cfe" reversible="false" sboTerm="SBO:0000179" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_072d227f_e920_4837_bf18_0ec946011cfe">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0030163"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P46" metaid="b1b69109-9233-4b2c-b4f8-8f399836d3bd" stoichiometry="1"/>
+        </listOfReactants>
+      </reaction>
+      <reaction id="T83" name="Transfactor_in_cyt" metaid="ebb6ad18_3f10_41f8_98ed_9e67869b051e" reversible="false" sboTerm="SBO:0000185" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#ebb6ad18_3f10_41f8_98ed_9e67869b051e">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051168"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P61" metaid="d750ecf1-7279-4d70-b02f-075c4a107c40" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P9" metaid="_0a85cd9d-7553-4200-9eb3-84209256be72" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="T82" name="deact_NFATc_JNK1" metaid="_5fce4ef7_a26c_4300_b804_a72255d1b96c" reversible="false" sboTerm="SBO:0000344" fast="false" compartment="default_compartment">
+        <annotation>
+        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+	<rdf:Description rdf:about="#_5fce4ef7_a26c_4300_b804_a72255d1b96c">
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0051248"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	</rdf:RDF>
+	</annotation>
+              <listOfReactants>
+          <speciesReference constant="true" species="P47" metaid="_3545cf31-55ae-42bf-a274-2d171c555fa4" stoichiometry="1"/>
+          <speciesReference constant="true" species="P46" metaid="_51bb46b5-63ec-4c98-a754-00e8978c7452" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference constant="true" species="P61" metaid="dda54c90-3d55-49b3-9369-f448d1986660" stoichiometry="1"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
