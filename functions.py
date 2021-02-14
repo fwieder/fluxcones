@@ -1,20 +1,28 @@
 import numpy as np
-import cdd
-import efmtool
+import cdd,efmtool,cobra,time
 from util import printProgressBar
-import time
 
 
 '''
 define tolerance for zero comparisions
 '''
-tol = 1e-5
+tol = 1e-10
+
+
+class flux_model:
+    def __init__(self, path_to_file):
+        sbml_model = cobra.io.read_sbml_model(path_to_file)
+        self.stoich = cobra.util.array.create_stoichiometric_matrix(sbml_model)
+        self.rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
+        self.name = sbml_model.name
 
 
 '''
 get_gens returns a V-representation of a steady-state fluxcone defined by stoich and rev (stoichiometric matrix and {0,1}-reversible-reactions-vector c.f. sbml_import)
 algo determines which algorithm is used to compute the V-representation of the fluxcone
 '''
+
+
 def get_gens(equations,free_inds, algo = "cdd"):
     
     if algo == "cdd":
@@ -72,7 +80,6 @@ def get_efvs(stoich,rev, algo = "cdd"):
         # efmtool needs these lists of strings as input
         reaction_names = np.arange(np.shape(stoich)[1]).astype(str)
         metabolite_names = np.arange(np.shape(stoich)[0]).astype(str)
-        
         efvs = efmtool.calculate_efms(stoich,list(rev),reaction_names,metabolite_names).T
         return(efvs)
     
@@ -99,6 +106,8 @@ def get_mmbs(stoich,rev):
         if mmb != []:
             mmbs.append(mmb)
     return(mmbs)
+
+
 
 '''
 Output:
@@ -151,3 +160,13 @@ def filter_efms(efvs,mmbs,rev):
             printProgressBar(ind,len(nonrev_efms),starttime = start)
             
     return mmb_efms, int_efms , frev_efms
+
+
+
+
+def is_efm(fluxmode,stoich):
+    if np.linalg.matrix_rank(stoich[:,fluxmode]) == len(fluxmode) - 1:
+        return True
+    else:
+        return False
+
