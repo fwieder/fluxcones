@@ -12,10 +12,14 @@ tol = 1e-10
 class flux_model:
     def __init__(self, path_to_file):
         sbml_model = cobra.io.read_sbml_model(path_to_file)
-        self.stoich = cobra.util.array.create_stoichiometric_matrix(sbml_model)
-        self.rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
+        
         self.name = sbml_model.name
-
+        
+        self.stoich = cobra.util.array.create_stoichiometric_matrix(sbml_model)
+        
+        self.rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
+        
+        self.irr = (np.ones(len(self.rev)) - self.rev).astype(int)
 
 '''
 get_gens returns a V-representation of a steady-state fluxcone defined by stoich and rev (stoichiometric matrix and {0,1}-reversible-reactions-vector c.f. sbml_import)
@@ -23,19 +27,21 @@ algo determines which algorithm is used to compute the V-representation of the f
 '''
 
 
-def get_gens(equations,free_inds, algo = "cdd"):
+def get_gens(equations,vec_of_free_indices, algo = "cdd"):
     
     if algo == "cdd":
         
         
         # nonegs is the matrix defining the inequalities for each irreversible reachtion
-        noneg_inds = (np.ones(len(free_inds)) - free_inds).astype(int)
-        nonegs = np.eye(len(free_inds))[np.nonzero(noneg_inds)[0]]
+        noneg_inds = (np.ones(len(vec_of_free_indices)) - vec_of_free_indices).astype(int)
+        nonegs = np.eye(len(vec_of_free_indices))[np.nonzero(noneg_inds)[0]]
         
         # initiate Matrix for cdd
-        mat = cdd.Matrix(nonegs)
-        mat.extend(equations,linear = True)
-        
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(equations,linear = True)
+        else:
+            mat = cdd.Matrix(equations,linear = True)
         # generate polytope and compute generators
         poly = cdd.Polyhedron(mat)
         gens = poly.get_generators()
@@ -145,7 +151,7 @@ def filter_efms(efvs,mmbs,rev):
     
     # iterate over all efms
     for ind,efm in enumerate(nonrev_efms):
-        # matches will be the amount of mmbs that are a subset of 
+        # matches is the number of mmbs that are a subset of the current efm 
         matches = 0
         for index,mmb in enumerate(mmbs):
             if set(mmb).issubset(set(efm)):
@@ -156,12 +162,20 @@ def filter_efms(efvs,mmbs,rev):
                 mmb_index = index
         if matches == 1:
             mmb_efms[mmb_index].append(efm)
+            
         if ind % 100 == 0:
             printProgressBar(ind,len(nonrev_efms),starttime = start)
-            
+    
+    for efmlist in mmb_efms:
+        efmlist.sort()
+    
     return mmb_efms, int_efms , frev_efms
 
 
+
+'''
+is_efms returns TRUE, iff fluxmode is the support of an elementary flux-vector of the metabolic network defined by stoich as stoichiometric matrix
+'''
 
 
 def is_efm(fluxmode,stoich):
@@ -170,3 +184,18 @@ def is_efm(fluxmode,stoich):
     else:
         return False
 
+
+def efms_in_mmb(mmb,model):
+    zero_inds = list(set(np.nonzero(model.irr)[0]) - set(mmb))
+    S = model.stoich.copy()
+    for index in zero_inds:
+        S[:,index] = np.zeros(np.shape(S)[0])
+    
+    efvs_in_mmb = get_efvs(S,model.rev,"cdd")
+    efms = [list(np.nonzero(efvs_in_mmb[i])[0]) for i in range(len(efvs_in_mmb))]
+    efms_in_mmb =[]
+    for efm in efms:
+        if len(efm) != 1 and not set(efm).issubset(set(np.nonzero(model.rev)[0])):
+            efms_in_mmb.append(efm)
+    efms_in_mmb.sort()
+    return(efms_in_mmb)

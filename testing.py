@@ -16,21 +16,33 @@ import numpy as np
 import time
 import sys
 
-from functions import get_efvs,get_mmbs,filter_efms,flux_model
-from sbml_import import read_sbml, get_reversibility, get_stoichiometry
+from functions import get_efvs,get_mmbs,filter_efms,flux_model,efms_in_mmb
+from util import printProgressBar
 
-
-
-
-S = np.genfromtxt("./Biomodels/small_examples//illusnet/illusnet_stoichiometry")
-rev = np.genfromtxt("./Biomodels/small_examples/illusnet/illusnet_reversibility").astype(int)
 
 
 model = flux_model("./Biomodels/bioModels_MEPs/e_coli_core.xml")
 
+
+model.name = "Butanoate"
+model.stoich = np.genfromtxt("./Biomodels/models_halim/Butanoate/kegg65_stoichiometry")
+model.rev = np.genfromtxt("./Biomodels/models_halim/Butanoate/kegg65_reversibility").astype(int)
+model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
+
+
 print(model.name)
 print("Shape of stoichiometric matrix: ", np.shape(model.stoich))
 print("Number of reversible reactions: ", np.count_nonzero(model.rev))
+
+
+'''
+#delete Biomass-reaction (12) of e_coli
+
+
+model.stoich = np.delete(model.stoich,12,1)
+model.rev = np.delete(model.rev, 12,0)
+model.irr = np.delete(model.irr, 12,0)
+'''
 
 
 
@@ -45,8 +57,28 @@ mmb_start_time = time.time()
 mmbs = get_mmbs(model.stoich,model.rev)
 mmb_comp_time = time.time() - mmb_start_time
 
-print(len(mmbs), "MMBs calculated in%3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
+print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
 
 print("initiating EFM filtering")
-        
+filter_start_time = time.time()   
+
 mmb_efms, int_efms, frev_efms = filter_efms(efvs,mmbs,model.rev)
+
+filter_comp_time = time.time()-filter_start_time
+print("")
+
+print("EFMs filtered in %3dm %2ds" % (filter_comp_time//60,filter_comp_time%60))
+
+mmb_efms_alt = []
+
+print("Finding EFMs in MMBs")
+finding_start_time = time.time()
+start = time.perf_counter()
+for ind,mmb in enumerate(mmbs):
+    mmb_efms_alt.append(efms_in_mmb(mmb,model))
+    printProgressBar(ind,len(mmbs),starttime = start)
+finding_time = time.time() - finding_start_time
+print("")
+print("EFMs in MMBs found in %3dm %2ds" %(finding_time//60,finding_time%60))
+
+    
