@@ -33,4 +33,7 @@ def printProgressBar(iteration, total, starttime=0, decimals=1, length=50, fill=
     print('\r|%s| %s%% %s' % (bar, percent,suffix), end = printEnd)
     if iteration == total:
         print()
-        
+
+
+model_paths = ["e_coli_core","iAB_RBC_283","iAF692","iAM_Pb448","iCN718","iCN900","iEK1008","iHN637","iIS312","iIT341","iJB785","iLJ478","iNF517"]
+

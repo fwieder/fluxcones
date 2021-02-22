@@ -1,12 +1,12 @@
 import numpy as np
 import cdd,efmtool,cobra,time
 from util import printProgressBar
-
+import sys
 
 '''
 define tolerance for zero comparisions
 '''
-tol = 1e-10
+tol = 1e-5
 
 
 class flux_model:
@@ -20,6 +20,8 @@ class flux_model:
         self.rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
         
         self.irr = (np.ones(len(self.rev)) - self.rev).astype(int)
+        
+        self.lin_dim = len(np.nonzero(self.rev)[0]) - np.linalg.matrix_rank(self.stoich[:,np.nonzero(self.rev)[0]])
 
 '''
 get_gens returns a V-representation of a steady-state fluxcone defined by stoich and rev (stoichiometric matrix and {0,1}-reversible-reactions-vector c.f. sbml_import)
@@ -165,6 +167,7 @@ def filter_efms(efvs,mmbs,rev):
             
         if ind % 100 == 0:
             printProgressBar(ind,len(nonrev_efms),starttime = start)
+    printProgressBar(ind,len(nonrev_efms),starttime = start)
     
     for efmlist in mmb_efms:
         efmlist.sort()
@@ -184,18 +187,32 @@ def is_efm(fluxmode,stoich):
     else:
         return False
 
+'''
+Finds all efms of the given model that are in the minimal proper face defined by the input mmb
+'''
 
 def efms_in_mmb(mmb,model):
-    zero_inds = list(set(np.nonzero(model.irr)[0]) - set(mmb))
-    S = model.stoich.copy()
-    for index in zero_inds:
-        S[:,index] = np.zeros(np.shape(S)[0])
     
-    efvs_in_mmb = get_efvs(S,model.rev,"cdd")
-    efms = [list(np.nonzero(efvs_in_mmb[i])[0]) for i in range(len(efvs_in_mmb))]
+    face_indices = model.rev.copy()
+    face_indices[mmb] = 1
+    
+    S = model.stoich[:,np.nonzero(face_indices)[0]]
+    rev = model.rev[np.nonzero(face_indices)[0]]
+    
+    res = get_efvs(S,rev,"cdd")
+    
+    efvs_in_mmb = np.zeros([np.shape(res)[0],np.shape(model.stoich)[1]])
+    efvs_in_mmb[:,np.nonzero(face_indices)[0]] = res
+    
+    
+    efms = [list(np.nonzero(np.round(efvs_in_mmb[i],5))[0]) for i in range(len(efvs_in_mmb))]
+   
     efms_in_mmb =[]
+    
     for efm in efms:
-        if len(efm) != 1 and not set(efm).issubset(set(np.nonzero(model.rev)[0])):
+        if not set(efm).issubset(set(np.nonzero(model.rev)[0])):
             efms_in_mmb.append(efm)
+  
+
     efms_in_mmb.sort()
     return(efms_in_mmb)
