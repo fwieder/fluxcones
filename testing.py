@@ -16,13 +16,21 @@ import numpy as np
 import time
 import sys
 
-from functions import get_efvs,get_mmbs,filter_efms,flux_model,efms_in_mmb, is_efm
+from functions import get_efvs,get_mmbs,filter_efms,flux_model,efms_in_mmb, is_efm, get_efms_in_mmbs
 from util import printProgressBar,model_paths
 
 
 models = [flux_model("./Biomodels/bigg_models/" + model_paths[i] + ".xml") for i in range(len(model_paths))]
+'''
+for i,model in enumerate(models):
+    print(model_paths[i])
 
+    print("Shape of stoichiometric matrix: ", np.shape(model.stoich))
+    print("Number of reversible reactions: ", np.count_nonzero(model.rev))
+    print("Dimension of the reversible metabolic space: ", model.lin_dim)
 
+sys.exit()
+'''
 
 '''
 model.name = "Sulfur"
@@ -31,13 +39,9 @@ model.rev = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_reversibility
 model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
 '''
 
-for model in models:
-    
-    mmb_start_time = time.time()
-    mmbs = get_mmbs(model.stoich,model.rev)
-    mmb_comp_time = time.time() - mmb_start_time
-    print(len(get_mmbs(model.stoich,model.rev)))
-sys.exit()
+model = models[1]
+
+print(model_paths[1])
 print(model.name)
 print("Shape of stoichiometric matrix: ", np.shape(model.stoich))
 print("Number of reversible reactions: ", np.count_nonzero(model.rev))
@@ -78,15 +82,15 @@ print("")
 print("EFMs filtered in %3dm %2ds" % (filter_comp_time//60,filter_comp_time%60))
 '''
 
-mmb_efms_alt = []
-
 print("Finding EFMs in MMBs")
+
+
 finding_start_time = time.time()
-start = time.perf_counter()
-for ind,mmb in enumerate(mmbs):
-    mmb_efms_alt.append(efms_in_mmb(mmb,model))
-    printProgressBar(ind,len(mmbs),starttime = start)
+
+mmb_efms_alt = get_efms_in_mmbs(model)
+
 finding_time = time.time() - finding_start_time
+
 print("")
 print("EFMs in MMBs found in %3dm %2ds" %(finding_time//60,finding_time%60))
 

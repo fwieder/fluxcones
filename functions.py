@@ -216,3 +216,12 @@ def efms_in_mmb(mmb,model):
 
     efms_in_mmb.sort()
     return(efms_in_mmb)
+
+def get_efms_in_mmbs(model):
+    mmbs = get_mmbs(model.stoich,model.rev)
+    mmb_efms = []
+    start = time.perf_counter()
+    for ind,mmb in enumerate(mmbs):
+        mmb_efms.append(efms_in_mmb(mmb,model))
+        printProgressBar(ind,len(mmbs),starttime = start)
+    return mmb_efms
