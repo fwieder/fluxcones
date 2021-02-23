@@ -19,9 +19,9 @@ import sys
 from functions import get_efvs,get_mmbs,filter_efms,flux_model,efms_in_mmb, is_efm, get_efms_in_mmbs
 from util import printProgressBar,model_paths
 
-
-models = [flux_model("./Biomodels/bigg_models/" + model_paths[i] + ".xml") for i in range(len(model_paths))]
 '''
+models = [flux_model("./Biomodels/bigg_models/" + model_paths[i] + ".xml") for i in range(len(model_paths))]
+
 for i,model in enumerate(models):
     print(model_paths[i])
 
@@ -39,14 +39,24 @@ model.rev = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_reversibility
 model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
 '''
 
-model = models[1]
 
-print(model_paths[1])
+model = flux_model("./Biomodels/bigg_models/" + model_paths[1] + ".xml")
+
+
+
+
 print(model.name)
 print("Shape of stoichiometric matrix: ", np.shape(model.stoich))
 print("Number of reversible reactions: ", np.count_nonzero(model.rev))
 print("Dimension of the reversible metabolic space: ", model.lin_dim)
 
+mmb_start_time = time.time()
+mmbs = get_efvs(model.stoich,model.rev,"efmtool")
+mmb_comp_time = time.time() - mmb_start_time
+
+print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
+
+sys.exit()
 
 #delete Biomass-reaction (12) of e_coli
 

@@ -2,14 +2,19 @@ from multiprocessing import Pool
 from functions import get_mmbs, flux_model, get_efvs
 import numpy as np
 from util import model_paths
-
+import tqdm
 import time
 
+'''
+Parallel computation of EFMs in MMBs. Pool(8) in "get_efms_in_mmbs" sets the amount of used processors to 8
+'''
 
 
-model = flux_model("./Biomodels/bigg_models/" + model_paths[2] + ".xml")
+model = flux_model("./Biomodels/bigg_models/" + model_paths[0] + ".xml")
 
-print("model imported")
+
+
+
 
 def efms_in_mmb(mmb):
     
@@ -36,21 +41,21 @@ def efms_in_mmb(mmb):
   
     return efms_in_mmb
 
-def get_efms_in_mmbs(model):
+def get_efms_in_mmbs(model,mmbs):
+    
+    with Pool(proces) as p:
+        mmb_efms = list(tqdm.tqdm(p.imap(efms_in_mmb, mmbs), total = len(mmbs)))
+    p.close()
+    return mmb_efms
+
+if __name__ == '__main__':
     
     mmb_start_time = time.time()
     mmbs = get_mmbs(model.stoich,model.rev)
     mmb_comp_time = time.time() - mmb_start_time
     print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
     
-    comp_start = time.time()
-    with Pool(8) as p:
-        mmb_efms = p.map(efms_in_mmb, mmbs)
-    finding_time = time.time() - comp_start
-    print("EFMs in MMBs found in %3dm %2ds" %(finding_time//60,finding_time%60))
-    return mmb_efms
-
-if __name__ == '__main__':
-    
-    mmb_efms = get_efms_in_mmbs(model)
+    for proces in range(1,16):
+        print("Withh proces = " , proces)
+        mmb_efms = get_efms_in_mmbs(model,mmbs)
     
