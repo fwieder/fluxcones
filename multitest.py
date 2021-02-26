@@ -9,14 +9,12 @@ import time
 Parallel computation of EFMs in MMBs. Pool(8) in "get_efms_in_mmbs" sets the amount of used processors to 8
 '''
 
-
-model = flux_model("./Biomodels/bigg_models/" + model_paths[0] + ".xml")
-
-
+model_name = model_paths[-10]
+model = flux_model("./Biomodels/bigg_models/" + model_name + ".xml")
 
 
 
-def efms_in_mmb(mmb):
+def efms_in_mmb(mmb, model = model):
     
     face_indices = model.rev.copy()
     face_indices[mmb] = 1
@@ -41,21 +39,24 @@ def efms_in_mmb(mmb):
   
     return efms_in_mmb
 
-def get_efms_in_mmbs(model,mmbs):
-    
-    with Pool(proces) as p:
-        mmb_efms = list(tqdm.tqdm(p.imap(efms_in_mmb, mmbs), total = len(mmbs)))
-    p.close()
-    return mmb_efms
+def get_efms_in_mmbs(model, proces = 11):
 
-if __name__ == '__main__':
-    
     mmb_start_time = time.time()
     mmbs = get_mmbs(model.stoich,model.rev)
     mmb_comp_time = time.time() - mmb_start_time
     print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
     
-    for proces in range(1,16):
-        print("Withh proces = " , proces)
-        mmb_efms = get_efms_in_mmbs(model,mmbs)
-    
+    with Pool(proces) as p:
+        mmb_efms = list(tqdm.tqdm(p.imap(efms_in_mmb,mmbs), total = len(mmbs)))
+    p.close()
+    return mmb_efms
+
+def write_results(model_name):
+    f = open("./Results/" + model_name + "_efms_in_mmbs.txt","w")
+    f.write(str(mmb_efms))
+    f.close()
+    return True    
+
+if __name__ == '__main__':
+    mmb_efms = get_efms_in_mmbs(model)
+    write_results(model_name)
