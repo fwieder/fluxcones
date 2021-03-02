@@ -1,28 +1,30 @@
 from multiprocessing import Pool
-from functions import get_mmbs, flux_model, get_efvs
-import numpy as np
+from functions import get_mmbs, flux_model, get_efvs, write_results,get_frev_efms
 from util import model_paths
-import tqdm
-import time
+import numpy as np
+import tqdm,time,sys
 
 '''
-Parallel computation of EFMs in MMBs. Pool(8) in "get_efms_in_mmbs" sets the amount of used processors to 8
+Parallel computation of EFMs in MMBs. proces = 11 in "get_efms_in_mmbs" sets the amount of parallel computations to 11
 '''
 
-model_name = model_paths[-10]
+model_name = model_paths[0]
 model = flux_model("./Biomodels/bigg_models/" + model_name + ".xml")
 
 
 
-def efms_in_mmb(mmb, model = model):
+
+
+def efms_in_mmb(mmb,model = model):
     
     face_indices = model.rev.copy()
     face_indices[mmb] = 1
     
-    S = model.stoich[:,np.nonzero(face_indices)[0]]
-    rev = model.rev[np.nonzero(face_indices)[0]]
+    face = type('min_face', (object,), {})()
+    face.stoich = model.stoich[:,np.nonzero(face_indices)[0]]
+    face.rev = model.rev[np.nonzero(face_indices)[0]]
     
-    res = get_efvs(S,rev,"cdd")
+    res = get_efvs(face,"cdd")
     
     efvs_in_mmb = np.zeros([np.shape(res)[0],np.shape(model.stoich)[1]])
     efvs_in_mmb[:,np.nonzero(face_indices)[0]] = res
@@ -35,14 +37,14 @@ def efms_in_mmb(mmb, model = model):
     for efm in efms:
         if not set(efm).issubset(set(np.nonzero(model.rev)[0])):
             efms_in_mmb.append(efm)
-    
   
-    return efms_in_mmb
+    efms_in_mmb.sort()
+    return(efms_in_mmb)
 
-def get_efms_in_mmbs(model, proces = 11):
+def get_efms_in_mmbs(model, proces = 8):
 
     mmb_start_time = time.time()
-    mmbs = get_mmbs(model.stoich,model.rev)
+    mmbs = get_mmbs(model)
     mmb_comp_time = time.time() - mmb_start_time
     print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
     
@@ -51,12 +53,8 @@ def get_efms_in_mmbs(model, proces = 11):
     p.close()
     return mmb_efms
 
-def write_results(model_name):
-    f = open("./Results/" + model_name + "_efms_in_mmbs.txt","w")
-    f.write(str(mmb_efms))
-    f.close()
-    return True    
 
 if __name__ == '__main__':
     mmb_efms = get_efms_in_mmbs(model)
-    write_results(model_name)
+   
+        
