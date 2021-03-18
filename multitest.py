@@ -5,7 +5,7 @@ import numpy as np
 import tqdm,time,sys
 
 '''
-Parallel computation of EFMs in MMBs. proces = 11 in "get_efms_in_mmbs" sets the amount of parallel computations to 11
+Parallel computation of EFMs in MMBs. proces = 8 in "get_efms_in_mmbs" sets the amount of parallel computations to a default value of 8
 '''
 
 model_name = model_paths[0]
@@ -41,12 +41,12 @@ def efms_in_mmb(mmb,model = model):
     efms_in_mmb.sort()
     return(efms_in_mmb)
 
-def get_efms_in_mmbs(model, proces = 8):
-
-    mmb_start_time = time.time()
-    mmbs = get_mmbs(model)
-    mmb_comp_time = time.time() - mmb_start_time
-    print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
+def get_efms_in_mmbs(model, proces = 8,mmbs = None):
+    if mmbs == None:
+        mmb_start_time = time.time()
+        mmbs = get_mmbs(model)
+        mmb_comp_time = time.time() - mmb_start_time
+        print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
     
     with Pool(proces) as p:
         mmb_efms = list(tqdm.tqdm(p.imap(efms_in_mmb,mmbs), total = len(mmbs)))
@@ -55,6 +55,30 @@ def get_efms_in_mmbs(model, proces = 8):
 
 
 if __name__ == '__main__':
-    mmb_efms = get_efms_in_mmbs(model)
-   
-        
+    mmbs = get_mmbs(model)
+    mmb_efms = get_efms_in_mmbs(model,1,mmbs)
+    mmb_efms = get_efms_in_mmbs(model,2,mmbs)
+    mmb_efms = get_efms_in_mmbs(model,4,mmbs)
+    mmb_efms = get_efms_in_mmbs(model,8,mmbs)
+    import json
+    print("RBC:")
+    with open('./Results/iAB_RBC_283_efms_in_mmbs.txt') as f:
+        mmb_efms_1 = json.load(f)
+    lens_1 = [len(mmb_efms_1[i]) for i in range(len(mmb_efms_1))]
+    print(len(lens_1))
+    print(np.unique(lens_1))
+    
+    print("iAF692")
+    with open('./Results/iAF692_efms_in_mmbs.txt') as f:
+        mmb_efms_2 = json.load(f)
+    lens_2 = [len(mmb_efms_2[i]) for i in range(len(mmb_efms_2))]
+    print(len(lens_2))
+    print(np.unique(lens_2))
+    
+    print("iIS312")
+    with open('./Results/iIS312_efms_in_mmbs.txt') as f:
+        mmb_efms_3 = json.load(f)
+    lens_3 = [len(mmb_efms_3[i]) for i in range(len(mmb_efms_3))]
+    print(len(lens_3))
+    print(np.unique(lens_3))
+    

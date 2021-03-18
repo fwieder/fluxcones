@@ -16,7 +16,7 @@ import numpy as np
 import time
 import sys
 
-from functions import get_efvs,get_mmbs,filter_efms,flux_model,efms_in_mmb, is_efm, get_efms_in_mmbs
+from functions import *
 from util import printProgressBar,model_paths
 
 '''
@@ -32,18 +32,21 @@ for i,model in enumerate(models):
 sys.exit()
 '''
 
-'''
-model.name = "Sulfur"
-model.stoich = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_stoichiometry")
-model.rev = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_reversibility").astype(int)
-model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
-'''
+
+
 
 
 model = flux_model("./Biomodels/bigg_models/" + model_paths[0] + ".xml")
 
+model.name = "Sulfur"
+model.stoich = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_stoichiometry")
+model.rev = list(np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_reversibility").astype(int))
+model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
 
 
+efvs = get_efvs(model,"efmtool")
+print(len(efvs))
+sys.exit()
 
 print(model.name)
 print("Shape of stoichiometric matrix: ", np.shape(model.stoich))

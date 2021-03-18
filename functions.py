@@ -3,7 +3,6 @@ import cdd,efmtool,cobra,time
 from util import printProgressBar
 
 
-
 '''
 define tolerance for zero comparisions
 '''
@@ -100,12 +99,12 @@ def get_efvs(model, algo = "cdd"):
     if algo == "efmtool":
         # initiate reaction names and metabolite names from 0 to n resp. m because 
         # efmtool needs these lists of strings as input
-        reaction_names = np.arange(np.shape(model.stoich)[1]).astype(str)
-        metabolite_names = np.arange(np.shape(model.stoich)[0]).astype(str)
-        efvs = efmtool.calculate_efms(model.stoich,list(model.rev),reaction_names,metabolite_names).T
+        reaction_names = list(np.arange(len(model.stoich[0])).astype(str))
+        metabolite_names = list(np.arange(len(model.stoich)).astype(str))
+        efvs = efmtool.calculate_efms(model.stoich,model.rev,reaction_names,metabolite_names)
         
         
-        return(efvs)
+        return(efvs.T)
 
 
 
@@ -304,3 +303,5 @@ def get_frev_efms(model):
             frev_efms.append(efm)
     frev_efms.sort()
     return(frev_efms)
+
+
