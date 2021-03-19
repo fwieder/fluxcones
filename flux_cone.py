@@ -38,9 +38,9 @@ class flux_cone:
     @classmethod
     def from_kegg(cls,path_to_kegg):
         
-        stoich = np.genfromtxt(path_to_kegg + "_stoichiometry.txt")
+        stoich = np.genfromtxt(path_to_kegg + "_stoichiometry")
         
-        rev = np.genfromtxt(path_to_kegg + "_reversibility.txt")
+        rev = np.genfromtxt(path_to_kegg + "_reversibility")
         
         return cls(path_to_kegg,stoich,rev)
 
@@ -151,8 +151,8 @@ class flux_cone:
             mmb_start_time = time.time()
             mmbs = self.get_mmbs()
             mmb_comp_time = time.time() - mmb_start_time
-            #print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
-        mmb_efms = list(map(self.efms_in_mmb, mmbs))
+            print(len(mmbs), "MMBs calculated in %3dm %2ds" % (mmb_comp_time//60,mmb_comp_time%60))
+        mmb_efms = list(tqdm.tqdm(map(self.efms_in_mmb, mmbs),total = len(mmbs)))
         '''
         with Pool(proces) as p:
             mmb_efms = list(tqdm.tqdm(p.imap(self.efms_in_mmb,mmbs,proces), total = len(mmbs)))
@@ -164,32 +164,9 @@ class flux_cone:
         
 if __name__ == '__main__':
     
-    #model1 = flux_cone.from_sbml("./Biomodels/bigg_models/e_coli_core.xml")
+    model1 = flux_cone.from_sbml("./Biomodels/bigg/iAB_RBC_283.xml")
     model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
 
-    model.get_efms_in_mmbs()
+    #model.get_efms_in_mmbs()
     
-    lens = [len(model.mmb_efms[i]) for i in range(len(model.mmb_efms))]
-    print(lens)
-    
-    indices = np.arange(len(model.rev))
-    from itertools import combinations
-    dist=[]
-    counter = 0
-    for i in range(len(model.rev)):
-        for inds in combinations(indices,i):
-            rev = np.zeros(len(model.rev))
-            rev[list(inds)] = 1
-            model.rev = rev
-        
-            model.get_efms_in_mmbs()
-            lens = list(np.unique([len(model.mmb_efms[i]) for i in range(len(model.mmb_efms))]))
-        
-            if lens not in dist:
-                dist.append(lens)
-            counter +=1
-            if counter%1000 ==0:
-                    print(counter,"done")
-    dist.sort()
-    print(dist)
-    
+    model1.get_efms_in_mmbs()
