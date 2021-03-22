@@ -40,7 +40,7 @@ class flux_cone:
         
         stoich = np.genfromtxt(path_to_kegg + "_stoichiometry")
         
-        rev = np.genfromtxt(path_to_kegg + "_reversibility")
+        rev = np.genfromtxt(path_to_kegg + "_reversibility").astype(int)
         
         return cls(path_to_kegg,stoich,rev)
 
@@ -121,6 +121,7 @@ class flux_cone:
     def efms_in_mmb(self,mmb):
     
         face_indices = self.rev.copy()
+        
         face_indices[mmb] = 1
     
         face = type('min_face', (object,), {})()
@@ -165,8 +166,9 @@ class flux_cone:
 if __name__ == '__main__':
     
     model1 = flux_cone.from_sbml("./Biomodels/bigg/iAB_RBC_283.xml")
-    model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
+    
 
     #model.get_efms_in_mmbs()
     
-    model1.get_efms_in_mmbs()
+    mmb_efms_1 = model1.get_efms_in_mmbs()
+    

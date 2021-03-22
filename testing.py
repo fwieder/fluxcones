@@ -36,11 +36,11 @@ sys.exit()
 
 
 
-model = flux_model("./Biomodels/bigg_models/" + model_paths[0] + ".xml")
+model = flux_model("./Biomodels/bigg/" + model_paths[0] + ".xml")
 
 model.name = "Sulfur"
-model.stoich = np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_stoichiometry")
-model.rev = list(np.genfromtxt("./Biomodels/models_halim/Sulfur/kegg920_reversibility").astype(int))
+model.stoich = np.genfromtxt("./Biomodels/kegg/Sulfur/kegg920_stoichiometry")
+model.rev = list(np.genfromtxt("./Biomodels/kegg/Sulfur/kegg920_reversibility").astype(int))
 model.irr = (np.ones(len(model.rev)) - model.rev).astype(int)
 
 

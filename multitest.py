@@ -8,8 +8,8 @@ import tqdm,time,sys
 Parallel computation of EFMs in MMBs. proces = 8 in "get_efms_in_mmbs" sets the amount of parallel computations to a default value of 8
 '''
 
-model_name = model_paths[0]
-model = flux_model("./Biomodels/bigg_models/" + model_name + ".xml")
+model_name = model_paths[1]
+model = flux_model("./Biomodels/bigg/" + model_name + ".xml")
 
 
 
@@ -24,7 +24,7 @@ def efms_in_mmb(mmb,model = model):
     face.stoich = model.stoich[:,np.nonzero(face_indices)[0]]
     face.rev = model.rev[np.nonzero(face_indices)[0]]
     
-    res = get_efvs(face,"cdd")
+    res = get_efvs(face,"efmtool")
     
     efvs_in_mmb = np.zeros([np.shape(res)[0],np.shape(model.stoich)[1]])
     efvs_in_mmb[:,np.nonzero(face_indices)[0]] = res
@@ -41,7 +41,7 @@ def efms_in_mmb(mmb,model = model):
     efms_in_mmb.sort()
     return(efms_in_mmb)
 
-def get_efms_in_mmbs(model, proces = 8,mmbs = None):
+def get_efms_in_mmbs(model, proces = 1,mmbs = None):
     if mmbs == None:
         mmb_start_time = time.time()
         mmbs = get_mmbs(model)
@@ -55,30 +55,5 @@ def get_efms_in_mmbs(model, proces = 8,mmbs = None):
 
 
 if __name__ == '__main__':
-    mmbs = get_mmbs(model)
-    mmb_efms = get_efms_in_mmbs(model,1,mmbs)
-    mmb_efms = get_efms_in_mmbs(model,2,mmbs)
-    mmb_efms = get_efms_in_mmbs(model,4,mmbs)
-    mmb_efms = get_efms_in_mmbs(model,8,mmbs)
-    import json
-    print("RBC:")
-    with open('./Results/iAB_RBC_283_efms_in_mmbs.txt') as f:
-        mmb_efms_1 = json.load(f)
-    lens_1 = [len(mmb_efms_1[i]) for i in range(len(mmb_efms_1))]
-    print(len(lens_1))
-    print(np.unique(lens_1))
-    
-    print("iAF692")
-    with open('./Results/iAF692_efms_in_mmbs.txt') as f:
-        mmb_efms_2 = json.load(f)
-    lens_2 = [len(mmb_efms_2[i]) for i in range(len(mmb_efms_2))]
-    print(len(lens_2))
-    print(np.unique(lens_2))
-    
-    print("iIS312")
-    with open('./Results/iIS312_efms_in_mmbs.txt') as f:
-        mmb_efms_3 = json.load(f)
-    lens_3 = [len(mmb_efms_3[i]) for i in range(len(mmb_efms_3))]
-    print(len(lens_3))
-    print(np.unique(lens_3))
+    mmb_efms = get_efms_in_mmbs(model)
     
