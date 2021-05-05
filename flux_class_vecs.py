@@ -26,7 +26,7 @@ def get_gens(stoich,rev, algo = "cdd"):
         # generate polytope and compute generators
         poly = cdd.Polyhedron(mat)
         gens = poly.get_generators()
-    
+        
     return(gens)
 
 
@@ -84,9 +84,11 @@ class flux_cone:
     ''' initiate class object with a model path, stoichiometric matrix and a {0,1}-vector for reversible reactions '''
     
     
-    def __init__(self, model_path, stoichiometry, reversibility):
+    def __init__(self, model_path, stoichiometry, reversibility,name = None):
         
         self.path = model_path
+        
+        self.name = name
         
         self.stoich = stoichiometry
         
@@ -107,7 +109,9 @@ class flux_cone:
         
         rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
         
-        return cls(path_to_sbml,stoich,rev)
+        name = sbml_model.name
+        
+        return cls(path_to_sbml,stoich,rev,name)
     
     
     ''' create the fluxcone as flux_cone.from_kegg to use a path to a folder containing the stoichiometrix matrix and the vector of reversible reactions as input'''
@@ -156,7 +160,7 @@ class flux_cone:
     ''' compute the EFMs of the fluxcone '''
     
     
-    def get_efvs(self, algo = "cdd"):
+    def get_efvs(self, algo = "efmtool"):
         if algo == "cdd":
             efvs = get_efvs(self,algo = "cdd")
             self.efvs = efvs
@@ -211,14 +215,6 @@ class flux_cone:
         # transform to original shape to match reaction indices of original model
         frev_efvs = np.zeros([np.shape(res)[0],np.shape(self.stoich)[1]])
         frev_efvs[:,np.nonzero(self.rev)[0]] = res
-        
-    
-        # transfrom to modes by determining supports
-        frev_efvs = []
-        for efv in frev_efvs:
-            if -efv not in frev_efvs:
-                frev_efvs.append(efv)
-        
         self.frev_efvs = frev_efvs
         return(frev_efvs)
     
@@ -239,7 +235,7 @@ class flux_cone:
     
         efvs_in_mmb = np.zeros([np.shape(res)[0],np.shape(self.stoich)[1]])
         efvs_in_mmb[:,np.nonzero(face_indices)[0]] = res
-    
+     
         efvs =[]
     
         for efv in efvs_in_mmb:
@@ -259,3 +255,46 @@ class flux_cone:
         mmb_efvs = list(tqdm.tqdm(map(self.efvs_in_mmb, mmbs),total = len(mmbs)))
         self.mmb_efvs = mmb_efvs
         return mmb_efvs
+
+
+
+
+
+    def get_int_efvs(self):
+        def unit(i):
+            unit_i = np.zeros(np.shape(self.stoich)[1])
+            unit_i[i] = 1
+            return unit_i
+    
+        irr_inds = np.nonzero(self.irr)[0]
+        bound_inds = []
+        for i in irr_inds:
+            if np.linalg.matrix_rank(np.r_[self.stoich,[unit(i)]]) != np.linalg.matrix_rank(self.stoich):
+                bound_inds.append(i)
+        bounds = -np.eye(len(self.rev))[bound_inds]
+    
+        int_efvs =[]
+        for efv in self.efvs:
+            if max(np.dot(bounds,efv)) < 0:
+                int_efvs.append(efv)
+        self.int_efvs = int_efvs
+        return int_efvs
+    
+    def get_cone_dim(self):
+        if self.get_lin_dim() == 0:
+            dim = np.linalg.matrix_rank(np.array(self.mmb_efvs).reshape(np.shape(self.mmb_efvs)[0],np.shape(self.mmb_efvs)[2]))
+            self.cone_dim = dim
+            return dim
+        else:
+            gen_mat = np.array(self.mmb_efvs[0])
+            for i in range(1,len(self.mmbs)):
+                gen_mat = np.r_[gen_mat,np.array(self.mmb_efvs[i])]
+            dim = np.linalg.matrix_rank(gen_mat) +self.get_lin_dim()
+            self.cone_dim = dim
+            return dim
+    def get_counter(self):
+        from collections import Counter
+        counter = Counter(self.stoich.reshape(1,np.shape(self.stoich)[0] * np.shape(self.stoich)[1])[0])
+        self.counter = counter
+        return counter
+        
