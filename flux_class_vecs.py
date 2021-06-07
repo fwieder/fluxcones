@@ -1,6 +1,6 @@
 import numpy as np
-import efmtool,cdd,cobra,tqdm
-
+import efmtool,cdd,cobra,tqdm,time
+from util import printProgressBar
 
 #######################################################################################################################
 # "Helper functions" 
@@ -157,7 +157,7 @@ class flux_cone:
             return False
     
     
-    ''' compute the EFMs of the fluxcone '''
+    ''' compute the EFVs of the fluxcone '''
     
     
     def get_efvs(self, algo = "efmtool"):
@@ -201,7 +201,7 @@ class flux_cone:
     
     
     def get_frev_efvs(self):
-    # initiate temporaray model that defines the reversible metabolic space
+        # initiate temporaray model that defines the reversible metabolic space
     
         rms = type('rms', (object,), {})()
         rms.stoich = self.stoich[:,np.nonzero(self.rev)[0]]
@@ -258,7 +258,7 @@ class flux_cone:
 
 
 
-
+    ''' compute efvs in the relative interior of the flux cone (usualy None) '''
 
     def get_int_efvs(self):
         def unit(i):
@@ -280,6 +280,8 @@ class flux_cone:
         self.int_efvs = int_efvs
         return int_efvs
     
+    ''' compute the dimension of the flux cone, requires mmb_efvs '''
+    
     def get_cone_dim(self):
         if self.get_lin_dim() == 0:
             dim = np.linalg.matrix_rank(np.array(self.mmb_efvs).reshape(np.shape(self.mmb_efvs)[0],np.shape(self.mmb_efvs)[2]))
@@ -289,12 +291,115 @@ class flux_cone:
             gen_mat = np.array(self.mmb_efvs[0])
             for i in range(1,len(self.mmbs)):
                 gen_mat = np.r_[gen_mat,np.array(self.mmb_efvs[i])]
-            dim = np.linalg.matrix_rank(gen_mat) +self.get_lin_dim()
+            dim = np.linalg.matrix_rank(gen_mat)
             self.cone_dim = dim
             return dim
+    
+    ''' return Counter that counts occuriencies of numbers in the stoichiometric matrix '''
+    
     def get_counter(self):
         from collections import Counter
         counter = Counter(self.stoich.reshape(1,np.shape(self.stoich)[0] * np.shape(self.stoich)[1])[0])
         self.counter = counter
         return counter
+    
+    ''' delete a reaction from the model '''    
+    
+    def delete_reaction(self, reaction_index):
+        self.stoich = np.delete(self.stoich,reaction_index,axis = 1)
+        self.rev = np.delete(self.rev, reaction_index)
+        self.irr = np.delete(self.irr, reaction_index)
         
+    ''' compute adjacency of extreme rays of the cone '''
+    
+    def get_adjacency(self):
+        nonegs = np.eye(len(self.rev))[np.nonzero(self.irr)[0]]
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(self.stoich,linear = True)
+        else:
+            mat = cdd.Matrix(self.stoich,linear = True)
+                
+        poly = cdd.Polyhedron(mat)
+        self.adjacency = poly.get_adjacency()
+        return(self.adjacency)
+    
+    ''' compute incidence of extreme rays of the cone '''
+    
+    def get_incidence(self):
+        nonegs = np.eye(len(self.rev))[np.nonzero(self.irr)[0]]
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(self.stoich,linear = True)
+        else:
+            mat = cdd.Matrix(self.stoich,linear = True)
+                
+        poly = cdd.Polyhedron(mat)
+        self.incidence = poly.get_incidence()
+        return(self.incidence)
+
+    ''' compute geerators of the cone '''
+    
+    def get_generators(self):
+        nonegs = np.eye(len(self.rev))[np.nonzero(self.irr)[0]]
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(self.stoich,linear = True)
+        else:
+            mat = cdd.Matrix(self.stoich,linear = True)
+                
+        poly = cdd.Polyhedron(mat)
+        self.generators = np.round(poly.get_generators(),5)
+        return(self.generators)
+    
+    ''' compute efvs in a 2-face defined by two extreme rays '''
+    
+    def efvs_in_2face(self,efv0,efv1):
+        irr = np.nonzero(self.irr)[0]
+        efv0_inds = np.intersect1d(np.nonzero(efv0)[0],irr)
+        efv1_inds = np.intersect1d(np.nonzero(efv1)[0],irr)
+        face2_indices = np.union1d(efv0_inds,efv1_inds)
+        
+        face_indices = self.rev.copy()
+        face_indices[face2_indices] = 1
+        
+        face = type('min_face', (object,), {})()
+        face.stoich = self.stoich[:,np.nonzero(face_indices)[0]]
+        face.rev = self.rev[np.nonzero(face_indices)[0]]
+
+        res = get_efvs(face,"cdd")
+       
+        efvs = np.zeros([np.shape(res)[0],np.shape(self.stoich)[1]])
+        efvs[:,np.nonzero(face_indices)[0]] = res
+    
+        return(efvs)
+    
+    ''' compute efvs in all 2-faces defined by pairs of adjacent extreme rays '''
+    
+    def get_efms_in_all_2faces(self):
+        face_ind_pairs = []
+        
+        adj = self.get_adjacency()
+        gens = self.get_generators()        
+        for ind1,adj_list in enumerate(adj):
+            for ind2 in adj_list:
+                if sorted((ind1,ind2)) not in face_ind_pairs:
+                    face_ind_pairs.append(sorted((ind1,ind2)))
+                    
+        
+        print("determining efms in a total of" , len(face_ind_pairs), "2-faces")
+        new_efms = []
+    
+        start = time.perf_counter()
+        start_time = time.time()
+        for ind,pair in enumerate(face_ind_pairs):
+            printProgressBar(ind,len(face_ind_pairs),starttime = start)
+            temp = self.efvs_in_2face(gens[pair[0]], gens[pair[1]])
+            for efv in temp:
+                new_efms.append(list(np.nonzero(np.round(efv,5))[0]))
+        new_efms = np.unique(new_efms)
+        end_time = time.time()
+        print("")
+        print(len(new_efms), "efms found in dim t+1 faces in" , end_time - start_time)
+        self.face2_efms = new_efms
+        return(new_efms)
