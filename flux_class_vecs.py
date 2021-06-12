@@ -403,3 +403,19 @@ class flux_cone:
         print(len(new_efms), "efms found in dim t+1 faces in" , end_time - start_time)
         self.face2_efms = new_efms
         return(new_efms)
+    
+    ''' split reversible reaction into a forward and a backward irreversible reaction '''
+    
+    def split_rev(self, index):
+        
+        if self.rev[index] == 0:
+            print("Error: Reaction at index", index, "is not reversible.")
+            return 0
+        
+        else:
+            self.stoich = np.insert(self.stoich, index+1, -self.stoich[:,index], axis=1)
+            self.rev = np.insert(self.rev,index+1,0)
+            self.rev[index] = 0
+            self.irr = np.insert(self.irr,index+1,1)
+            return
+        

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """
 Created on Tue Apr 27 12:56:49 2021
 
@@ -18,11 +18,13 @@ import matplotlib.pyplot as plt
 
 
 model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
-#model.delete_reaction(12)
+model.delete_reaction(12)
+model.split_rev(0)
 
 
-#model = flux_cone.from_kegg("./Biomodels/kegg/Butanoate/kegg65")
-
+#model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
+#model.split_rev(8)
+#model.split_rev(15)
 
 if __name__ == "__main__":
     model.get_efms_in_all_2faces()
