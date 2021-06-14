@@ -417,5 +417,6 @@ class flux_cone:
             self.rev = np.insert(self.rev,index+1,0)
             self.rev[index] = 0
             self.irr = np.insert(self.irr,index+1,1)
+            self.irr[index] = 1
             return
         

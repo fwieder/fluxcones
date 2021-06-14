@@ -17,14 +17,14 @@ import matplotlib.pyplot as plt
 
 
 
-model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
-model.delete_reaction(12)
-model.split_rev(0)
+#model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
+#model.delete_reaction(12)
 
 
-#model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
-#model.split_rev(8)
-#model.split_rev(15)
+
+model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
+model.split_rev(8)
+model.split_rev(16)
 
 if __name__ == "__main__":
     model.get_efms_in_all_2faces()
@@ -38,7 +38,8 @@ if __name__ == "__main__":
     
     face2_efms = model.face2_efms.tolist()
     face2_efms = list(set(tuple(i) for i in face2_efms) - set(tuple(i) for i in mmb_efms))
-    
+    model.get_efvs("cdd")
+    print(len(model.efvs), "total efms found")
     print(len(face2_efms), "efms in 2 faces, excluding 1-faces")
     print(len(mmb_efms), "efms in 1-faces")
     
@@ -46,31 +47,31 @@ if __name__ == "__main__":
     
     mmb_efm_lens = [len(efm) for efm in mmb_efms]
     c1 = Counter(mmb_efm_lens)
-    print("cards of supps of efms in 1-faces", dict(sorted(c1.items(),key=lambda i:i[0])))
+    #print("cards of supps of efms in 1-faces", dict(sorted(c1.items(),key=lambda i:i[0])))
     
     mmb_efm_irr_lens = [len(np.intersect1d(efm,irr)) for efm in mmb_efms]
     i1 = Counter(mmb_efm_irr_lens)
-    print("cards of irr_reacs in efms in 1-faces", dict(sorted(i1.items(),key=lambda i:i[0])))
+    #print("cards of irr_reacs in efms in 1-faces", dict(sorted(i1.items(),key=lambda i:i[0])))
     
     face2_efm_lens = [len(efm) for efm in face2_efms]
     c2 = Counter(face2_efm_lens)
-    print("cards of supps of efms in 2-faces", dict(sorted(c2.items(),key=lambda i:i[0])))
+    #print("cards of supps of efms in 2-faces", dict(sorted(c2.items(),key=lambda i:i[0])))
     
     
     face2_efm_irr_lens = [len(np.intersect1d(efm,irr)) for efm in face2_efms]
     i2 = Counter(face2_efm_irr_lens)
-    print("cards of irr-reacs of efms in 2-faces", dict(sorted(i2.items(),key=lambda i:i[0])))
+    #print("cards of irr-reacs of efms in 2-faces", dict(sorted(i2.items(),key=lambda i:i[0])))
     
 
-    model.get_efvs("efmtool")
+    
     efms = [np.nonzero(np.round(efv,5))[0] for efv in model.efvs]
     efm_lens = [len(efm) for efm in efms]
     c3 = Counter(efm_lens)
-    print("cards of supps of all efms", dict(sorted(c3.items(),key=lambda i: i[0])))
+    #print("cards of supps of all efms", dict(sorted(c3.items(),key=lambda i: i[0])))
     
     efm_irr_lens = [len(np.intersect1d(efm,irr)) for efm in efms]
     i3 = Counter(efm_irr_lens)
-    print("card of irr_reacs in all efms", dict(sorted(i3.items(),key=lambda i:i[0])))
+    #print("card of irr_reacs in all efms", dict(sorted(i3.items(),key=lambda i:i[0])))
     
     
     
