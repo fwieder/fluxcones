@@ -389,20 +389,26 @@ class flux_cone:
         
         print("determining efms in a total of" , len(face_ind_pairs), "2-faces")
         new_efms = []
-    
+        
+        non_empty_pairs=[]
+        
         start = time.perf_counter()
         start_time = time.time()
         for ind,pair in enumerate(face_ind_pairs):
             printProgressBar(ind,len(face_ind_pairs),starttime = start)
             temp = self.efvs_in_2face(gens[pair[0]], gens[pair[1]])
+            if len(temp) > 2:
+                non_empty_pairs.append(pair)
             for efv in temp:
                 new_efms.append(list(np.nonzero(np.round(efv,5))[0]))
+        
         new_efms = np.unique(new_efms)
         end_time = time.time()
+        
         print("")
         print(len(new_efms), "efms found in dim t+1 faces in" , end_time - start_time)
         self.face2_efms = new_efms
-        return(new_efms)
+        return(new_efms,non_empty_pairs)
     
     ''' split reversible reaction into a forward and a backward irreversible reaction '''
     

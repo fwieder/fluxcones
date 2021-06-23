@@ -22,12 +22,29 @@ import matplotlib.pyplot as plt
 
 
 
-model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
+model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
+print(model.get_efvs("cdd"))
+print(model.get_generators())
+print("")
+sys.exit()
+model.split_rev(5)
+print(model.get_efvs("cdd"))
+print(model.get_generators())
+print("")
+model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
+model.split_rev(7)
+print(model.get_efvs("cdd"))
+print(model.get_generators())
+print()
+model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
+model.split_rev(5)
 model.split_rev(8)
-model.split_rev(16)
+print(model.get_efvs("cdd"))
+print(model.get_generators())
+sys.exit()
 
 if __name__ == "__main__":
-    model.get_efms_in_all_2faces()
+    pairs = model.get_efms_in_all_2faces()[1]
     model.get_efvs_in_mmbs()
     irr = np.nonzero(model.irr)[0]
     mmb_efms = []
