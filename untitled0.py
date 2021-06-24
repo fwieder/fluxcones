@@ -22,26 +22,8 @@ import matplotlib.pyplot as plt
 
 
 
-model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
-print(model.get_efvs("cdd"))
-print(model.get_generators())
-print("")
-sys.exit()
-model.split_rev(5)
-print(model.get_efvs("cdd"))
-print(model.get_generators())
-print("")
-model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
-model.split_rev(7)
-print(model.get_efvs("cdd"))
-print(model.get_generators())
-print()
-model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
-model.split_rev(5)
-model.split_rev(8)
-print(model.get_efvs("cdd"))
-print(model.get_generators())
-sys.exit()
+model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
+#model.delete_reaction(12)
 
 if __name__ == "__main__":
     pairs = model.get_efms_in_all_2faces()[1]
@@ -55,7 +37,7 @@ if __name__ == "__main__":
     
     face2_efms = model.face2_efms.tolist()
     face2_efms = list(set(tuple(i) for i in face2_efms) - set(tuple(i) for i in mmb_efms))
-    model.get_efvs("cdd")
+    model.get_efvs("efmtool")
     print(len(model.efvs), "total efms found")
     print(len(face2_efms), "efms in 2 faces, excluding 1-faces")
     print(len(mmb_efms), "efms in 1-faces")

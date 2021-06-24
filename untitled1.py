@@ -11,12 +11,12 @@ from flux_class_vecs import flux_cone
 import numpy as np
 import sys
 
-tol = 10
+tol = 5
 
 
 model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
 
-model.delete_reaction(12)
+#model.delete_reaction(12)
 
 #model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
 
@@ -40,9 +40,9 @@ def num_of_cancels(vector1,vector2):
     no_dubs = []
     for ind in range(len(vec1)):
         if (vec1[ind] > 0 and vec2[ind] < 0) or (vec1[ind] < 0 and vec2[ind] > 0):
-            if sorted((vec1[ind],vec2[ind])) not in no_dubs:
+            if (vec1[ind],vec2[ind]) not in no_dubs:
                 cancels +=1
-                no_dubs.append(np.array(sorted((vec1[ind],vec2[ind])))/sorted((vec1[ind],vec2[ind]))[0])
+                no_dubs.append((vec1[ind],vec2[ind]))
                 if model.is_efv(abs(vec2[ind])*np.round(vector1,tol) + abs(vec1[ind])*np.round(vector2,tol)):
                     new_efvs.append(abs(vec2[ind])*np.round(vector1,tol) + abs(vec1[ind])*np.round(vector2,tol))
     return cancels
