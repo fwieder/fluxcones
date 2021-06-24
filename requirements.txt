@@ -1,0 +1,7 @@
+efmtool==0.2.0
+pycddlib==2.1.4
+cobra==0.4.0
+numpy==1.19.2
+cdd==0.1.12
+matplotlib==3.4.2
+tqdm==4.61.0
