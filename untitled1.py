@@ -7,72 +7,86 @@ Created on Tue Jun 15 15:18:33 2021
 """
 
 from flux_class_vecs import flux_cone
-
+from collections import Counter
 import numpy as np
 import sys
 
-tol = 5
+modelnames = ["Butanoate/kegg65", "Fructose and mannose/kegg51","Galactose/kegg52","Nitrogen/kegg910","Pentose and glucuronate/kegg4","PPP/kegg3","Propanoate/kegg64","Starch and sucrose/kegg5","Sulfur/kegg920","TCA/kegg2"]
 
 
-model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
 
-#model.delete_reaction(12)
-
-#model = flux_cone.from_kegg("./Biomodels/small_examples/net-P4/net-P4")
-
-adj = model.get_adjacency()
-
-gens = model.get_generators()
-
-rev=np.nonzero(model.rev)[0]
-
-new_efvs = []
-def num_of_cancels(vector1,vector2):
-    if len(vector1) != len(vector2):
-        print("error")
-        return(0)
+for modelname in [modelnames[0]]:
     
-    vec1 = np.round(vector1,tol)[rev]
-    vec2 = np.round(vector2,tol)[rev]
+    model = flux_cone.from_kegg("./Biomodels/kegg/" + modelname)
     
-    cancels = 0
+    ext = np.genfromtxt("./Biomodels/kegg/" + modelname + "_externality")
+
+    ind = np.nonzero(ext)[0][0]
     
-    no_dubs = []
-    for ind in range(len(vec1)):
-        if (vec1[ind] > 0 and vec2[ind] < 0) or (vec1[ind] < 0 and vec2[ind] > 0):
-            if (vec1[ind],vec2[ind]) not in no_dubs:
-                cancels +=1
-                no_dubs.append((vec1[ind],vec2[ind]))
-                if model.is_efv(abs(vec2[ind])*np.round(vector1,tol) + abs(vec1[ind])*np.round(vector2,tol)):
-                    new_efvs.append(abs(vec2[ind])*np.round(vector1,tol) + abs(vec1[ind])*np.round(vector2,tol))
-    return cancels
-
-
-
-
-
-
-pairs = []
-for ind1,adj_list in enumerate(model.adjacency):
-            for ind2 in adj_list:
-                if sorted((ind1,ind2)) not in pairs:
-                    pairs.append(sorted((ind1,ind2)))
-
-counter = 0
-for pair in pairs:
-    counter += num_of_cancels(gens[pair[0]],gens[pair[1]])
-
-new_efms=[]
-for efv in new_efvs:
-    new_efms.append(list(np.nonzero(efv)[0]))
-
-new_efms = np.unique(np.array(new_efms))
-print(counter)
-print(len(new_efms))
-sys.exit()
-model.get_mmbs()
-
-print(len(model.mmbs))
-print(len(model.mmbs)+len(new_efms))
-face2_efms = model.get_efms_in_all_2faces()[0]
-print(len(face2_efms))
+    
+    
+    model.stoich = np.c_[model.stoich[:,:ind],model.stoich[:,np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind]]
+    
+    model.rev = np.append(model.rev[:ind],model.rev[np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind],axis=0)
+    
+    model.irr = np.append(model.irr[:ind],model.irr[np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind],axis=0)
+   
+    
+    while(model.get_lin_dim() > 0):
+        model.get_frev_efvs()
+        frev_efms = [list(np.nonzero(efv)[0]) for efv in model.frev_efvs]
+        reaction_counter = Counter([reac for efm in frev_efms for reac in efm])
+        tosplit = reaction_counter.most_common(1)[0][0]
+        model.split_rev(tosplit)
+    
+    model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
+    model.delete_reaction(12)
+    
+    
+    if __name__ == "__main__":
+        print("")
+        print(modelname)
+        print("lin dim" , model.get_lin_dim())
+        print(len(model.get_efvs("efmtool")), "found with efmtool")
+        #print(len(model.get_efvs("cdd")), "found with cdd")
+        print(len(model.efvs), "total efvs (" , int(len(model.get_frev_efvs())/2) ,"frev efms counted twice)")
+        efms = set([tuple(np.nonzero(efv)[0]) for efv in model.efvs])
+        print(len(efms), "total efms")
+        
+        model.get_geometry()
+    
+       
+        rev_cancels = model.generators
+        
+        rev = np.nonzero(model.rev)[0]        
+        
+        for efv in rev_cancels:
+            if set(np.nonzero(efv)[0]) < set(rev):
+                rev_cancels = np.r_[rev_cancels,-efv.reshape(1,len(efv))]
+        
+        
+        old = rev_cancels
+        for it in range(20):
+            new = model.rev_cancels(old)
+            print("Iteration", it, ":", len(new), " efms found.")
+            if len(new) == len(efms) + model.lin_dim or len(new) == len(old):
+                print("No more new efms found")
+                break
+                            
+            old = new
+        
+        print("")
+        print("")
+        
+        for it in range(20):
+            print("Iteration" , it , ":", len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])) ,"efms")
+            new_rev_cancels = model.rev_cancellations(rev_cancels)
+            if len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(efms) or len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])):
+                print(len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) , "efms found in Iteration" , it+1)
+                break
+            rev_cancels = new_rev_cancels
+        
+        print("")
+        print("")
+        print("")
+        print("")

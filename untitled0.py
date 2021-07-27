@@ -13,7 +13,6 @@ import random
 from collections import Counter
 import matplotlib.pyplot as plt
 
-#model = flux_cone.from_sbml("./Biomodels/bigg/iAB_RBC_283.xml")
 
 
 
@@ -22,9 +21,31 @@ import matplotlib.pyplot as plt
 
 
 
-model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
-#model.delete_reaction(12)
+model = flux_cone.from_sbml("./Biomodels/bigg/iAB_RBC_283.xml")
 
+
+#print("Dimension of lineality space:" , model.get_lin_dim())
+
+
+#model.split_rev(70)
+#model.split_rev(240)
+
+#print("Dimension of lineality space after spliting:" , model.get_lin_dim())
+
+#model = flux_cone.from_kegg("./Biomodels/small_examples/covert/covert")
+
+
+x = model.face2_cancellations()
+print("")
+print("found", len(x), "efms")
+print("")
+sys.exit()
+y = model.get_efms_in_all_2faces()
+print("")
+print("found", len(y)-len(model.generators), "efms")
+
+
+sys.exit()
 if __name__ == "__main__":
     pairs = model.get_efms_in_all_2faces()[1]
     model.get_efvs_in_mmbs()
