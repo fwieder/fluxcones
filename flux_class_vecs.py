@@ -96,9 +96,6 @@ class flux_cone:
         
         self.irr = (np.ones(len(self.rev)) - self.rev).astype(int)
         
-        self.adjacency = None
-        
-        self.generators = None
     ''' create the fluxcone as flux_cone.from_sbml to use an sbml file as input '''
     
     
@@ -280,7 +277,7 @@ class flux_cone:
     ''' compute the dimension of the flux cone, requires mmb_efvs '''
     
     def get_cone_dim(self):
-        dim = np.linalg.matrix_rank(self.generators)
+        dim = np.linalg.matrix_rank(self.get_geometry()[0])
         self.cone_dim = dim
         return dim
     
@@ -528,12 +525,15 @@ class flux_cone:
                         if self.is_efv(new_efv):
                             if tuple(np.nonzero(new_efv)[0]) not in new_efms:
                                 new_efvs = np.r_[new_efvs,new_efv.reshape(1,len(new_efv))]
-                                new_efms.append(tuple(np.nonzero(new_efv)[0]))                      
+                                new_efms.append(tuple(np.nonzero(new_efv)[0]))
+                                if set(tuple(np.nonzero(new_efv)[0])) < set(rev):
+                                    new_efvs = np.r_[new_efvs,-new_efv.reshape(1,len(new_efv))]
         return(new_efvs)
     
     def rev_cancels(self,efvs):
         tol = 5
         rev = np.nonzero(self.rev)[0]
+        
 
         gen_efvs = self.generators
         gen_efms = [tuple(np.nonzero(efv)[0]) for efv in gen_efvs]
@@ -546,7 +546,6 @@ class flux_cone:
         
         
         for rev_ind in rev:
-            
             gen_pos = gen_efvs[np.where(gen_efvs[:,rev_ind] > 1e-5)]
             gen_neg = gen_efvs[np.where(gen_efvs[:,rev_ind] < -1e-5)]
             
@@ -561,7 +560,9 @@ class flux_cone:
                             if tuple(np.nonzero(new_vec)[0]) not in gen_efms and tuple(np.nonzero(new_vec)[0]) not in new_efms:
                                 new_efvs = np.r_[new_efvs,new_vec.reshape(1,len(new_vec))]
                                 new_efms.append(tuple(np.nonzero(new_vec)[0]))
-                                
+                                if set(tuple(np.nonzero(new_vec)[0])) < set(rev):
+                                    new_efvs = np.r_[new_efvs,-new_vec.reshape(1,len(new_vec))]
+                                    
             if len(pos) > 0  and len(gen_neg) > 0:
                 for pos_efv in pos:
                     for neg_efv in gen_neg:
@@ -570,4 +571,6 @@ class flux_cone:
                             if tuple(np.nonzero(new_vec)[0]) not in gen_efms and tuple(np.nonzero(new_vec)[0]) not in new_efms:
                                 new_efvs = np.r_[new_efvs,new_vec.reshape(1,len(new_vec))]
                                 new_efms.append(tuple(np.nonzero(new_vec)[0]))
-        return(new_efvs[:len(efvs),:])    
+                                if set(tuple(np.nonzero(new_vec)[0])) < set(rev):
+                                    new_efvs = np.r_[new_efvs,-new_vec.reshape(1,len(new_vec))]
+        return(new_efvs)    
