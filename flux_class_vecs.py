@@ -2,9 +2,13 @@ import numpy as np
 import efmtool,cdd,cobra,tqdm,time
 from util import printProgressBar
 
+digit_tol = 6
+
 #######################################################################################################################
 # "Helper functions" 
 #######################################################################################################################
+def supp(vector):
+    return(list(np.nonzero(np.round(vector,digit_tol))[0]))
 
 
 def get_gens(stoich,rev, algo = "cdd"):
@@ -387,7 +391,7 @@ class flux_cone:
         
         adj = self.adjacency
         gens = self.generators
-        import random
+      
         start = time.perf_counter()
         print("Computing triplets for random 3-faces")
         print("")
@@ -457,13 +461,13 @@ class flux_cone:
     
     def face2_cancellations(self):
         
-        tol = 5
+        tol = 12
         print("Computing generators and adjacency...")
         self.get_geometry()
         adj = self.adjacency
         gens = self.generators
         
-        rev = np.nonzero(self.rev)[0]
+        rev = supp(self.rev)
         print("Computing pairs for 2-faces...")
         pairs = []
         
@@ -487,27 +491,27 @@ class flux_cone:
         for index,pair in enumerate(pairs):
             if index % 1000 == 0:
                 printProgressBar(index,pairlen,starttime = start)
-            vec1 = np.round(gens[pair[0]],tol)[rev]
-            vec2 = np.round(gens[pair[1]],tol)[rev]
+            vec1 = gens[pair[0]][rev]
+            vec2 = gens[pair[1]][rev]
 
             no_dubs = []
             for ind in range(len(vec1)):
-                if (vec1[ind] > 0 and vec2[ind] < 0) or (vec1[ind] < 0 and vec2[ind] > 0):
+                if (vec1[ind] > 1e-12 and vec2[ind] < -1e-12) or (vec1[ind] < -1e-12 and vec2[ind] > 1e-12):
                     if (vec1[ind],vec2[ind]) not in no_dubs:
                         no_dubs.append((vec1[ind],vec2[ind]))
-                        if self.is_efv(abs(vec2[ind])*np.round(gens[pair[0]],tol) + abs(vec1[ind])*np.round(gens[pair[1]],tol)):
-                            new_efvs.append(abs(vec2[ind])*np.round(gens[pair[0]],tol) + abs(vec1[ind])*np.round(gens[pair[1]],tol))
+                        if self.is_efv(abs(vec2[ind])*gens[pair[0]] + abs(vec1[ind])*gens[pair[1]]):
+                            new_efvs.append(abs(vec2[ind])*gens[pair[0]] + abs(vec1[ind])*gens[pair[1]])
                         #else:
                          #   print("problem here" , gens[pair[0]],gens[pair[1]])
         
-        new_efms = [list(np.nonzero(efv)[0]) for efv in new_efvs]
+        new_efms = [list(supp(efv)) for efv in new_efvs]
         new_efms = list(np.unique(new_efms))
         self.face2_cancel_efms = new_efms
         return new_efms
         
     
     def rev_cancellations(self,efvs):
-        tol = 5
+        tol = 12
         
         rev = np.nonzero(self.rev)[0]
         new_efvs = efvs
@@ -516,12 +520,12 @@ class flux_cone:
         
         for rev_ind in rev:
             
-            pos = efvs[np.where(efvs[:,rev_ind] > 1e-5)]
-            neg = efvs[np.where(efvs[:,rev_ind] < -1e-5)]
+            pos = efvs[np.where(efvs[:,rev_ind] > 1e-12)]
+            neg = efvs[np.where(efvs[:,rev_ind] < -1e-12)]
             if len(pos) > 0  and len(neg) > 0:
                 for pos_efv in pos:
                     for neg_efv in neg:
-                        new_efv = pos_efv[rev_ind]*np.round(neg_efv,tol) - neg_efv[rev_ind]*np.round(pos_efv,tol)
+                        new_efv = pos_efv[rev_ind]*neg_efv - neg_efv[rev_ind]*pos_efv
                         if self.is_efv(new_efv):
                             if tuple(np.nonzero(new_efv)[0]) not in new_efms:
                                 new_efvs = np.r_[new_efvs,new_efv.reshape(1,len(new_efv))]
