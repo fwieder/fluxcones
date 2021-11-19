@@ -13,6 +13,8 @@ if __name__ == "__main__":
     model = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
     model.delete_reaction(12)
     
+    model = flux_cone.from_kegg("./Biomodels/kegg/Nitrogen/kegg910")
+    
     model.get_efvs("efmtool")
     print(len(model.efvs), "efms found")
     

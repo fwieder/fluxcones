@@ -15,7 +15,7 @@ modelnames = ["Glycolysis/kegg1","Pyruvate/kegg62","Butanoate/kegg65", "Fructose
 
 
 
-for modelname in modelnames:
+for modelname in [modelnames[10]]:
     
     model = flux_cone.from_kegg("./Biomodels/kegg/" + modelname)
     
@@ -30,36 +30,21 @@ for modelname in modelnames:
     model.rev = np.append(model.rev[:ind],model.rev[np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind],axis=0)
     
     model.irr = np.append(model.irr[:ind],model.irr[np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind],axis=0)
-   
-    '''
-    while(model.get_lin_dim() > 0):
-        model.get_frev_efvs()
-        frev_efms = [list(np.nonzero(efv)[0]) for efv in model.frev_efvs]
-        reaction_counter = Counter([reac for efm in frev_efms for reac in efm])
-        tosplit = reaction_counter.most_common(1)[0][0]
-        model.split_rev(tosplit)
-       
     
+    np.save("./Sulfur_stoich", model.stoich)
     
-    print("Cone-dim = ", model.get_cone_dim())
-    
-    print(len(model.stoich[0]) - np.linalg.matrix_rank(model.stoich))
-    '''
+    sys.exit()
     if __name__ == "__main__":
         print(modelname) 
         irr = np.nonzero(model.irr)[0]
         model.get_efvs("efmtool")
-        for efv in model.efvs:
-            if set(np.nonzero(efv)[0]) < set(irr):
-                print("here",np.nonzero(efv)[0])
-        print("int_efvs:" , model.get_int_efvs())
-    '''             
+        
+                
         print("")
         print(model.name)
         print("lin dim" , model.get_lin_dim())
-        #print(len(model.get_efvs("efmtool")), "found with efmtool")
-        #print(len(model.get_efvs("cdd")), "found with cdd")
-        model.efvs = ["unknown"]
+        print(len(model.get_efvs("efmtool")), "found with efmtool")
+        
         print(len(model.efvs), "total efvs (" , int(len(model.get_frev_efvs())/2) ,"frev efms counted twice)")
         efms = set([tuple(np.nonzero(efv)[0]) for efv in model.efvs])
         print(len(efms), "total efms")
@@ -89,23 +74,19 @@ for modelname in modelnames:
                 break
             if len(new) == len(old):
                 print("No more new efms found with simple approach")
-                break
+                for it in range(20):
+                    print("Iteration" , it , ":", len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])) ,"efms")
+                    new_rev_cancels = model.rev_cancellations(rev_cancels)
+                    if len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(efms) or len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])):
+                        print("all" , len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) , "efms found in Iteration" , it+1)
+                        break
+                    rev_cancels = new_rev_cancels
                             
             old = new
         
-        print("")
-        print("")
-        sys.exit()
-        for it in range(20):
-            print("Iteration" , it , ":", len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])) ,"efms")
-            new_rev_cancels = model.rev_cancellations(rev_cancels)
-            if len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(efms) or len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) == len(set([tuple(np.nonzero(efv)[0]) for efv in rev_cancels])):
-                print("all" , len(set([tuple(np.nonzero(efv)[0]) for efv in new_rev_cancels])) , "efms found in Iteration" , it+1)
-                break
-            rev_cancels = new_rev_cancels
-        
+       
         print("")
         print("")
         print("")
         print("")
-       '''     
+            
