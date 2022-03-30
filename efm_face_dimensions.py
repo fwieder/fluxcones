@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Sep  9 12:38:07 2021
-
 @author: Frederik Wieder
 """
 
@@ -83,8 +82,8 @@ if __name__ == "__main__":
         print("Max face dim:", model.max_face_dim)
         
         print("Dimensions of faces all efvs are in with numpy.linalg:")
-        with Pool(12) as p:
-            model.dim_efvs = list(tqdm.tqdm(p.imap(model.check,efvs), total = len(efvs)))
+
+        model.dim_efvs = [model.check_dim(efv) for efv in model.efvs]
         model.efv_dim_counter = sorted(Counter(model.dim_efvs).items())
         model.percents = [tuple([dim[0],round(dim[1]/len(model.efvs)*100,2)]) for dim in model.efv_dim_counter]
         model.actual_max = model.efv_dim_counter[-1][0]
@@ -105,6 +104,3 @@ if __name__ == "__main__":
     the_table.scale(1,1.5)
     plt.box(on=None)
     plt.show()
-    
-    
-    

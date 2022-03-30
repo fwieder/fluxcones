@@ -1,6 +1,7 @@
 import numpy as np
 import efmtool,cdd,cobra,tqdm,time
 from util import printProgressBar
+from scipy.optimize import linprog
 
 digit_tol = 12
 tol = 1e-12
@@ -65,7 +66,7 @@ def get_efvs(stoich,rev, algo = "cdd"):
         
         # remove spurious cycles
         for index,vector in enumerate(unsplit):
-            if np.count_nonzero(np.round(vector,5)) > 0:
+            if np.count_nonzero(np.round(vector,10)) > 0:
                 tokeep.append(index)
         efvs = unsplit[tokeep]
         
@@ -179,11 +180,13 @@ class flux_cone:
         if algo == "cdd":
             efvs = get_efvs(self.stoich,self.rev,algo = "cdd")
             self.efvs = efvs
+            self.efms = [supp(efv) for efv in self.efvs]
             return efvs
     
         if algo == "efmtool":
             efvs = get_efvs(self.stoich,self.rev,algo = "efmtool")
             self.efvs = efvs
+            self.efms = [supp(efv) for efv in self.efvs]
             return efvs
     
     
@@ -290,10 +293,9 @@ class flux_cone:
     ''' compute the dimension of the flux cone, requires mmb_efvs '''
     
     def get_cone_dim(self):
-        dim1 = np.linalg.matrix_rank(self.get_efvs("efmtool"))
-        dim2 = np.linalg.matrix_rank(self.get_geometry()[0])
-        self.cone_dim = dim1
-        return dim1,dim2
+        dim = np.linalg.matrix_rank(self.generators)
+        self.cone_dim = dim
+        return dim
     
     ''' return Counter that counts occuriencies of numbers in the stoichiometric matrix '''
     
@@ -330,102 +332,7 @@ class flux_cone:
         
         return(self.generators,self.adjacency,self.incidence)
     
-    ''' compute efvs in a 2-face defined by two extreme rays '''
-    
-    def efvs_in_2face(self,efv0,efv1):
-        irr = np.nonzero(self.irr)[0]
-        efv0_inds = np.intersect1d(np.nonzero(efv0)[0],irr)
-        efv1_inds = np.intersect1d(np.nonzero(efv1)[0],irr)
-        face2_indices = np.union1d(efv0_inds,efv1_inds)
-        
-        face_indices = self.rev.copy()
-        face_indices[face2_indices] = 1
-
-        res = get_efvs(self.stoich[:,np.nonzero(face_indices)[0]],self.rev[np.nonzero(face_indices)[0]],"cdd")
-       
-        efvs = np.zeros([np.shape(res)[0],np.shape(self.stoich)[1]])
-        efvs[:,np.nonzero(face_indices)[0]] = res
-    
-        return(efvs)
-    
-    ''' compute efvs in a simplicial 3-face defined by three extreme rays '''
-    
-    def efvs_in_3face(self,efv0,efv1,efv2):
-        irr = np.nonzero(self.irr)[0]
-        efv0_inds = np.intersect1d(np.nonzero(efv0)[0],irr)
-        efv1_inds = np.intersect1d(np.nonzero(efv1)[0],irr)
-        efv2_inds = np.intersect1d(np.nonzero(efv2)[0],irr)
-        face3_indices = np.union1d(np.union1d(efv0_inds,efv1_inds),efv2_inds)
-        
-        face_indices = self.rev.copy()
-        face_indices[face3_indices] = 1
-        
-        res = get_efvs(self.stoich[:,np.nonzero(face_indices)[0]],self.rev[np.nonzero(face_indices)[0]],"cdd")
-       
-        efvs = np.zeros([np.shape(res)[0],np.shape(self.stoich)[1]])
-        efvs[:,np.nonzero(face_indices)[0]] = res
-        return(efvs)
-    
-    ''' compute efvs in all 2-faces defined by pairs of adjacent extreme rays '''
-    
-    def get_efms_in_all_2faces(self):
-        face_ind_pairs = []
-        
-        adj = self.adjacency
-        gens = self.generators        
-        for ind1,adj_list in enumerate(adj):
-            for ind2 in adj_list:
-                if sorted((ind1,ind2)) not in face_ind_pairs:
-                    face_ind_pairs.append(sorted((ind1,ind2)))
-                    
-        
-        print("determining efms in a total of" , len(face_ind_pairs), "2-faces")
-        new_efms = []
-                
-        start = time.perf_counter()
-        
-        for ind,pair in enumerate(face_ind_pairs):
-            
-            temp = self.efvs_in_2face(gens[pair[0]], gens[pair[1]])
-            for efv in temp:
-                new_efms.append(list(np.nonzero(np.round(efv,5))[0]))
-            printProgressBar(ind,len(face_ind_pairs),starttime = start)
-        new_efms = np.unique(new_efms)
-        
-        self.face2_efms = new_efms
-        return(new_efms)
-    
-    ''' compute efvs in all simplicial 3-faces defined by triplets of adjacent extreme rays '''
-    
-    def face3_cancellations(self):
-        face_ind_triplets = []
-        
-        adj = self.adjacency
-        gens = self.generators
-      
-        start = time.perf_counter()
-        print("Computing triplets for simplicial 3-faces")
-        print("")
-        for ind1,adj_list in enumerate(adj):
-            printProgressBar(ind1,len(gens),starttime = start)        
-            for ind2 in adj_list:
-                for ind3 in adj[ind2]:
-                    if ind3 != ind1:
-                        face_ind_triplets.append(sorted((ind1,ind2,ind3)))
-        '''   
-            for ind2 in random.sample(adj_list,len(adj_list)):
-                for ind3 in random.sample(adj[ind2], len(adj[ind2])):
-                    if ind3 != ind1:
-                        face_ind_triplets.append(sorted((ind1,ind2,ind3)))
-        '''            
-        face_ind_triplets = np.unique(face_ind_triplets,axis=0)
-        print("")
-        face3_cancel_efvs = list(tqdm.tqdm(map(self.rev_cancels,gens[face_ind_triplets]),total = len(face_ind_triplets)))
-        
-        return face3_cancel_efvs
-    
-    
-    
+   
     
     ''' split reversible reaction into a forward and a backward irreversible reaction '''
     
@@ -441,61 +348,13 @@ class flux_cone:
             self.rev[index] = 0
             self.irr = np.insert(self.irr,index+1,1)
             self.irr[index] = 1
+            self.nonegs = np.eye(len(self.stoich[0]))[supp(self.irr)]
             return 0
     
     
-    def face2_cancellations(self):
-        
-        tol = 12
-        adj = self.adjacency
-        gens = self.generators
-        
-        rev = supp(self.rev)
-        print("Computing pairs for 2-faces...")
-        pairs = []
-        
-        for ind1,adj_list in enumerate(adj):
-            for ind2 in adj_list:
-                if sorted((ind1,ind2)) not in pairs:
-                    pairs.append(sorted((ind1,ind2)))
-        pairlen = len(pairs)
-        
-        
-        new_efvs = []
-        new_efms = []
-        print("determining efvs in a total of" , pairlen, "2-faces by looking for cancellations of reversible reactions")
-        start = time.perf_counter()
-        
-        for index,pair in enumerate(pairs):
-            if index % 100 == 0:
-                printProgressBar(index,pairlen,starttime = start)
-            vec1 = gens[pair[0]][rev]
-            vec2 = gens[pair[1]][rev]
-
-            no_dubs = []
-            for ind in range(len(vec1)):
-                if (vec1[ind] > 1e-12 and vec2[ind] < -1e-12) or (vec1[ind] < -1e-12 and vec2[ind] > 1e-12):
-                    if (vec1[ind],vec2[ind]) not in no_dubs:
-                        no_dubs.append((vec1[ind],vec2[ind]))
-                        new_vec = abs(vec2[ind])*gens[pair[0]] + abs(vec1[ind])*gens[pair[1]]
-                        if self.is_efv(new_vec):
-                            if supp(new_vec) not in new_efms:
-                                new_efms.append(supp(new_vec))
-                                new_efvs.append(new_vec)
-                        #else:
-                         #   print("problem here" , gens[pair[0]],gens[pair[1]])
-        self.face2_efvs = new_efvs
-        return new_efvs
-        '''        
-        new_efms = [list(supp(efv)) for efv in new_efvs]
-        new_efms = list(np.unique(new_efms))
-        
-        self.face2_cancel_efms = new_efms
-        return new_efms
-        '''
     
     def rev_cancellations(self,efvs):
-        tol = 6
+        tol = 12
         
         rev = supp(self.rev)
         new_efvs = efvs
@@ -517,6 +376,7 @@ class flux_cone:
                                 if set(tuple(np.nonzero(new_efv)[0])) < set(rev):
                                     new_efvs = np.r_[new_efvs,-new_efv.reshape(1,len(new_efv))]
         return(new_efvs)
+    
     
     def rev_cancels(self,efvs):
         tol = 5
@@ -563,7 +423,8 @@ class flux_cone:
                                     new_efvs = np.r_[new_efvs,-new_vec.reshape(1,len(new_vec))]
         return(new_efvs)    
     
-    def check(self,vector):
+    
+    def check_dim(self,vector):
         return len(vector) - np.linalg.matrix_rank(self.S[zero(np.dot(self.S,vector))])
     
     
@@ -596,4 +457,37 @@ class flux_cone:
                             #gen_pairs.append((pos_efv,neg_efv))
         return([])
         #return gen_pairs
+    
+    def make_irr(self,index):
+        self.irr[index] = 1
+        self.rev[index] = 0
+        
+    def make_rev(self,index):
+        self.rev[index] = 1
+        self.irr[index] = 0
+    
+    def check_coupling(self,reac1,reac2):
+        for efm in self.efms:
+            if reac1 in efm and reac2 not in efm:
+                return False
+       
+        return True
+    
+    def make_irredundant(self):
+        redundants = "a"
+        
+        while len(redundants) > 0:
+            if redundants != "a":
+                self.make_rev(redundants[0])
+            redundants = []
+            for index in supp(self.irr):
+                c = -np.eye(len(self.stoich.T))[index]
+                A_ub = np.eye(len(self.stoich.T))[np.setdiff1d(supp(self.irr),index)]
+                A_eq = self.stoich
+                b_ub = np.zeros(len(A_ub))
+                b_eq = np.zeros(len(A_eq))
+                bounds = (None,None)
+                if abs(linprog(c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .1:
+                    redundants.append(index)
+
         

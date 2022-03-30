@@ -1,5 +1,5 @@
 from multiprocessing import Pool
-from flux_class_vecs import flux_cone,supp
+from flux_class_vecs import flux_cone,supp,get_efvs,get_gens
 import numpy as np
 import tqdm,sys,time
 from collections import Counter
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     model.generators = np.load("./e_coli_no_bio_gens.npy")
     #model.efvs = np.load("./e_coli_efvs.npy")
     #model.generators = np.load("e_coli_gens.npy")
-    model.get_geometry()
+    #model.get_geometry()
     
     face1_efv_inds = []
     face2_efv_inds = []
@@ -42,7 +42,58 @@ if __name__ == "__main__":
     face1_efvs = model.efvs[face1_efv_inds]
     face2_efvs = model.efvs[face2_efv_inds]
     face3_efvs = model.efvs[face3_efv_inds]
+    more_than_two = []
+    counter = 0
+    counter2 = 0
+
+    for candidate in face3_efvs:
+        counter2 +=1
+        S = np.r_[model.stoich,np.eye(len(candidate))[np.setdiff1d(supp(model.irr),model.irr_supp(candidate))]]
+        
+        x = get_efvs(S,model.rev) 
+        x_dims = [model.check_dim(efv) for efv in x]
+        if x_dims.count(3) == 2:
+            more_than_two.append(x_dims.count(3))
+            counter+=1
+            in_a_3face = x[np.where(np.array(x_dims) == 3)[0]]
+            if model.irr_supp(in_a_3face[0]) != model.irr_supp(in_a_3face[1]):
+                print("here")
+                break
+        
+        if x_dims.count(3) == 3:
+            more_than_two.append(x_dims.count(3))
+            counter+=1
+            in_a_3face = x[np.where(np.array(x_dims) == 3)[0]]
+            if model.irr_supp(in_a_3face[0]) != model.irr_supp(in_a_3face[1]) or model.irr_supp(in_a_3face[0]) != model.irr_supp(in_a_3face[2]):
+                print("here")
+                break
+        
+        
+        if counter2 % 1000 == 0:
+            print(counter2)
     
+    print(" ")
+    print(counter)
+    
+    
+    sys.exit()
+    print("next one")
+    print(model.irr_supp(x[2]))
+    print("")
+    S = np.r_[model.stoich,np.eye(len(x[2]))[np.setdiff1d(supp(model.irr),model.irr_supp(x[2]))]]
+    
+    x = get_efvs(S,model.rev)
+    y = get_gens(S,model.rev) 
+    
+    for efv in x:
+        print(model.check_dim(efv))
+    print("")
+    for efv in y:
+        print(model.check_dim(efv))
+    
+    
+    
+    sys.exit()
     efvs_in_2faces = []
     
     for index,er in enumerate(model.generators):
@@ -55,7 +106,6 @@ if __name__ == "__main__":
                 efvs_in_2faces.append(face2_efvs)
     face_lens = [len(face) for face in efvs_in_2faces]
     print(sorted(Counter(face_lens).items()))
-    sys.exit()
     two_in_a_face = []
     three_in_a_face = []
     for efv_set in efvs_in_2faces:

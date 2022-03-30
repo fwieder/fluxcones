@@ -14,7 +14,7 @@ from collections import Counter
 from itertools import combinations  
 
 modelnames = ["Glycolysis/kegg1","Pyruvate/kegg62","Butanoate/kegg65", "Fructose and mannose/kegg51","Galactose/kegg52","Nitrogen/kegg910","Pentose and glucuronate/kegg4","PPP/kegg3","Propanoate/kegg64","Starch and sucrose/kegg5","Sulfur/kegg920","TCA/kegg2"]  
-modelname = modelnames[6]
+modelname = modelnames[8]
 
 
 model = flux_cone.from_kegg("./Biomodels/kegg/" + modelname)
@@ -30,8 +30,6 @@ model.rev = np.append(model.rev[:ind],model.rev[np.unique(model.stoich[:,ind:],a
     
 model.irr = np.append(model.irr[:ind],model.irr[np.unique(model.stoich[:,ind:],axis=1,return_index=True)[1]+ind],axis=0)
 
-model =flux_cone.from_sbml("./Biomodels/bigg/iCN718.xml")
-print("iCN718.xml")
 print(model.get_lin_dim())
 
 if __name__ == "__main__":
