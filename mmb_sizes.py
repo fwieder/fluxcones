@@ -7,7 +7,7 @@ from collections import Counter
 import matplotlib as mpl
 import matplotlib.pyplot as plt  
 from matplotlib.ticker import MaxNLocator
-modelnames = ["Glycolysis/kegg1","Pyruvate/kegg62","Butanoate/kegg65", "Fructose and mannose/kegg51","Galactose/kegg52","Nitrogen/kegg910","Pentose and glucuronate/kegg4","PPP/kegg3","Propanoate/kegg64","Starch and sucrose/kegg5","Sulfur/kegg920","TCA/kegg2"]  
+modelnames = ["Pyruvate/kegg62","PPP/kegg3"]  
 
 models = []
 
@@ -39,25 +39,50 @@ for modelname in modelnames:
 
     models.append(model)
 
-
+coli = flux_cone.from_sbml("./Biomodels/bigg/e_coli_core.xml")
+coli.delete_reaction(12)
+models.append(coli)
+patterns = [ "/" , "\\" , "|" , "-" , "+" , "x", "o", "O", ".", "*" ]
 if __name__ == "__main__":
-    models = models
     for model in models:
-        model.redundant_mmbs = model.get_mmbs()
-        model.red_mmb_lens = [len(mmb) for mmb in model.redundant_mmbs]
-        model.make_irredundant()
-        model.irredundant_mmbs = model.get_mmbs()
-        model.irr_mmb_lens = [len(mmb) for mmb in model.irredundant_mmbs]
-   
-    mpl.rcParams['figure.dpi'] = 600
-
-    data = [[model.red_mmb_lens,model.irr_mmb_lens] for model in models]
-    columns = [ 'redundant description' ,'irredudant description']
-    rows = list(model.name for model in models)
-    ax = plt.gca()
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
-    the_table = plt.table(cellText=data,rowLabels=rows,colLabels=columns,loc = 'center')
-    the_table.scale(1,1.5)
-    plt.box(on=None)
-    plt.show()
+        print(model.name)
+        model.get_mmbs()
+        print(len(model.mmbs))
+    import sys
+    sys.exit()
+    
+    
+    model = models[1]
+    model.redundant_mmbs = model.get_mmbs()
+    model.red_mmb_lens = [len(mmb) for mmb in model.redundant_mmbs]
+    model.make_irredundant()
+    model.irredundant_mmbs = model.get_mmbs()
+    model.irr_mmb_lens = [len(mmb) for mmb in model.irredundant_mmbs]
+    
+    red_counter = [0 for i in range(max(model.red_mmb_lens))]
+    for pair in Counter(model.red_mmb_lens).items():
+        red_counter[pair[0]-1] = pair[1]
+    
+    irr_counter = [0 for i in range(len(red_counter))]
+    
+    for index,mmb in enumerate(sorted(Counter(model.irr_mmb_lens).items())):
+        irr_counter[index] = mmb[1]
+    
+    X = np.arange(max(model.red_mmb_lens))
+    
+    fig = plt.figure()
+    
+    ax = fig.add_axes([0,0,1,1])
+    
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.bar(X + 1 -.125, red_counter, color = 'b', width = 0.25)
+    ax.bar(X + 1 +.125, irr_counter, color = 'r',hatch = patterns[0],edgecolor = "black", width = 0.25)
+    
+    ax.legend(labels=['redundant', 'irredudant'])
+    plt.title(model.name)
+    plt.xlabel("Cardinality of MMB")
+    plt.ylabel("Number of MMBs")
+    
+  
+    

@@ -3,8 +3,8 @@ import efmtool,cdd,cobra,tqdm,time
 from util import printProgressBar
 from scipy.optimize import linprog
 
-digit_tol = 12
-tol = 1e-12
+digit_tol = 10
+tol = 1e-10
 
 
 #######################################################################################################################
@@ -477,10 +477,13 @@ class flux_cone:
         redundants = "a"
         
         while len(redundants) > 0:
+            irr = supp(self.irr)
+            import random
+            random.shuffle(irr)
             if redundants != "a":
                 self.make_rev(redundants[0])
             redundants = []
-            for index in supp(self.irr):
+            for index in irr:
                 c = -np.eye(len(self.stoich.T))[index]
                 A_ub = np.eye(len(self.stoich.T))[np.setdiff1d(supp(self.irr),index)]
                 A_eq = self.stoich
@@ -490,4 +493,42 @@ class flux_cone:
                 if abs(linprog(c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .1:
                     redundants.append(index)
 
+    def find_face(self,interior_efv):
+        S = np.r_[self.stoich,np.eye(len(interior_efv))[np.setdiff1d(supp(self.irr),self.irr_supp(interior_efv))]]
         
+        face_efvs = get_efvs(S,self.rev) 
+        return(face_efvs)
+    
+    def face_by_irr_supp(self,irr_supp,algo = "cdd"):
+        S = np.r_[self.stoich,np.eye(len(self.stoich[0]))[np.setdiff1d(supp(self.irr),irr_supp)]]
+        face_efvs = get_efvs(S,self.rev,algo)
+        return(face_efvs)
+    
+    def blocked_irr_reactions(self):
+        blocked = []
+        for index in supp(self.irr):
+            c = -np.eye(len(self.stoich.T))[index]
+            A_ub = np.eye(len(self.stoich.T))[supp(self.irr)]
+            A_eq = self.stoich
+            b_ub = np.zeros(len(A_ub))
+            b_eq = np.zeros(len(A_eq))
+            bounds = (None,None)
+            if abs(linprog(c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .001 and abs(linprog(-c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .001:
+                    blocked.append(index)
+        blocked.reverse()
+        return(blocked)
+    
+    def blocked_rev_reactions(self):
+        blocked = []
+        for index in supp(self.rev):
+            c = -np.eye(len(self.stoich.T))[index]
+            A_ub = np.eye(len(self.stoich.T))[supp(self.irr)]
+            A_eq = self.stoich
+            b_ub = np.zeros(len(A_ub))
+            b_eq = np.zeros(len(A_eq))
+            bounds = (None,None)
+            if abs(linprog(c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .001 and abs(linprog(-c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .001:
+                    blocked.append(index)
+        blocked.reverse()
+        return(blocked)
+    

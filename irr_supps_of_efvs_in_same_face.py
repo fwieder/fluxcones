@@ -104,18 +104,49 @@ if __name__ == "__main__":
         if dim == 24:
             dim24_efvs.append(efv)
     
-    all_efvs = [dim16_efvs,dim17_efvs,dim18_efvs,dim19_efvs,dim20_efvs,dim21_efvs,dim22_efvs,dim23_efvs,dim24_efvs]
-    all_lens = [len(face) for face in all_efvs]
     
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    ax = fig.add_axes([0,0,1,1])
-    ax.set_title(str(model.name) + " Dimension of the cone:" + str(model.get_cone_dim()))
-    ax.set_xlabel("Dimension of face")
-    ax.set_ylabel("Number of EFMs")
+    dim16_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim16_efvs]
+    dim17_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim17_efvs]
+    dim18_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim18_efvs]
+    dim19_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim19_efvs]
+    dim20_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim20_efvs]
+    dim21_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim21_efvs]
+    dim22_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim22_efvs]
+    dim23_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim23_efvs]
+    dim24_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim24_efvs]
     
-    ax.bar(["16","17","18","19","20","21","22","23","24"],all_lens)
-    plt.show()
+    counter16 = Counter(e for e in dim16_irr_supps)
+    counter17 = Counter(e for e in dim17_irr_supps)
+    counter18 = Counter(e for e in dim18_irr_supps)
+    counter19 = Counter(e for e in dim19_irr_supps)
+    counter20 = Counter(e for e in dim20_irr_supps)
+    counter21 = Counter(e for e in dim21_irr_supps)
+    counter22 = Counter(e for e in dim22_irr_supps)
+    counter23 = Counter(e for e in dim23_irr_supps)
+    counter24 = Counter(e for e in dim24_irr_supps)
+    
+    print(model.name)
+    print("[(<efms in a face>,<number of faces with that many efms>)] , <number of faces of dimension k that contain EFMs>, <total number of efms in faces of dimension k>")
+    print("16-faces")
+    print(sorted(Counter(counter16.values()).items()),len(counter16),len(dim16_efvs))
+    print("17-faces")
+    print(sorted(Counter(counter17.values()).items()),len(counter17),len(dim17_efvs))
+    print("18-faces")
+    print(sorted(Counter(counter18.values()).items()),len(counter18),len(dim18_efvs))
+    print("19-faces")
+    print(sorted(Counter(counter19.values()).items()),len(counter19),len(dim19_efvs))
+    print("20-faces")
+    print(sorted(Counter(counter20.values()).items()),len(counter20),len(dim20_efvs))
+    print("21-faces")
+    print(sorted(Counter(counter21.values()).items()),len(counter21),len(dim21_efvs))
+    print("22-faces")
+    print(sorted(Counter(counter22.values()).items()),len(counter22),len(dim22_efvs))
+    print("23-faces")
+    print(sorted(Counter(counter23.values()).items()),len(counter23),len(dim23_efvs))
+    print("24-faces")
+    print(sorted(Counter(counter24.values()).items()),len(counter24),len(dim24_efvs))
+    
+    
     
     dim16_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim16_efvs]
     dim17_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim17_efvs]
@@ -126,8 +157,6 @@ if __name__ == "__main__":
     dim22_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim22_efvs]
     dim23_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim23_efvs]
     dim24_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim24_efvs]
-    
-    
     
     
     print(model.name)
@@ -181,18 +210,41 @@ if __name__ == "__main__":
         if dim == 14:
             dim14_efvs.append(efv)
     
-    all_efvs = [dim8_efvs,dim9_efvs,dim10_efvs,dim11_efvs,dim12_efvs,dim13_efvs,dim14_efvs]
-    all_lens = [len(face) for face in all_efvs]
     
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    ax = fig.add_axes([0,0,1,1])
-    ax.set_title(str(model.name) + " Dimension of the cone:" + str(model.get_cone_dim()))
-    ax.set_xlabel("Dimension of face")
-    ax.set_ylabel("Number of EFMs")
     
-    ax.bar(["8","9","10","11","12","13","14"],all_lens)
-    plt.show()
+    dim8_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim8_efvs]
+    dim9_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim9_efvs]
+    dim10_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim10_efvs]
+    dim11_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim11_efvs]
+    dim12_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim12_efvs]
+    dim13_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim13_efvs]
+    dim14_irr_supps = [tuple(model.irr_supp(efv)) for efv in dim14_efvs]
+    
+    counter8 = Counter(e for e in dim8_irr_supps)
+    counter9 = Counter(e for e in dim9_irr_supps)
+    counter10 = Counter(e for e in dim10_irr_supps)
+    counter11 = Counter(e for e in dim11_irr_supps)
+    counter12 = Counter(e for e in dim12_irr_supps)
+    counter13 = Counter(e for e in dim13_irr_supps)
+    counter14 = Counter(e for e in dim14_irr_supps)
+    
+    print(model.name)
+    print("[(<efms in a face>,<number of faces with that many efms>)] , <number of faces of dimension k that contain EFMs>, <total number of efms in faces of dimension k>")
+    print("8-faces")
+    print(sorted(Counter(counter8.values()).items()),len(counter8),len(dim8_efvs))
+    print("9-faces")
+    print(sorted(Counter(counter9.values()).items()),len(counter9),len(dim9_efvs))
+    print("10-faces")
+    print(sorted(Counter(counter10.values()).items()),len(counter10),len(dim10_efvs))
+    print("11-faces")
+    print(sorted(Counter(counter11.values()).items()),len(counter11),len(dim11_efvs))
+    print("12-faces")
+    print(sorted(Counter(counter12.values()).items()),len(counter12),len(dim12_efvs))
+    print("13-faces")
+    print(sorted(Counter(counter13.values()).items()),len(counter13),len(dim13_efvs))
+    print("14-faces")
+    print(sorted(Counter(counter14.values()).items()),len(counter14),len(dim14_efvs))
+    
     
     
     dim8_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim8_efvs]
@@ -245,19 +297,6 @@ if __name__ == "__main__":
             dim5_efvs.append(efv)
         if dim == 6:
             dim6_efvs.append(efv)
-    
-    all_efvs = [dim1_efvs,dim2_efvs,dim3_efvs,dim4_efvs,dim5_efvs,dim6_efvs]
-    all_lens = [len(face) for face in all_efvs]
-    
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    ax = fig.add_axes([0,0,1,1])
-    ax.set_title(str(model.name) + " Dimension of the cone:" + str(np.linalg.matrix_rank(model.generators, tol = 1e-4)))
-    ax.set_xlabel("Dimension of face")
-    ax.set_ylabel("Number of EFMs")
-    
-    ax.bar(["1","2","3","4","5","6"],all_lens)
-    plt.show()
     
     
     dim1_efv_irr_supp_lens = [len(model.irr_supp(efv)) for efv in dim1_efvs]
