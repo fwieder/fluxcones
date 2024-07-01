@@ -59,7 +59,7 @@ def check_conjecture(model):
         for efm in model.efms:
             if model.degree(efm) > 2:
                 if len(model.two_gens(efm))==0:
-                    coeffs = MILP_shortest_decomp(efv,np.delete(model.efms,i,axis=0))
+                    coeffs = MILP_shortest_decomp(efm,np.delete(model.efms,i,axis=0))
                     if len(supp(coeffs)) > 2:
                         print("A counterexample was found")
                         return False
