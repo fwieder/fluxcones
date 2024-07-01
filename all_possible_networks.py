@@ -8,17 +8,16 @@ Created on Mon Nov 27 22:12:55 2023
 import numpy as np
 
 from flux_class import flux_cone,supp
-from itertools import combinations_with_replacement,permutations,product,combinations
+from itertools import product,combinations
 import itertools
-from MILP_decomp import MILP_Shortest_decomp
-import tqdm,sys
+from MILP_decomposition import MILP_shortest_decomp
+import tqdm
 from collections import Counter
-from multiprocessing import Pool
 
 
 num_metabs = 2
 num_reacs = 6
-value_list = [-1,0,1,2,-2]
+value_list = [-1,0,1]
 cols = [np.array(col) for col in itertools.product(value_list,repeat=num_metabs)]
 
 #print(len(cols))
@@ -57,12 +56,11 @@ def conjecture_check(model_id):
             if model.degree(efv) > 2:
                 deg_3_counter +=1
                 if len(model.two_gens(efv))==0:
-                    M = MILP_Shortest_decomp(efv,np.delete(model.efvs,i,axis=0))
-                    if M[1] != None:
-                        if len(supp(M[0])) > 2:
-                                
+                    coeffs = MILP_shortest_decomp(efv,np.delete(model.efvs,i,axis=0))
+                    if coeffs[0] != None:
+                        if len(supp(coeffs)) > 2:
                             print(model.stoich,model.rev)
-                            print(M)
+                            print(coeffs)
                             return (False,len(model.efvs))
                             
                 """

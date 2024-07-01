@@ -1,7 +1,7 @@
 import numpy as np
 import efmtool,cdd,cobra
 from scipy.optimize import linprog
-from util import abs_max
+
 digit_tol = 10
 tol = 1e-10
 
@@ -16,6 +16,12 @@ def supp(vector,tol = digit_tol):
 def zero(vector,tol = digit_tol):
     return(list(set(np.arange(len(vector)))-set(supp(vector,tol))))
 
+# Return the largest absolute value of a vector
+def abs_max(vector):
+    if all(vector == np.zeros(len(vector))):
+        return 0
+    abs_max = np.max(np.absolute(vector[vector!=0]))
+    return abs_max
 
 def get_gens(stoich,rev, algo = "cdd"):
     # so far only implemented for algo == cdd
