@@ -72,7 +72,7 @@ class flux_cone:
         return(lin_dim)
     
     
-    ''' get_cone_dim only works if description of model contains no reduandancies'''
+    ''' get_cone_dim might not work if description of model contains reduandancies'''
     
     def get_cone_dim(self):
         cone_dim = self.num_reacs - np.linalg.matrix_rank(self.stoich)
@@ -134,7 +134,7 @@ class flux_cone:
         self.rev_efms = rev_efms
         return(rev_efms)
     
-    ''' compute the MMBs of the fluxcone'''
+    ''' fast, unproven method to compute the MMBs of the fluxcone'''
     
     def get_mmbs(self):
         
@@ -154,31 +154,37 @@ class flux_cone:
         self.mmbs = mmbs
         return(mmbs)
     
+    ''' determine degree of a vector'''
     def degree(self,vector):
-        return len(vector) - np.linalg.matrix_rank(self.S[zero(np.dot(self.S,vector))])
+        return self.num_reacs - np.linalg.matrix_rank(self.S[zero(np.dot(self.S,vector))])
     
-    
+    ''' determine irr.supp of a vector'''
     def irr_supp(self,vector):
         return list(np.intersect1d(supp(vector),supp(self.irr,tol)))
     
+    ''' determine irr.zeros of a vector'''
     def irr_zeros(self,vector):
         return list(np.intersect1d(zero(vector), supp(self.irr,tol)))
     
+    ''' determine rev.supp of a vector'''
     def rev_supp(self,vector):
         return list(np.intersect1d(supp(vector),supp(self.rev,tol)))
     
+    ''' determine rev.zeros of a vector'''
     def rev_zeros(self,vector):
         return list(np.intersect1d(zero(vector), supp(self.rev,tol)))
     
+    ''' make a reaction irreversible '''
     def make_irr(self,index):
         self.rev[index] = 0
         self.irr[index] = 1
         
+    ''' make a reaction reversible'''
     def make_rev(self,index):
         self.rev[index] = 1
         self.irr[index] = 0
     
-    
+    ''' determine irredundant desciption of the flux cone '''
     def make_irredundant(self):
         redundants = "a"
         
@@ -199,7 +205,7 @@ class flux_cone:
                 if abs(linprog(c,A_ub,b_ub,A_eq,b_eq,bounds).fun) < .1:
                     redundants.append(index)
 
-    
+    ''' determine indices of blocked irreversible reactions '''
     def blocked_irr_reactions(self):
         blocked = []
         for index in supp(self.irr):
@@ -214,6 +220,7 @@ class flux_cone:
         blocked.reverse()
         return(blocked)
     
+    ''' determine indices of blocked reversible reactions '''
     def blocked_rev_reactions(self):
         blocked = []
         for index in supp(self.rev):
@@ -228,22 +235,13 @@ class flux_cone:
         blocked.reverse()
         return(blocked)
     
-    def is_in(self,vec,is_in_tol = tol):
-        if len(vec[self.irr_supp(vec,is_in_tol)])>0:
-            if min(vec[self.irr_supp(vec,is_in_tol)]) < tol:
-                print("Not in cone, because there is an irreversible reaction with negative flux")
-                return False
-            
-        if all(supp(np.dot(self.stoich,vec),is_in_tol) == np.array([])):
-            return True
-        else:
-            
-            print("S*v not equal to 0")
-            return False
-        
+   
+    ''' determine EFMs with inclusionwise smaller support than vector '''     
     def face_candidates(self,vector):
         return self.efms[np.where(np.all((np.round(self.efms[:,np.setdiff1d(supp(self.irr),self.irr_supp(vector))],10) == 0), axis=1))]
     
+    
+    ''' find 2 EFMs that can be positively combined to vector '''
     def two_gens(self,vector):
         
         #candidates = self.face_candidates(vector)
@@ -266,6 +264,9 @@ class flux_cone:
         
         return gen_pairs
     
+    
+    ''' find all pairs of 2 EFMs that can be positively combined to vector '''
+
     def all_two_gens(self,vector):
         candidates = self.face_candidates(vector)
         #candidates = self.efms
@@ -282,7 +283,8 @@ class flux_cone:
                             
         return gen_pairs
     
-    # Define Face as innner class of flux cone
+    
+    ''' determine Face of the flux cone that contains vector '''
     def face_defined_by(self,rep_vector):
         return flux_cone.face(self,rep_vector)
         

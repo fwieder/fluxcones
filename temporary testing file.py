@@ -27,21 +27,21 @@ model = flux_cone(S,rev)
 import time
 if __name__ == "__main__":
     start_time = time.perf_counter()
-    model.get_rev_efms("efmtool")
+    model.get_efms("efmtool")
     end_time = time.perf_counter()
     
     print("efmtool", end_time-start_time)
     
     
     start_time = time.perf_counter()
-    model.get_rev_efms("cdd")
+    model.get_efms("cdd")
     end_time = time.perf_counter()
     
     print("cdd", end_time-start_time)
     
     
     start_time = time.perf_counter()
-    model.get_rev_efms("milp")
+    model.get_efms("milp")
     end_time = time.perf_counter()
     
     print("milp", end_time-start_time)
