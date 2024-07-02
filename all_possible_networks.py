@@ -7,7 +7,7 @@ Created on Mon Nov 27 22:12:55 2023
 
 import numpy as np
 
-from flux_class import flux_cone,supp
+from flux_cone import flux_cone,supp
 from itertools import product,combinations
 import itertools
 from MILP_decomposition import MILP_shortest_decomp

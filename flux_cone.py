@@ -29,8 +29,6 @@ def zero(vector,tol = tolerance):
     return np.where(abs(vector) < tol)[0]
 
 
-import sys
-sys.exit()
 
 # get_efms is a wrapper for efmtool and CDD to compute EFMs,
 # INPUT np.array stoich: stoichiometric matrix,
@@ -105,6 +103,7 @@ def get_efms(stoich,rev, algo = "efmtool"):
 # The actucal flux_cone class
 #######################################################################################################################
 
+class flux_cone:
      
     ''' 
     initiate class object with a model path, stoichiometric matrix and a {0,1}-vector for reversible reactions
@@ -222,19 +221,26 @@ def get_efms(stoich,rev, algo = "efmtool"):
         return len(vector) - np.linalg.matrix_rank(self.S[zero(np.dot(self.S,vector))])
     
     
-    def irr_supp(self,vector,zero_tol = digit_tol):
-        return list(np.intersect1d(supp(vector),supp(self.irr,zero_tol)))
+    def irr_supp(self,vector):
+        return list(np.intersect1d(supp(vector),supp(self.irr,tolerance)))
+    
+    def irr_zeros(self,vector):
+        return list(np.intersect1d(zero(vector), supp(self.irr,tolerance)))
     
     def rev_supp(self,vector):
-        return list(np.intersect1d(supp(vector),supp(self.rev)))
+        return list(np.intersect1d(supp(vector),supp(self.rev,tolerance)))
+    
+    def rev_zeros(self,vector):
+        return list(np.intersect1d(zero(vector), supp(self.rev,tolerance)))
     
     def make_irr(self,index):
-        self.irr[index] = 1
         self.rev[index] = 0
+        self.irr[index] = 1
         
     def make_rev(self,index):
         self.rev[index] = 1
         self.irr[index] = 0
+    
     
     def make_irredundant(self):
         redundants = "a"
@@ -285,62 +291,59 @@ def get_efms(stoich,rev, algo = "efmtool"):
         blocked.reverse()
         return(blocked)
     
-    def is_in(self,vec,is_in_tol = digit_tol):
+    def is_in(self,vec,is_in_tol = tolerance):
         if len(vec[self.irr_supp(vec,is_in_tol)])>0:
-            if min(vec[self.irr_supp(vec,is_in_tol)]) < -1e-6:
-                #return False
-                print("negative irreversible reaction")
+            if min(vec[self.irr_supp(vec,is_in_tol)]) < tolerance:
+                print("Not in cone, because there is an irreversible reaction with negative flux")
                 return False
             
-        if supp(np.dot(self.stoich,vec),is_in_tol) == []:
+        if all(supp(np.dot(self.stoich,vec),is_in_tol) == np.array([])):
             return True
-        print("S * v not equal 0")
-        return False
+        else:
+            
+            print("S*v not equal to 0")
+            return False
         
     def face_candidates(self,vector):
-        return self.efvs[np.where(np.all((np.round(self.efvs[:,np.setdiff1d(supp(self.irr),self.irr_supp(vector))],10) == 0), axis=1))]
+        return self.efms[np.where(np.all((np.round(self.efms[:,np.setdiff1d(supp(self.irr),self.irr_supp(vector))],10) == 0), axis=1))]
     
     def two_gens(self,vector):
         
         #candidates = self.face_candidates(vector)
-        candidates = self.efvs
+        candidates = self.efms
         gen_pairs = []
         for rev_zero_ind in self.rev_zeros(vector):
             pos = candidates[np.where(candidates[:,rev_zero_ind] > tol)]
             neg = candidates[np.where(candidates[:,rev_zero_ind] < -tol)]
             if len(pos) > 0  and len(neg) > 0:
-                for pos_efv in pos:
-                    for neg_efv in neg:
-                        new_vec = -neg_efv[rev_zero_ind]*pos_efv + pos_efv[rev_zero_ind]*neg_efv
-                        new_vec = pos_efv - pos_efv[rev_zero_ind]/neg_efv[rev_zero_ind]*neg_efv
+                for pos_efm in pos:
+                    for neg_efm in neg:
+                        new_vec = -neg_efm[rev_zero_ind]*pos_efm + pos_efm[rev_zero_ind]*neg_efm
+                        new_vec = pos_efm - pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
                         if abs_max(new_vec - vector) < tol:
                         #if all(np.round(new_vec,5) == np.round(vector,5)):
                                 
-                            return(pos_efv,( - pos_efv[rev_zero_ind]/neg_efv[rev_zero_ind],neg_efv)) #,-neg_efv[rev_zero_ind],pos_efv[rev_zero_ind])
-                            #gen_pairs.append(((pos_efv,self.degree(pos_efv)),(neg_efv,self.degree(neg_efv))))
+                            return(pos_efm,( - pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind],neg_efm)) #,-neg_efm[rev_zero_ind],pos_efm[rev_zero_ind])
+                            #gen_pairs.append(((pos_efm,self.degree(pos_efm)),(neg_efm,self.degree(neg_efm))))
                             #return gen_pairs
         
         return gen_pairs
     
     def all_two_gens(self,vector):
         candidates = self.face_candidates(vector)
-        #candidates = self.efvs
+        #candidates = self.efms
         gen_pairs = []
         for rev_zero_ind in self.rev_zeros(vector):
             pos = candidates[np.where(candidates[:,rev_zero_ind] > tol)]
             neg = candidates[np.where(candidates[:,rev_zero_ind] < -tol)]
             if len(pos) > 0  and len(neg) > 0:
-                for pos_efv in pos:
-                    for neg_efv in neg:
-                        new_vec = pos_efv + pos_efv[rev_zero_ind]/neg_efv[rev_zero_ind]*neg_efv
+                for pos_efm in pos:
+                    for neg_efm in neg:
+                        new_vec = pos_efm + pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
                         if supp(new_vec) == supp(vector):
-                            gen_pairs.append((pos_efv,neg_efv))
+                            gen_pairs.append((pos_efm,neg_efm))
                             
         return gen_pairs
     
     
-    def rev_zeros(self,vector):
-        return list(np.intersect1d(zero(vector), supp(self.rev)))
     
-    def change_direction(self,irr_index):
-        self.stoich[:,irr_index] = -self.stoich[:,irr_index]

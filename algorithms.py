@@ -1,5 +1,6 @@
 import numpy as np
 import mip
+from flux_cone import *
 
 ###########################################################
     
@@ -64,3 +65,75 @@ def check_conjecture(model):
                         print("A counterexample was found")
                         return False
         return True
+
+
+from mip import *
+
+def milp_efms(S, rev):
+    # Create the extended stoichiometric matrix for reversible reactions
+    for index in np.nonzero(rev)[0]:
+        S = np.c_[S, -S[:, index]]
+    
+    n = np.shape(S)[1]
+
+    # Initialize the MILP model
+    m = Model(sense=MINIMIZE)
+
+    # Add binary variables for each reaction
+    a = [m.add_var(var_type=BINARY) for _ in range(n)]
+
+    # Add continuous variables for each reaction rate
+    v = [m.add_var() for _ in range(n)]
+
+    # Add stoichiometric constraints
+    for row in S:
+        m += xsum(row[i] * v[i] for i in range(n)) == 0
+
+    # Define the Big M value for constraints
+    M = 1000
+    for i in range(n):
+        m += a[i] <= v[i]
+        m += v[i] <= M * a[i]
+
+    # Exclude the zero vector solution
+    m += xsum(a[i] for i in range(n)) >= 1
+
+    # Set the objective to minimize the number of non-zero variables
+    m.objective = xsum(a[i] for i in range(n))
+
+    efms = []
+
+    while True:
+        # Solve the MILP model
+        m.optimize()
+
+        # Get the solution vector
+        efm = np.array([v.x for v in m.vars[:n]])
+        print(efm)
+
+        # Check for optimality
+        if efm.any() is None:
+            break
+
+        # Add constraint to exclude the current solution in the next iteration
+        m += xsum(a[i] for i in supp(efm)) <= len(supp(efm)) - 1
+
+        efms.append(efm)
+
+    efms = np.array(efms)
+
+    # Separate positive and negative parts for reversible reactions
+    efms_p = efms[:, :len(rev)]
+    efms_m = np.zeros(np.shape(efms_p))
+    
+    counter = 0
+    for r in supp(rev):
+        efms_m[:, r] = efms[:, len(rev) + counter]
+        counter += 1
+
+    efms = efms_p - efms_m
+
+    # Remove zero rows
+    efms = efms[np.any(efms != 0, axis=1)]
+
+    return efms
