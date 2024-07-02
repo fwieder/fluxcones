@@ -34,9 +34,30 @@ def zero(vector,tol = tolerance):
 # INPUT np.array stoich: stoichiometric matrix,
 # np.array rev: (0,1) vector for reversibility of reactions
 # returns np.array that contains EFMs as rows
-
+def get_gens(stoich,rev, algo = "cdd"):
+    # so far only implemented for algo == cdd
+    if algo == "cdd":
+        # nonegs is the matrix defining the inequalities for each irreversible reachtion
+        irr = (np.ones(len(rev)) - rev).astype(int)
+        nonegs = np.eye(len(rev))[np.nonzero(irr)[0]]
+        
+        
+        # initiate Matrix for cdd
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(stoich,linear = True)
+        else:
+            mat = cdd.Matrix(stoich,linear = True)
+        
+        
+        # generate polytope and compute generators
+        poly = cdd.Polyhedron(mat)
+        gens = poly.get_generators()
+        
+    return(gens)
 def get_efms(stoich,rev, algo = "efmtool"):
     if algo == "cdd":
+        
         # Store information about original shape to be able to revert splitting of reversible reactions later
         original_shape = np.shape(stoich)
         rev_indices = np.nonzero(rev)[0]
@@ -178,7 +199,7 @@ class flux_cone:
     def get_efms(self, algo = "efmtool"):
         if algo == "cdd":
             efms = get_efms(self.stoich,self.rev,algo = "cdd")
-            self.efs = efms
+            self.efms = efms
             return efms
     
         if algo == "efmtool":
@@ -346,7 +367,7 @@ class flux_cone:
         return gen_pairs
     
     # Define Face as innner class of flux cone
-    def create_face(self,rep_vector):
+    def face_defined_by(self,rep_vector):
         return flux_cone.face(self,rep_vector)
         
     
@@ -365,6 +386,16 @@ class flux_cone:
             
             self.stoich = np.r_[flux_cone_instance.stoich,np.eye(len(rep_vector))[irr_zeros]]
             
-            
+        def get_efms(self, algo = "efmtool"):
+            if algo == "cdd":
+                efms = get_efms(self.stoich,self.rev,algo = "cdd")
+                self.efms = efms
+                return efms
+        
+            if algo == "efmtool":
+                efms = get_efms(self.stoich,self.rev,algo = "efmtool")
+                self.efms = efms
+                return efms
+        
     
     
