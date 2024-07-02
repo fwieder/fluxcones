@@ -11,9 +11,6 @@ import efmtool,cdd,cobra
 from scipy.optimize import linprog
 from helper_functions import *
 
-# set tol for zero comparision, change as needed
-
-
 #######################################################################################################################
 # The actucal flux_cone class
 #######################################################################################################################
@@ -24,33 +21,41 @@ class flux_cone:
     initiate class object with a model path, stoichiometric matrix and a {0,1}-vector for reversible reactions
     '''
     
-    def __init__(self, stoichiometry, reversibility,name = None):
+    def __init__(self, stoichiometry, reversibility):
         
-        self.name = name
+        # stote size of stoichiometric matrix
+        self.num_metabs,self.num_reacs = np.shape(stoichiometry)
         
         self.stoich = stoichiometry
         
         self.rev = reversibility 
         
-        self.irr = (np.ones(len(self.rev)) - self.rev).astype(int)
+        # self.irr only depends on self.rev
+        self.irr = (np.ones(self.num_reacs) - self.rev).astype(int)
         
-        self.nonegs = np.eye(len(self.stoich[0]))[supp(self.irr)]
-     
-        self.S = np.r_[self.stoich,self.nonegs]
+        # non-negativity constraints defined by v_irr >= 0
+        nonegs = np.eye(self.num_reacs)[supp(self.irr)]
+        
+        # outer description of the flux cone by C = { x | Sx >= 0}
+        self.S = np.r_[self.stoich,nonegs]
     
     
     ''' create the fluxcone as flux_cone.from_sbml to use an sbml file as input '''
     
     @classmethod
-    def from_sbml(cls,path_to_sbml,name = None):
+    def from_sbml(cls,path_to_sbml):
         
+        # read sbml-file
         sbml_model = cobra.io.read_sbml_model(path_to_sbml)
         
+        # extract stoichiometric matrix
         stoich = cobra.util.array.create_stoichiometric_matrix(sbml_model)
         
+        # extract reversibility vector
         rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
         
-        return cls(stoich,rev,name)
+        # initialize class object from extracted parameters
+        return cls(stoich,rev)
     
 
 #################################################################################################################################################    
@@ -67,19 +72,35 @@ class flux_cone:
         return(lin_dim)
     
     
-    ''' Cone dim not working if model contains reduandancies'''
+    ''' get_cone_dim only works if description of model contains no reduandancies'''
     
     def get_cone_dim(self):
-        cone_dim = len(self.stoich[0]) - np.linalg.matrix_rank(self.stoich)
+        cone_dim = self.num_reacs - np.linalg.matrix_rank(self.stoich)
         return(cone_dim)
     
+    ''' test whether a given np.array is a steady-state fluxvector of the flux_cone instance'''
     
-    ''' is_efm tests whether a given np.array is an EFM of our flux_cone object'''
+    def is_in(self,vec):
+        # test whether v_irr >= 0
+        if len(vec[self.irr_supp(vec,tol)]) > 0:
+            if min(vec[self.irr_supp(vec,tol)]) < 0:
+                print("Not in cone, because there is an irreversible reaction with negative flux")
+                return False
+        # test whether S*v = 0
+        if all(supp(np.dot(self.stoich,vec),tol) == np.array([])):
+            return True
+        
+        else:    
+            print("S*v not equal to 0")
+            return False
+    
+    ''' test whether a given np.array is an EFM of the flux_cone instance by applying the rank test'''
     
     def is_efm(self,vector):
-        # 0 is not an EFM
+        # 0 is not an EFM by defintion
         if len(supp(vector)) == 0:
             return False
+        
         # rank test        
         if np.linalg.matrix_rank(self.stoich[:,supp(vector)]) == len(supp(vector)) - 1:
             return True
@@ -87,8 +108,7 @@ class flux_cone:
         return False
     
     
-    ''' compute the EFMs of the fluxcone '''
-    
+    ''' compute the EFMs of the fluxcone using cdd, efmtool or the milp approach'''
     
     def get_efms(self, algo = "efmtool"):
         if algo == "cdd":
@@ -106,13 +126,10 @@ class flux_cone:
             self.efms = efms
             return efms
     
-    def get_rev_efms(self):
-        
-        irr_zeros = supp(self.irr)
-        
-        S = np.r_[self.stoich,np.eye(len(self.irr))[irr_zeros]]
-        rev_efms = get_efms(S, self.rev)
-        # transform to original shape to match reaction indices of original model
+    def get_rev_efms(self,algo = "efmtool"):
+        # reversible EFMs cannot have active reversible reactions, so v_i = 0 is added to stoichiometric matrix for i in Irr
+        S = np.r_[self.stoich,np.eye(self.num_reacs)[supp(self.irr)]]
+        rev_efms = get_efms(S, self.rev, algo)
         
         self.rev_efms = rev_efms
         return(rev_efms)
@@ -128,7 +145,7 @@ class flux_cone:
         mmbs = []
         for vector in res:
             mmb = []
-            for index in self.irr:
+            for index in supp(self.irr):
                 if abs(vector[index]) > 1e-5:
                     mmb.append(index)
                     if mmb != [] and mmb not in mmbs:
@@ -303,7 +320,6 @@ class flux_cone:
             
             #candidates = self.face_candidates(vector)
             candidates = self.efms
-            gen_pairs = []
             for rev_zero_ind in self.rev_zeros(vector):
                 pos = candidates[np.where(candidates[:,rev_zero_ind] > tol)]
                 neg = candidates[np.where(candidates[:,rev_zero_ind] < -tol)]

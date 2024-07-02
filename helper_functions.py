@@ -95,7 +95,7 @@ def milp_efms(S, rev):
 # get_efms is a wrapper for efmtool and CDD to compute EFMs,
 # INPUT np.array stoich: stoichiometric matrix,
 # np.array rev: (0,1) vector for reversibility of reactions
-# returns np.array that contains EFMs as rows
+# returns np.array that contains generators as rows
 def get_gens(stoich,rev, algo = "cdd"):
     # so far only implemented for algo == cdd
     if algo == "cdd":

@@ -80,6 +80,3 @@ def check_conjecture(model):
                 return False
         return True
 
-
-from mip import *
-
