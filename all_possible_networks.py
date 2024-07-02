@@ -7,9 +7,8 @@ Created on Mon Nov 27 22:12:55 2023
 
 import numpy as np
 
-from flux_cone import flux_cone,supp
+from flux_cones import flux_cone,supp
 from itertools import product,combinations
-import itertools
 from MILP_decomposition import MILP_shortest_decomp
 import tqdm
 from collections import Counter
@@ -18,7 +17,7 @@ from collections import Counter
 num_metabs = 2
 num_reacs = 6
 value_list = [-1,0,1]
-cols = [np.array(col) for col in itertools.product(value_list,repeat=num_metabs)]
+cols = [np.array(col) for col in product(value_list,repeat=num_metabs)]
 
 #print(len(cols))
 
@@ -63,11 +62,8 @@ def conjecture_check(model_id):
                             print(coeffs)
                             return (False,len(model.efvs))
                             
-                """
-                if len(model.two_gens(efv)) !=2:
-                    print(model.stoich,model.rev)
-                    return False
-                """
+                
+                
         return (True,len(model.efvs))
 
 
@@ -82,7 +78,7 @@ if __name__ == "__main__":
         if res[0] == True:
             data.append(res[1])
         if res[0] == False:
-            print("Conjecture untrue!")
+            print("Conjecture disproven!")
             break
     print(" ")
     print(deg_3_counter,"EFMs decomposed")

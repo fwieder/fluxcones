@@ -1,16 +1,13 @@
 from multiprocessing import Pool
-from flux_class import flux_cone,supp,get_efvs,get_gens,zero,tol
+from flux_class import flux_cone,supp,get_efms,get_gens,zero,tol
 import numpy as np
 import tqdm,sys,time
 from collections import Counter
 from itertools import combinations
 import cdd
-import cobra
-digit_tol = 7
-tol = 10**(-digit_tol)
 
 class Face:
-    def __init__(self, model, rep_efv):
+    def __init__(self, model, rep_efm):
         
         self.stoich = model.stoich
         
@@ -18,13 +15,13 @@ class Face:
         
         self.irr = model.irr
         
-        irr_zeros = np.setdiff1d(supp(self.irr), np.nonzero(rep_efv)[0])        
+        irr_zeros = np.setdiff1d(supp(self.irr), np.nonzero(rep_efm)[0])        
         
-        self.S = np.r_[self.stoich,np.eye(len(rep_efv))[irr_zeros]]
+        self.S = np.r_[self.stoich,np.eye(len(rep_efm))[irr_zeros]]
 
-    def get_efvs(self,algo = "efmtool"):
-        self.efvs = get_efvs(self.S,self.rev,algo)
-        return self.efvs
+    def get_efms(self,algo = "efmtool"):
+        self.efms = get_efms(self.S,self.rev,algo)
+        return self.efms
     
     def degree(self,vector):
         return len(vector) - np.linalg.matrix_rank(self.S[zero(np.dot(self.S,vector))])
@@ -49,14 +46,14 @@ class Face:
         return list(np.intersect1d(zero(vector), supp(self.rev)))
     
     def two_gens(self,vector):
-        candidates = self.efvs
+        candidates = self.efms
         gen_pairs = []
         for rev_zero_ind in self.rev_zeros(vector):
             pos = candidates[np.where(candidates[:,rev_zero_ind] > tol)]
             neg = candidates[np.where(candidates[:,rev_zero_ind] < -tol)]
             if len(pos) > 0  and len(neg) > 0:
-                for pos_efv in pos:
-                    for neg_efv in neg:
-                        new_vec = -neg_efv[rev_zero_ind]*pos_efv + pos_efv[rev_zero_ind]*neg_efv
+                for pos_efm in pos:
+                    for neg_efm in neg:
+                        new_vec = -neg_efm[rev_zero_ind]*pos_efm + pos_efm[rev_zero_ind]*neg_efm
                         if supp(new_vec) == supp(vector):
-                            return(pos_efv,neg_efv)
+                            return(pos_efm,neg_efm)

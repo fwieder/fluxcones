@@ -1,6 +1,6 @@
 import numpy as np
 import mip
-from flux_cone import *
+from flux_cones import *
 
 ###########################################################
     

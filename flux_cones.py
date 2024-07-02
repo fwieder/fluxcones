@@ -345,5 +345,26 @@ class flux_cone:
                             
         return gen_pairs
     
+    # Define Face as innner class of flux cone
+    def create_face(self,rep_vector):
+        return flux_cone.face(self,rep_vector)
+        
+    
+    class face:
+        def __init__(self,flux_cone_instance,rep_vector):
+            
+            self.rev = flux_cone_instance.rev 
+            
+            self.irr = flux_cone_instance.irr
+            
+            # irr_zeros are the indices of the irreversibility constraints 
+            # that are fulfilled with equality by rep_vector
+            # and these define the facets rep_vector is contained in.
+            # numerical inaccuracies are assumed to be removed when the face it is contained in is determined.
+            irr_zeros = np.setdiff1d(supp(self.irr), np.nonzero(rep_vector)[0])
+            
+            self.stoich = np.r_[flux_cone_instance.stoich,np.eye(len(rep_vector))[irr_zeros]]
+            
+            
     
     
