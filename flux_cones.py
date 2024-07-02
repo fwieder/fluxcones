@@ -10,9 +10,9 @@ import numpy as np
 import efmtool,cdd,cobra
 from scipy.optimize import linprog
 
-# set tolerance for zero comparision, change as needed
+# set tol for zero comparision, change as needed
 
-tolerance = 1e-10
+tol = 1e-10
 
 
 #######################################################################################################################
@@ -20,15 +20,20 @@ tolerance = 1e-10
 #######################################################################################################################
 
 
-# Support function returns a np.array containing the indices of all entries of a vector larger than the tolerance
-def supp(vector,tol = tolerance):
+# Support function returns a np.array containing the indices of all entries of a vector larger than the tol
+def supp(vector,tol = tol):
     return np.where(abs(vector) > tol)[0]
 
-# Zero function returns a np.array containing the indices of all entries of a vector smaller than the tolerance
-def zero(vector,tol = tolerance):
+# Zero function returns a np.array containing the indices of all entries of a vector smaller than the tol
+def zero(vector,tol = tol):
     return np.where(abs(vector) < tol)[0]
 
-
+# Return the maximal absolute value
+def abs_max(vector):
+    if all(vector == np.zeros(len(vector))):
+        return 0
+    abs_max = np.max(np.absolute(vector[vector!=0]))
+    return abs_max
 
 # get_efms is a wrapper for efmtool and CDD to compute EFMs,
 # INPUT np.array stoich: stoichiometric matrix,
@@ -243,16 +248,16 @@ class flux_cone:
     
     
     def irr_supp(self,vector):
-        return list(np.intersect1d(supp(vector),supp(self.irr,tolerance)))
+        return list(np.intersect1d(supp(vector),supp(self.irr,tol)))
     
     def irr_zeros(self,vector):
-        return list(np.intersect1d(zero(vector), supp(self.irr,tolerance)))
+        return list(np.intersect1d(zero(vector), supp(self.irr,tol)))
     
     def rev_supp(self,vector):
-        return list(np.intersect1d(supp(vector),supp(self.rev,tolerance)))
+        return list(np.intersect1d(supp(vector),supp(self.rev,tol)))
     
     def rev_zeros(self,vector):
-        return list(np.intersect1d(zero(vector), supp(self.rev,tolerance)))
+        return list(np.intersect1d(zero(vector), supp(self.rev,tol)))
     
     def make_irr(self,index):
         self.rev[index] = 0
@@ -312,9 +317,9 @@ class flux_cone:
         blocked.reverse()
         return(blocked)
     
-    def is_in(self,vec,is_in_tol = tolerance):
+    def is_in(self,vec,is_in_tol = tol):
         if len(vec[self.irr_supp(vec,is_in_tol)])>0:
-            if min(vec[self.irr_supp(vec,is_in_tol)]) < tolerance:
+            if min(vec[self.irr_supp(vec,is_in_tol)]) < tol:
                 print("Not in cone, because there is an irreversible reaction with negative flux")
                 return False
             
@@ -397,5 +402,34 @@ class flux_cone:
                 self.efms = efms
                 return efms
         
-    
-    
+        def rev_zeros(self,vector):
+            return list(np.intersect1d(zero(vector), supp(self.rev,tol)))
+        
+        def two_gens(self,vector):
+            
+            #candidates = self.face_candidates(vector)
+            candidates = self.efms
+            gen_pairs = []
+            for rev_zero_ind in self.rev_zeros(vector):
+                pos = candidates[np.where(candidates[:,rev_zero_ind] > tol)]
+                neg = candidates[np.where(candidates[:,rev_zero_ind] < -tol)]
+                if len(pos) > 0  and len(neg) > 0:
+                    for pos_efm in pos:
+                        for neg_efm in neg:
+                            new_vec = -neg_efm[rev_zero_ind]*pos_efm + pos_efm[rev_zero_ind]*neg_efm
+                            new_vec = pos_efm - pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
+                            if abs_max(new_vec - vector) < tol:
+                                return(pos_efm,( - pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind],neg_efm)) #,-neg_efm[rev_zero_ind],pos_efm[rev_zero_ind])
+                            
+        def is_in(self,vec,is_in_tol = tol):
+            if len(vec[self.irr_supp(vec,is_in_tol)])>0:
+                if min(vec[self.irr_supp(vec,is_in_tol)]) < tol:
+                    print("Not in cone, because there is an irreversible reaction with negative flux")
+                    return False
+                
+            if all(supp(np.dot(self.stoich,vec),is_in_tol) == np.array([])):
+                return True
+            else:
+                
+                print("S*v not equal to 0")
+                return False

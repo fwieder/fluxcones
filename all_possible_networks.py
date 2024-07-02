@@ -9,7 +9,7 @@ import numpy as np
 
 from flux_cones import flux_cone,supp
 from itertools import product,combinations
-from MILP_decomposition import MILP_shortest_decomp
+from algorithms import MILP_shortest_decomp
 import tqdm
 from collections import Counter
 
@@ -45,26 +45,26 @@ deg_3_counter=0
 
 def conjecture_check(model_id):
     model = flux_cone(stoichs[model_id[0]],revs[model_id[1]])
-    model.get_efvs("cdd")
+    model.get_efms("cdd")
     global deg_3_counter
     
-    if len(model.efvs) < 3:
-        return (True,len(model.efvs))
+    if len(model.efms) < 3:
+        return (True,len(model.efms))
     else:
-        for i,efv in enumerate(model.efvs):
-            if model.degree(efv) > 2:
+        for i,efm in enumerate(model.efms):
+            if model.degree(efm) > 2:
                 deg_3_counter +=1
-                if len(model.two_gens(efv))==0:
-                    coeffs = MILP_shortest_decomp(efv,np.delete(model.efvs,i,axis=0))
+                if len(model.two_gens(efm))==0:
+                    coeffs = MILP_shortest_decomp(efm,np.delete(model.efms,i,axis=0))
                     if coeffs[0] != None:
                         if len(supp(coeffs)) > 2:
                             print(model.stoich,model.rev)
                             print(coeffs)
-                            return (False,len(model.efvs))
+                            return (False,len(model.efms))
                             
                 
                 
-        return (True,len(model.efvs))
+        return (True,len(model.efms))
 
 
 

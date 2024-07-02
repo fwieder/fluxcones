@@ -54,16 +54,30 @@ def MILP_shortest_decomp(target_vector, candidates,tolerance = 1e-7):
 def check_conjecture(model):
     model.get_efms("cdd")
     
-    if len(model.efms) < 3:
+    if len(model.efms) <= 3:
+        # Conjecture holds trivially
         return True
+    
     else:
         for index,efm in enumerate(model.efms):
-            if model.degree(efm) > 2:
-                if len(model.two_gens(efm))==0:
-                    coeffs = MILP_shortest_decomp(efm,np.delete(model.efms,index,axis=0))
-                    if len(supp(coeffs)) > 2:
-                        print("A counterexample was found")
-                        return False
+            if model.degree(efm) <= 2:
+                # Conjecture holds for EFMs of degree smaller 3
+                continue
+        
+            if len(model.two_gens(efm))==2:
+                # Decomposition of length 2 was found
+                continue
+            
+            coeffs = MILP_shortest_decomp(efm,np.delete(model.efms,index,axis=0))
+            
+            #check if efm was decomposable
+            if any(element is None for element in coeffs.ravel()):
+                # efm was not decomposable
+                continue
+            
+            if len(supp(coeffs)) > 2:
+                print("A counterexample was found")
+                return False
         return True
 
 
