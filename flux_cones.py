@@ -9,121 +9,10 @@ Created on Tue Jun 25 13:58:32 2024
 import numpy as np
 import efmtool,cdd,cobra
 from scipy.optimize import linprog
+from helper_functions import *
 
 # set tol for zero comparision, change as needed
 
-tol = 1e-10
-
-
-#######################################################################################################################
-# "Helper functions" 
-#######################################################################################################################
-
-
-# Support function returns a np.array containing the indices of all entries of a vector larger than the tol
-def supp(vector,tol = tol):
-    return np.where(abs(vector) > tol)[0]
-
-# Zero function returns a np.array containing the indices of all entries of a vector smaller than the tol
-def zero(vector,tol = tol):
-    return np.where(abs(vector) < tol)[0]
-
-# Return the maximal absolute value
-def abs_max(vector):
-    if all(vector == np.zeros(len(vector))):
-        return 0
-    abs_max = np.max(np.absolute(vector[vector!=0]))
-    return abs_max
-
-# get_efms is a wrapper for efmtool and CDD to compute EFMs,
-# INPUT np.array stoich: stoichiometric matrix,
-# np.array rev: (0,1) vector for reversibility of reactions
-# returns np.array that contains EFMs as rows
-def get_gens(stoich,rev, algo = "cdd"):
-    # so far only implemented for algo == cdd
-    if algo == "cdd":
-        # nonegs is the matrix defining the inequalities for each irreversible reachtion
-        irr = (np.ones(len(rev)) - rev).astype(int)
-        nonegs = np.eye(len(rev))[np.nonzero(irr)[0]]
-        
-        
-        # initiate Matrix for cdd
-        if len(nonegs) > 0:
-            mat = cdd.Matrix(nonegs,number_type = 'float')
-            mat.extend(stoich,linear = True)
-        else:
-            mat = cdd.Matrix(stoich,linear = True)
-        
-        
-        # generate polytope and compute generators
-        poly = cdd.Polyhedron(mat)
-        gens = poly.get_generators()
-        
-    return(gens)
-def get_efms(stoich,rev, algo = "efmtool"):
-    if algo == "cdd":
-        
-        # Store information about original shape to be able to revert splitting of reversible reactions later
-        original_shape = np.shape(stoich)
-        rev_indices = np.nonzero(rev)[0]
-        
-        
-        # split reversible reactions by appending columns
-        S_split = np.c_[stoich,-stoich[:,rev_indices]]
-        
-        
-        # compute generators of pointed cone by splitting (all reactions irreversible)
-        res = np.array(get_gens(S_split,np.zeros(len(S_split[0]))))
-        
-        
-        # reverse splitting by combining both directions that resulted from splitting
-        orig = res[:,:original_shape[1]]
-        torem = np.zeros(np.shape(orig))
-        splits = res[:,original_shape[1]:]
-        for i,j in enumerate(rev_indices):
-            torem[:,j] = splits[:,i]
-        unsplit = orig - torem
-        tokeep = []
-        
-        
-        # remove spurious cycles
-        for index,vector in enumerate(unsplit):
-            if len(supp(vector)) > 0:
-                tokeep.append(index)
-        efms = unsplit[tokeep]
-        
-        
-        return(efms)
-    
-    if algo == "efmtool":
-        
-        ''' 
-        initiate reaction names and metabolite names from 0 to n resp. m because 
-        efmtool needs these lists of strings as input
-        "normalize options:  [max, min, norm2, squared, none] 
-        '''
-        
-        opts = dict({
-        "kind": "stoichiometry",
-        "arithmetic": "double",
-        "zero": "1e-10",
-        "compression": "default",
-        "log": "console",
-        "level": "OFF",
-        "maxthreads": "-1",
-        "normalize": "max",
-        "adjacency-method": "pattern-tree-minzero",
-        "rowordering": "MostZerosOrAbsLexMin"
-        })
-        
-        reaction_names = list(np.arange(len(stoich[0])).astype(str))
-        metabolite_names = list(np.arange(len(stoich)).astype(str))
-        efms = efmtool.calculate_efms(stoich,rev,reaction_names,metabolite_names,opts)
-        
-        
-        return(efms.T)
-    
-    
 
 #######################################################################################################################
 # The actucal flux_cone class
@@ -209,6 +98,11 @@ class flux_cone:
     
         if algo == "efmtool":
             efms = get_efms(self.stoich,self.rev,algo = "efmtool")
+            self.efms = efms
+            return efms
+        
+        if algo == "milp":
+            efms = get_efms(self.stoich, self.rev,algo="milp")
             self.efms = efms
             return efms
     
