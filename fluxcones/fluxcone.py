@@ -20,27 +20,30 @@ from helpers import supp, zero, TOLERANCE
 class FluxCone:
 
     def __init__(self, stoichiometry: np.array, reversibility: np.array):
+        """
+        This Python function initializes a class instance with stoichiometry and reversibility arrays to
+        represent a chemical reaction system.        
+        """
 
-        # stote size of stoichiometric matrix
-        self.num_metabs, self.num_reacs = np.shape(stoichiometry)
+        # Stoichiometric matrix
+        self.stoich = stoichiometry # np.array
 
-        self.stoich = stoichiometry
+        # Number of metabolites and reactions
+        self.num_metabs, self.num_reacs = np.shape(stoichiometry) # int
+        
+        # {0,1} vector for reversible reactions
+        self.rev = reversibility # np.array
 
-        self.rev = reversibility
-
-        # self.irr only depends on self.rev
-        self.irr = (np.ones(self.num_reacs) - self.rev).astype(int)
-
-        # non-negativity constraints defined by v_irr >= 0
-        nonegs = np.eye(self.num_reacs)[supp(self.irr)]
-
-        # outer description of the flux cone by C = { x | Sx >= 0}
-        self.S = np.r_[self.stoich, nonegs]
+        # {0,1} vector for irreversible reactions
+        self.irr = (np.ones(self.num_reacs) - self.rev).astype(int) # np.array
 
 
     @classmethod
-    def from_sbml(cls, path_to_sbml):
-        ''' create the fluxcone as flux_cone.from_sbml to use an sbml file as input '''
+    def from_sbml(cls, path_to_sbml: str):
+        """
+        The `from_sbml` function reads an SBML file, extracts the stoichiometric matrix and
+        reversibility vector, and initializes a FluxCone object with the extracted parameters.
+        """
 
         # read sbml-file
         sbml_model = cobra.io.read_sbml_model(path_to_sbml)
@@ -262,7 +265,13 @@ class FluxCone:
     ''' determine degree of a vector'''
 
     def degree(self, vector):
-        return self.num_reacs - np.linalg.matrix_rank(self.S[zero(np.dot(self.S, vector))])
+        # non-negativity constraints defined by v_irr >= 0
+        nonegs = np.eye(self.num_reacs)[supp(self.irr)]
+
+        # outer description of the flux cone by C = { x | Sx >= 0}
+        S = np.r_[self.stoich, nonegs]
+        
+        return self.num_reacs - np.linalg.matrix_rank(S[zero(np.dot(S, vector))])
 
     ''' determine irr.supp of a vector'''
 
