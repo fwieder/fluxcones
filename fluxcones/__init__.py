@@ -1,1 +1,1 @@
-from fluxcone import FluxCone
+from fluxcones.fluxcone import FluxCone
