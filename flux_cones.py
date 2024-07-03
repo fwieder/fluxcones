@@ -251,23 +251,19 @@ class flux_cone:
         efms = np.array(efms)
 
         # Separate positive and negative parts for reversible reactions
-        efms_p = efms[:, :len(rev)]
+        efms_p = efms[:, :len(self.rev)]
         efms_m = np.zeros(np.shape(efms_p))
 
         counter = 0
-        for r in supp(rev):
-            efms_m[:, r] = efms[:, len(rev) + counter]
+        for r in supp(self.rev):
+            efms_m[:, r] = efms[:, len(self.rev) + counter]
             counter += 1
 
         efms = efms_p - efms_m
 
         # Remove zero rows
-        efms = efms[np.any(efms != 0, axis=1)]
+        self.efms = efms[np.any(efms != 0, axis=1)]
 
-        if only_reversible:
-            self.efms = efms
-        else:
-            self.rev_efms = efms
 
 
     def get_mmbs(self):
