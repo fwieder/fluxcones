@@ -11,23 +11,15 @@ import efmtool
 import cdd
 import cobra
 from scipy.optimize import linprog
-from helpers import supp
 import copy
 import mip
+
+from helpers import supp, zero, TOLERANCE
 
 
 class FluxCone:
 
-    def __init__(self, stoichiometry, reversibility):
-        """
-        Parameters
-        ----------
-        stoichiometry : np.array
-            Stoichcometry matrix
-        reversibility : np.array
-            Reversibility {0,1}-vector
-
-        """
+    def __init__(self, stoichiometry: np.array, reversibility: np.array):
 
         # stote size of stoichiometric matrix
         self.num_metabs, self.num_reacs = np.shape(stoichiometry)
@@ -45,10 +37,10 @@ class FluxCone:
         # outer description of the flux cone by C = { x | Sx >= 0}
         self.S = np.r_[self.stoich, nonegs]
 
-    ''' create the fluxcone as flux_cone.from_sbml to use an sbml file as input '''
 
     @classmethod
     def from_sbml(cls, path_to_sbml):
+        ''' create the fluxcone as flux_cone.from_sbml to use an sbml file as input '''
 
         # read sbml-file
         sbml_model = cobra.io.read_sbml_model(path_to_sbml)
@@ -63,13 +55,7 @@ class FluxCone:
         # initialize class object from extracted parameters
         return cls(stoich, rev)
 
-
-#################################################################################################################################################
-# Callable methods for flux_cone objects:
-#################################################################################################################################################
-
     ''' compute the dimension of the lineality space of the cone '''
-
     def get_lin_dim(self):
         lin_dim = len(supp(self.rev)) - \
             np.linalg.matrix_rank(self.stoich[:, supp(self.rev)])
@@ -86,13 +72,13 @@ class FluxCone:
 
     def is_in(self, vec):
         # test whether v_irr >= 0
-        if len(vec[self.irr_supp(vec, tol)]) > 0:
-            if min(vec[self.irr_supp(vec, tol)]) < 0:
+        if len(vec[self.irr_supp(vec, TOLERANCE)]) > 0:
+            if min(vec[self.irr_supp(vec, TOLERANCE)]) < 0:
                 print(
                     "Not in cone, because there is an irreversible reaction with negative flux")
                 return False
         # test whether S*v = 0
-        if all(supp(np.dot(self.stoich, vec), tol) == np.array([])):
+        if all(supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([])):
             return True
 
         else:
@@ -252,7 +238,7 @@ class FluxCone:
                 break
 
             # Add constraint to exclude the current solution in the next iteration
-            m += xsum(a[i] for i in supp(efm)) <= len(supp(efm)) - 1
+            m += mip.xsum(a[i] for i in supp(efm)) <= len(supp(efm)) - 1
 
             efms.append(efm)
 
@@ -281,22 +267,22 @@ class FluxCone:
     ''' determine irr.supp of a vector'''
 
     def irr_supp(self, vector):
-        return list(np.intersect1d(supp(vector), supp(self.irr, tol)))
+        return list(np.intersect1d(supp(vector), supp(self.irr, TOLERANCE)))
 
     ''' determine irr.zeros of a vector'''
 
     def irr_zeros(self, vector):
-        return list(np.intersect1d(zero(vector), supp(self.irr, tol)))
+        return list(np.intersect1d(zero(vector), supp(self.irr, TOLERANCE)))
 
     ''' determine rev.supp of a vector'''
 
     def rev_supp(self, vector):
-        return list(np.intersect1d(supp(vector), supp(self.rev, tol)))
+        return list(np.intersect1d(supp(vector), supp(self.rev, TOLERANCE)))
 
     ''' determine rev.zeros of a vector'''
 
     def rev_zeros(self, vector):
-        return list(np.intersect1d(zero(vector), supp(self.rev, tol)))
+        return list(np.intersect1d(zero(vector), supp(self.rev, TOLERANCE)))
 
     ''' make a reaction irreversible '''
 
