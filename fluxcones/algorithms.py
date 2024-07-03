@@ -1,6 +1,6 @@
 import numpy as np
 import mip
-from helpers import abs_max, supp, TOLERANCE
+from fluxcones.helpers import abs_max, supp, TOLERANCE
 from fluxcones import FluxCone
 import itertools
     
@@ -51,24 +51,23 @@ def MILP_shortest_decomp(target_vector, candidates,tolerance = 1e-7):
     
     return coefficients
 
-def check_conjecture(model):
-    model.get_efms("cdd")
+def check_conjecture(model, efms):
     
-    if len(model.efms) <= 3:
+    if len(efms) <= 3:
         # Conjecture holds trivially
         return True
     
     else:
-        for index,efm in enumerate(model.efms):
+        for index,efm in enumerate(efms):
             if model.degree(efm) <= 2:
                 # Conjecture holds for EFMs of degree smaller 3
                 continue
         
-            if len(model.two_gens(efm))==2:
+            if len(two_gens(efm, efms, model))==2:
                 # Decomposition of length 2 was found
                 continue
             
-            coeffs = MILP_shortest_decomp(efm,np.delete(model.efms,index,axis=0))
+            coeffs = MILP_shortest_decomp(efm,np.delete(efms,index,axis=0))
             
             #check if efm was decomposable
             if any(element is None for element in coeffs.ravel()):
