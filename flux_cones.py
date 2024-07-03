@@ -384,57 +384,6 @@ class flux_cone:
         blocked.reverse()
         return(blocked)
 
-    ''' determine EFMs with inclusionwise smaller support than vector '''
-
-    def face_candidates(self, vector):
-        return self.efms[np.where(np.all((np.round(self.efms[:, np.setdiff1d(supp(self.irr), self.irr_supp(vector))], 10) == 0), axis=1))]
-
-    ''' find 2 EFMs that can be positively combined to vector '''
-
-    def two_gens(self, vector):
-
-        # candidates = self.face_candidates(vector)
-        candidates = self.efms
-        gen_pairs = []
-        for rev_zero_ind in self.rev_zeros(vector):
-            pos = candidates[np.where(candidates[:, rev_zero_ind] > tol)]
-            neg = candidates[np.where(candidates[:, rev_zero_ind] < -tol)]
-            if len(pos) > 0 and len(neg) > 0:
-                for pos_efm in pos:
-                    for neg_efm in neg:
-                        new_vec = -neg_efm[rev_zero_ind] * \
-                            pos_efm + pos_efm[rev_zero_ind]*neg_efm
-                        new_vec = pos_efm - \
-                            pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
-                        if abs_max(new_vec - vector) < tol:
-                            # if all(np.round(new_vec,5) == np.round(vector,5)):
-
-                            # ,-neg_efm[rev_zero_ind],pos_efm[rev_zero_ind])
-                            return(pos_efm, (- pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind], neg_efm))
-                            # gen_pairs.append(((pos_efm,self.degree(pos_efm)),(neg_efm,self.degree(neg_efm))))
-                            # return gen_pairs
-
-        return gen_pairs
-
-    ''' find all pairs of 2 EFMs that can be positively combined to vector '''
-
-    def all_two_gens(self, vector):
-        candidates = self.face_candidates(vector)
-        # candidates = self.efms
-        gen_pairs = []
-        for rev_zero_ind in self.rev_zeros(vector):
-            pos = candidates[np.where(candidates[:, rev_zero_ind] > tol)]
-            neg = candidates[np.where(candidates[:, rev_zero_ind] < -tol)]
-            if len(pos) > 0 and len(neg) > 0:
-                for pos_efm in pos:
-                    for neg_efm in neg:
-                        new_vec = pos_efm + \
-                            pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
-                        if supp(new_vec) == supp(vector):
-                            gen_pairs.append((pos_efm, neg_efm))
-
-        return gen_pairs
-
     ''' determine Face of the flux cone that contains vector '''
 
     def face_defined_by(self, rep_vector):
