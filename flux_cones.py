@@ -112,7 +112,7 @@ class flux_cone:
 
         return False
 
-    def get_efms_efmtool(self):
+    def get_efms_efmtool(self, only_reversible=False):
         """
         initiate reaction names and metabolite names from 0 to n resp. m because
         efmtool needs these lists of strings as input
@@ -143,10 +143,7 @@ class flux_cone:
         efms_cols = efmtool.calculate_efms(
             S, self.rev, reaction_names, metabolite_names, opts)
 
-        if only_reversible:
-            self.rev_efms = efms_cols.T
-        else:
-            self.efms = efms_cols.T
+        return efms_cols.T
 
     def get_efms_cdd(self, only_reversible=False):
         if only_reversible:
@@ -161,9 +158,25 @@ class flux_cone:
 
         # split reversible reactions by appending columns
         S_split = np.c_[S, -S[:, rev_indices]]
-
+        S_split_rev = np.zeros(len(S_split[0]))
+        
         # compute generators of pointed cone by splitting (all reactions irreversible)
-        res = np.array(get_gens(S_split, np.zeros(len(S_split[0]))))
+        # nonegs is the matrix defining the inequalities for each irreversible reachtion
+        irr = (np.ones(len(S_split_rev)) - S_split_rev).astype(int)
+        nonegs = np.eye(len(S_split_rev))[np.nonzero(irr)[0]]
+        
+        
+        # initiate Matrix for cdd
+        if len(nonegs) > 0:
+            mat = cdd.Matrix(nonegs,number_type = 'float')
+            mat.extend(S_split,linear = True)
+        else:
+            mat = cdd.Matrix(S_split,linear = True)
+        
+        
+        # generate polytope and compute generators
+        poly = cdd.Polyhedron(mat)
+        res = np.array(poly.get_generators())
 
         # reverse splitting by combining both directions that resulted from splitting
         orig = res[:, :original_shape[1]]
@@ -180,12 +193,7 @@ class flux_cone:
             if len(supp(vector)) > 0:
                 tokeep.append(index)
 
-        efms = unsplit[tokeep]
-
-        if only_reversible:
-            self.rev_efms = efms
-        else:
-            self.efms = efms
+        return unsplit[tokeep]
 
     def get_efms_milp(self, only_reversible=False):
         """
@@ -262,7 +270,7 @@ class flux_cone:
         efms = efms_p - efms_m
 
         # Remove zero rows
-        self.efms = efms[np.any(efms != 0, axis=1)]
+        return efms[np.any(efms != 0, axis=1)]
 
 
 
