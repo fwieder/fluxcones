@@ -1,7 +1,7 @@
 import numpy as np
 import mip
 from helpers import abs_max, supp, TOLERANCE
-from fluxcone import FluxCone
+from fluxcones import FluxCone
 import itertools
     
 def MILP_shortest_decomp(target_vector, candidates,tolerance = 1e-7):
