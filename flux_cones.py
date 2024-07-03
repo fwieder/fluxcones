@@ -13,10 +13,7 @@ import cobra
 from scipy.optimize import linprog
 from helper_functions import *
 import copy
-
-#######################################################################################################################
-# The actucal flux_cone class
-#######################################################################################################################
+import mip
 
 
 class flux_cone:
@@ -207,19 +204,19 @@ class flux_cone:
 
         n = np.shape(S)[1]
         # Initialize the MILP model
-        m = Model(sense=MINIMIZE)
+        m = mip.Model(sense=mip.MINIMIZE)
 
         m.verbose = False
 
         # Add binary variables for each reaction
-        a = [m.add_var(var_type=BINARY) for _ in range(n)]
+        a = [m.add_var(var_type=mip.BINARY) for _ in range(n)]
 
         # Add continuous variables for each reaction rate
         v = [m.add_var() for _ in range(n)]
 
         # Add stoichiometric constraints
         for row in S:
-            m += xsum(row[i] * v[i] for i in range(n)) == 0
+            m += mip.xsum(row[i] * v[i] for i in range(n)) == 0
 
         # Define the Big M value for constraints
         M = 1000
@@ -228,10 +225,10 @@ class flux_cone:
             m += v[i] <= M * a[i]
 
         # Exclude the zero vector solution
-        m += xsum(a[i] for i in range(n)) >= 1
+        m += mip.xsum(a[i] for i in range(n)) >= 1
 
         # Set the objective to minimize the number of non-zero variables
-        m.objective = xsum(a[i] for i in range(n))
+        m.objective = mip.xsum(a[i] for i in range(n))
 
         efms = []
 
