@@ -1,8 +1,7 @@
 import numpy as np
 import mip
-from helper_functions import *
-from algorithms import *
-from flux_cones import flux_cone
+from helpers import abs_max, supp, TOLERANCE
+from fluxcone import FluxCone
 import itertools
     
 def MILP_shortest_decomp(target_vector, candidates,tolerance = 1e-7):
@@ -85,15 +84,15 @@ def check_conjecture(model):
 
 ''' find all pairs of 2 EFMs that can be positively combined to vector '''
 
-def two_gens(vector, efms:np.array, fluxcone: flux_cone, face_candidates:bool=False, all_pairs:bool=False):
+def two_gens(vector, efms:np.array, fluxcone: FluxCone, face_candidates:bool=False, all_pairs:bool=False):
     if face_candidates:
         # Return the unique values in non-zero irr of fluxcone that are not in non-zero irr values of vector.
         efms = efms[np.where(np.all((np.round(efms[:, fluxcone.irr_zeros(vector)], 10) == 0), axis=1))]
 
     gen_pairs = []
     for rev_zero_ind in fluxcone.rev_zeros(vector):
-        pos = efms[np.where(efms[:, rev_zero_ind] > tol)]
-        neg = efms[np.where(efms[:, rev_zero_ind] < -tol)]
+        pos = efms[np.where(efms[:, rev_zero_ind] > TOLERANCE)]
+        neg = efms[np.where(efms[:, rev_zero_ind] < -TOLERANCE)]
         
         if len(pos) <= 0 or len(neg) <= 0:
             continue     
@@ -101,7 +100,7 @@ def two_gens(vector, efms:np.array, fluxcone: flux_cone, face_candidates:bool=Fa
         for (pos_efm, neg_efm) in itertools.product(pos, neg):
             new_vec = pos_efm - \
                 pos_efm[rev_zero_ind]/neg_efm[rev_zero_ind]*neg_efm
-            if abs_max(new_vec - vector) < tol:
+            if abs_max(new_vec - vector) < TOLERANCE:
                 if all_pairs:
                     gen_pairs.append((pos_efm, neg_efm))
                 else:

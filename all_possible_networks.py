@@ -7,7 +7,7 @@ Created on Mon Nov 27 22:12:55 2023
 
 import numpy as np
 
-from flux_cones import flux_cone,supp
+from fluxcone import FluxCone,supp
 from itertools import product,combinations
 from algorithms import MILP_shortest_decomp
 import tqdm
@@ -44,7 +44,7 @@ print(len(model_ids), "models")
 deg_3_counter=0
 
 def conjecture_check(model_id):
-    model = flux_cone(stoichs[model_id[0]],revs[model_id[1]])
+    model = FluxCone(stoichs[model_id[0]],revs[model_id[1]])
     model.get_efms("cdd")
     global deg_3_counter
     

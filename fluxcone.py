@@ -11,12 +11,12 @@ import efmtool
 import cdd
 import cobra
 from scipy.optimize import linprog
-from helper_functions import *
+from helpers import supp
 import copy
 import mip
 
 
-class flux_cone:
+class FluxCone:
 
     def __init__(self, stoichiometry, reversibility):
         """
