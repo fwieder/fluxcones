@@ -272,16 +272,6 @@ class flux_cone:
         else:
             self.rev_efms = efms
 
-    def reversible_efms(self):
-
-        # reversible EFMs cannot have active reversible reactions, so v_i = 0 is added to stoichiometric matrix for i in Irr
-        S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
-        rev_efms = get_efms(S, self.rev, algo)
-
-        self.rev_efms = rev_efms
-        return rev_efms
-
-    ''' fast, unproven method to compute the MMBs of the fluxcone'''
 
     def get_mmbs(self):
 
