@@ -14,7 +14,7 @@ from scipy.optimize import linprog
 import copy
 import mip
 
-from helpers import supp, zero, TOLERANCE
+from fluxcones.helpers import supp, zero, TOLERANCE
 
 
 class FluxCone:
