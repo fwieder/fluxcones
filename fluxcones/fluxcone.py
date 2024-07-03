@@ -273,25 +273,6 @@ class FluxCone:
         return efms[np.any(efms != 0, axis=1)]
 
 
-
-    def get_mmbs(self):
-
-        # compute v-representation using cdd (no splitting of reversible reactions)
-        res = np.array(get_gens(self.stoich, self.rev))
-
-        # compute MMBs from the v-representation
-        mmbs = []
-        for vector in res:
-            mmb = []
-            for index in supp(self.irr):
-                if abs(vector[index]) > 1e-5:
-                    mmb.append(index)
-                    if mmb != [] and mmb not in mmbs:
-                        mmbs.append(mmb)
-
-        self.mmbs = mmbs
-        return(mmbs)
-
     ''' determine degree of a vector'''
 
     def degree(self, vector):
