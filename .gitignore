@@ -1,2 +1,4 @@
 *.pyc
 Biomodels
+build
+*.egg-info
