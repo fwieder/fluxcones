@@ -24,6 +24,7 @@ def all_networks(num_metabs, num_reacs, value_list):
     print(len(model_ids), "models")
 
     data = []
+    degrees = []
     for model_id in tqdm.tqdm(model_ids):
         model = FluxCone(stoichs[model_id[0]], revs[model_id[1]])
         efms = model.get_efms_cdd()
@@ -32,12 +33,16 @@ def all_networks(num_metabs, num_reacs, value_list):
             print("Conjecture disproven!")
             break
         data.append(len(efms))
-
+        for efm in efms:
+            degrees.append(model.degree(efm))
     print(" ")
     print(np.count_nonzero(data), "models with EFMs")
-    print(np.max(data), "largest number of EFMs")
+    print("largest number of EFMs = ", max(data))
+    print(sum(data), "EFMs in total")
     print(Counter(data))
-
+    print(Counter(degrees))
+    return data
 
 if __name__ == "__main__":
-    all_networks(num_metabs=2, num_reacs=5, value_list=[-1, 0, 1, 2, -2])
+    data = all_networks(num_metabs=2, num_reacs=9, value_list=[-1, 0, 1])
+    
