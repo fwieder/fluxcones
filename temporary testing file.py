@@ -40,8 +40,7 @@ if __name__ == "__main__":
         b = two_gens(efm,efms,model,face_candidates=False, all_pairs=True)
         print(len(a),len(b))
         assert np.array_equal(a,b)
-    import sys
-    sys.exit()
+
     start_time = time.perf_counter()
     efms = model.get_efms_efmtool()
     end_time = time.perf_counter()
