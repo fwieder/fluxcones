@@ -81,14 +81,14 @@ class FluxCone:
         """
         # test whether v_irr >= 0
         if (
-            len(vec[self.irr_supp(vec, TOLERANCE)]) > 0
-            and min(vec[self.irr_supp(vec, TOLERANCE)]) < 0
+            len(vec[self.irr_supp(vec)]) > 0
+            and min(vec[self.irr_supp(vec)]) < 0
         ):
             # Not in cone, because there is an irreversible reaction with negative flux
             return False
 
         # test whether S*v = 0
-        if all(supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([])):
+        if supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([]):
             return True
 
         # S*v not equal to 0
