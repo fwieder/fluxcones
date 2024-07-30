@@ -33,8 +33,8 @@ def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7):
     # Stoichiometric constraints
     for flux in range(len(target_vector)):
         m += (
-            mip.xsum(x[i] * candidates[i][flux] for i in range(len(candidates)))
-            == target_vector[flux]
+            mip.xsum(x[i] * candidates[i][flux].item() for i in range(len(candidates)))
+            == target_vector[flux].item()
         )
 
     # Make sure that at least one candidate is used
