@@ -1,5 +1,5 @@
 import numpy as np
-
+import cobra
 TOLERANCE = 1e-10
 
 
