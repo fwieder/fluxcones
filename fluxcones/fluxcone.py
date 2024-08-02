@@ -88,7 +88,7 @@ class FluxCone:
             return False
 
         # test whether S*v = 0
-        if supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([]):
+        if all(supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([])):
             return True
 
         # S*v not equal to 0
