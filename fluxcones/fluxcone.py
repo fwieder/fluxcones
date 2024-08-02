@@ -88,7 +88,7 @@ class FluxCone:
             return False
 
         # test whether S*v = 0
-        if supp(np.dot(self.stoich, vec), TOLERANCE) == []:
+        if supp(np.dot(self.stoich, vec), TOLERANCE) == np.array([]):
             return True
 
         # S*v not equal to 0
@@ -289,14 +289,14 @@ class FluxCone:
         # outer description of the flux cone by C = { x | Sx >= 0}
         S = np.r_[self.stoich, nonegs]
 
-        return self.num_reacs - np.linalg.matrix_rank(S[zero(np.dot(S, vector))])
+        return int(self.num_reacs - np.linalg.matrix_rank(S[zero(np.dot(S, vector))]))
 
     def irr_supp(self, vector):
         """
         Returns a list of elements that are common between the support of the
         input vector and the support of the irreversible reactions of the flux cone, within a specified tolerance.
         """
-        return list(np.intersect1d(supp(vector), supp(self.irr, TOLERANCE)))
+        return np.array(np.intersect1d(supp(vector), supp(self.irr, TOLERANCE)))
 
     """ determine irr.zeros of a vector"""
 
@@ -305,7 +305,7 @@ class FluxCone:
         Returns a list of zero element indices that are common between the input vector and the irreversible reactions of 
         the flux cone, within a specified tolerance.
         """
-        return list(np.intersect1d(zero(vector), supp(self.irr, TOLERANCE)))
+        return np.array(np.intersect1d(zero(vector), supp(self.irr, TOLERANCE)))
 
     """ determine rev.supp of a vector"""
 
