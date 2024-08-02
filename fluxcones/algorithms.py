@@ -5,7 +5,7 @@ from fluxcones import FluxCone
 import itertools
 
 
-def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7):
+def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM = 1000):
 
     m = mip.Model()
 
@@ -23,7 +23,7 @@ def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7):
     x = [m.add_var(var_type=mip.CONTINUOUS) for i in range(len(candidates))]
 
     # Define bigM
-    M = 100
+    M = bigM
 
     # Logic constraints a[i] = 0 => x[i]=0
     for i in range(len(candidates)):
