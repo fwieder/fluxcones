@@ -109,7 +109,19 @@ class FluxCone:
 
         return False
 
-    def get_efms_efmtool(self, only_reversible=False):
+    def get_efms_efmtool(self, only_reversible=False,opts = dict(
+        {
+            "kind": "stoichiometry",
+            "arithmetic": "double",
+            "zero": "1e-10",
+            "compression": "default",
+            "log": "console",
+            "level": "OFF",
+            "maxthreads": "-1",
+            "normalize": "max",
+            "adjacency-method": "pattern-tree-minzero",
+            "rowordering": "MostZerosOrAbsLexMin",
+        })):
         """
         The function `get_efms_efmtool` calculates elementary flux modes using the efmtool library
         
@@ -119,20 +131,7 @@ class FluxCone:
         # Initiate reaction names and metabolite names from 0 to n resp. m because
         # efmtool needs these lists of strings as input
         # "normalize options:  [max, min, norm2, squared, none]
-        opts = dict(
-            {
-                "kind": "stoichiometry",
-                "arithmetic": "double",
-                "zero": "1e-10",
-                "compression": "default",
-                "log": "console",
-                "level": "OFF",
-                "maxthreads": "-1",
-                "normalize": "max",
-                "adjacency-method": "pattern-tree-minzero",
-                "rowordering": "MostZerosOrAbsLexMin",
-            }
-        )
+        
 
         if only_reversible:
             S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
