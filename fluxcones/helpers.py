@@ -15,7 +15,7 @@ def zero(vector, tol=TOLERANCE):
 
 # Return the maximal absolute value
 def abs_max(vector):
-    if all(vector == np.zeros(len(vector))):
+    if np.allclose(vector,np.zeros(len(vector))):
         return 0
     abs_max = np.max(np.absolute(vector[vector != 0]))
     return abs_max
