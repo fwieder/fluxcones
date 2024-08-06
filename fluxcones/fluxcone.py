@@ -121,7 +121,8 @@ class FluxCone:
             "normalize": "max",
             "adjacency-method": "pattern-tree-minzero",
             "rowordering": "MostZerosOrAbsLexMin",
-        })):
+        })
+            ):
         """
         The function `get_efms_efmtool` calculates elementary flux modes using the efmtool library
         
@@ -341,7 +342,8 @@ class FluxCone:
             bounds = (None, None)
             if abs(linprog(c, A_ub, b_ub, A_eq, b_eq, bounds).fun) < 0.1:
                 redundants.append(index)
-
+        return redundants
+        
     def make_irredundant(self):
         redundants = self.get_redudants(supp(self.irr))
 
