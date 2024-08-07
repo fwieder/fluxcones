@@ -331,25 +331,26 @@ class FluxCone:
 
     """ determine irredundant desciption of the flux cone """
 
-    def get_redudants(self, irr):
+    def get_redundant(self, irr):
         redundants = []
-        for index in irr:
+        for index in supp(irr):
             c = -np.eye(len(self.stoich.T))[index]
             A_ub = np.eye(len(self.stoich.T))[np.setdiff1d(supp(self.irr), index)]
             A_eq = self.stoich
             b_ub = np.zeros(len(A_ub))
             b_eq = np.zeros(len(A_eq))
-            bounds = (None, None)
+            bounds = (-1000, 1000)
             if abs(linprog(c, A_ub, b_ub, A_eq, b_eq, bounds).fun) < 0.1:
                 redundants.append(index)
-        return redundants
+                return index
+            
         
     def make_irredundant(self):
-        redundants = self.get_redudants(supp(self.irr))
+        redundant = self.get_redundant(supp(self.irr))
 
-        while len(redundants) > 0:
+        while redundants != None:
             self.make_rev(redundants[0])
-            redundants = self.get_redudants(supp(self.irr))
+            redundant = self.get_redundant(supp(self.irr))
 
     """ determine indices of blocked irreversible reactions """
 
