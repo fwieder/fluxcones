@@ -55,7 +55,25 @@ class FluxCone:
 
         # initialize class object from extracted parameters
         return cls(stoich, rev)
+    @classmethod
+    def from_bigg_id(cls,bigg_id: str):
+        """
+        The `from_bigg_id` function loads a model from the bigg batabase, extracts the stoichiometric matrix and
+        reversibility vector, and initializes a FluxCone object with the extracted parameters.
+        """
+        
+        # load model from bigg database
+        bigg_model = cobra.io.load_model(bigg_id)
+        
+        # extract stoichiometric matrix
+        stoich = cobra.util.array.create_stoichiometric_matrix(bigg_model)
 
+        # extract reversibility vector
+        rev = np.array([rea.reversibility for rea in bigg_model.reactions]).astype(int)
+
+        # initialize class object from extracted parameters
+        return cls(stoich, rev)
+        
     def get_lin_dim(self):
         """
         Calculate and returns the linear dimension of the flux cone based on its row and column spaces.
