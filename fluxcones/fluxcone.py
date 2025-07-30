@@ -13,6 +13,7 @@ import cobra
 from scipy.optimize import linprog
 import copy
 import mip
+mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
 from fluxcones.helpers import supp, zero, TOLERANCE
 
