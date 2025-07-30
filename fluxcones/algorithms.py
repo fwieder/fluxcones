@@ -4,52 +4,45 @@ import numpy as np
 from fluxcones.helpers import abs_max, supp, TOLERANCE
 from fluxcones import FluxCone
 import itertools
-import pulp
-
+from ortools.linear_solver import pywraplp
 
 def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM=1000):
-    """
-    Solve a MILP to decompose target_vector as a combination of candidate vectors,
-    minimizing the number of selected candidates (sparse decomposition).
-    """
+    solver = pywraplp.Solver.CreateSolver('CBC')
+    if not solver:
+        raise Exception("CBC solver unavailable in OR-Tools.")
 
-    n_candidates = len(candidates)
-    n_fluxes = len(target_vector)
+    n = len(candidates)
+    dim = len(target_vector)
 
-    # Create a PuLP problem (minimization)
-    prob = pulp.LpProblem("Shortest_Decomposition", pulp.LpMinimize)
+    # Variables
+    a = [solver.BoolVar(f'a_{i}') for i in range(n)]
+    x = [solver.NumVar(0.0, solver.infinity(), f'x_{i}') for i in range(n)]
 
-    # Decision variables
-    a = [pulp.LpVariable(f"a_{i}", cat="Binary") for i in range(n_candidates)]
-    x = [pulp.LpVariable(f"x_{i}", lowBound=0, cat="Continuous") for i in range(n_candidates)]
+    # Constraints: x[i] <= M * a[i]
+    for i in range(n):
+        solver.Add(x[i] <= bigM * a[i])
 
-    M = bigM
+    # Stoichiometric constraints
+    for flux in range(dim):
+        constraint_expr = solver.Sum(x[i] * candidates[i][flux].item() for i in range(n))
+        solver.Add(constraint_expr == target_vector[flux].item())
 
-    # Linking constraints: x[i] <= M * a[i]
-    for i in range(n_candidates):
-        prob += x[i] <= M * a[i]
+    # At least one candidate is used
+    solver.Add(solver.Sum(a[i] for i in range(n)) >= 1)
 
-    # Stoichiometric constraints: sum(x[i] * candidates[i][flux]) = target_vector[flux]
-    for flux in range(n_fluxes):
-        prob += (
-            pulp.lpSum(x[i] * candidates[i][flux].item() for i in range(n_candidates))
-            == target_vector[flux].item()
-        )
+    # Objective: minimize number of active candidates (sum of a)
+    solver.Minimize(solver.Sum(a))
 
-    # At least one candidate must be selected
-    prob += pulp.lpSum(a) >= 1
+    status = solver.Solve()
 
-    # Objective: minimize number of selected candidates
-    prob += pulp.lpSum(a)
+    if status == pywraplp.Solver.OPTIMAL:
+        coefficients = np.array([x[i].solution_value() for i in range(n)])
+        return coefficients
+    else:
+        print("No optimal solution found.")
+        return None
 
-    # Solve with CBC (from Homebrew)
-    solver = pulp.PULP_CBC_CMD(msg=False, tol=tolerance)
-    prob.solve(solver)
 
-    # Extract coefficients
-    coefficients = np.array([pulp.value(var) for var in x])
-
-    return coefficients
 
 
 

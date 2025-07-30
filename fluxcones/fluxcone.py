@@ -165,12 +165,13 @@ class FluxCone:
 
         return efms_cols.T
 
+
     def get_efms_milp(self, only_reversible=False):
         """
-        Computes EFMs of the flux cone using a MILP approach with PuLP.
+        Computes EFMs of the flux cone using MILP approach with OR-Tools.
         """
-    
-        # Build S matrix
+        from ortools.linear_solver import pywraplp
+
         if only_reversible:
             S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
         else:
@@ -183,57 +184,52 @@ class FluxCone:
         n = S.shape[1]
         M = 1000
         efms = []
+        exclusion_sets = []
     
-        exclusion_sets = []  # store sets of active reactions
+        solver = pywraplp.Solver.CreateSolver('SCIP')
+        if not solver:
+            raise Exception("Solver SCIP not available.")
     
         while True:
-            # Build new MILP
-            prob = pulp.LpProblem("EFM_MILP", pulp.LpMinimize)
+            solver.Reset()
     
-            a = [pulp.LpVariable(f"a_{i}", cat="Binary") for i in range(n)]
-            v = [pulp.LpVariable(f"v_{i}", lowBound=0, cat="Continuous") for i in range(n)]
+            # Variables
+            a = [solver.BoolVar(f'a_{i}') for i in range(n)]
+            v = [solver.NumVar(0.0, solver.infinity(), f'v_{i}') for i in range(n)]
     
             # Constraints: S * v = 0
-            for row in S:
-                prob += pulp.lpSum(row[i] * v[i] for i in range(n)) == 0
+            for row_idx in range(S.shape[0]):
+                solver.Add(solver.Sum(S[row_idx, i] * v[i] for i in range(n)) == 0)
     
-            # Linking constraints
+            # Linking constraints: v[i] <= M * a[i]
             for i in range(n):
-                prob += v[i] <= M * a[i]
+                solver.Add(v[i] <= M * a[i])
     
-            # Non-trivial solution
-            prob += pulp.lpSum(a) >= 1
+            # Non-trivial solution: sum a[i] >= 1
+            solver.Add(solver.Sum(a) >= 1)
     
-            # Add exclusion constraints for all previously found EFMs
+            # Exclusion constraints to avoid previous solutions
             for active_set in exclusion_sets:
-                prob += pulp.lpSum(a[i] for i in active_set) <= len(active_set) - 1
+                solver.Add(solver.Sum(a[i] for i in active_set) <= len(active_set) - 1)
     
             # Objective: minimize number of active reactions
-            prob += pulp.lpSum(a)
+            objective = solver.Minimize(solver.Sum(a))
     
-            # Solve
-            solver = pulp.PULP_CBC_CMD(msg=False)
-            prob.solve(solver)
+            status = solver.Solve()
     
-            if pulp.LpStatus[prob.status] != "Optimal":
+            if status != pywraplp.Solver.OPTIMAL:
                 break
     
-            efm = np.array([pulp.value(var) for var in v])
+            efm = np.array([v[i].solution_value() for i in range(n)])
             if efm is None or np.allclose(efm, 0, atol=1e-9):
                 break
     
-            # Record EFM
             efms.append(efm)
     
-            # Add the active set to exclusion list
             active_set = [i for i, val in enumerate(efm) if abs(val) > 1e-9]
             exclusion_sets.append(active_set)
     
-            # Continue loop to find more EFMs
-    
         efms = np.array(efms)
-    
-        # Separate reversible reaction contributions
         efms_p = efms[:, : len(self.rev)]
         efms_m = np.zeros_like(efms_p)
         counter = 0
@@ -242,10 +238,7 @@ class FluxCone:
             counter += 1
     
         efms = efms_p - efms_m
-    
-        # Remove zero rows
         return efms[np.any(efms != 0, axis=1)]
-
 
     def degree(self, vector):
         """
