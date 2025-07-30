@@ -4,60 +4,53 @@ import numpy as np
 from fluxcones.helpers import abs_max, supp, TOLERANCE
 from fluxcones import FluxCone
 import itertools
+import pulp
 
 
-def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM = 1000):
+def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM=1000):
+    """
+    Solve a MILP to decompose target_vector as a combination of candidate vectors,
+    minimizing the number of selected candidates (sparse decomposition).
+    """
 
-   
-    import mip
-   
-    m = mip.Model(solver_name = "GLPK")
-    
+    n_candidates = len(candidates)
+    n_fluxes = len(target_vector)
 
-    # numeric tolerances:
-    m.infeas_tol = tolerance
-    m.integer_tol = tolerance
+    # Create a PuLP problem (minimization)
+    prob = pulp.LpProblem("Shortest_Decomposition", pulp.LpMinimize)
 
-    # suppress console output
-    m.verbose = False
+    # Decision variables
+    a = [pulp.LpVariable(f"a_{i}", cat="Binary") for i in range(n_candidates)]
+    x = [pulp.LpVariable(f"x_{i}", lowBound=0, cat="Continuous") for i in range(n_candidates)]
 
-    # Define binary variables
-    a = [m.add_var(var_type=mip.BINARY) for i in range(len(candidates))]
-
-    # Define real variables
-    x = [m.add_var(var_type=mip.CONTINUOUS) for i in range(len(candidates))]
-
-    # Define bigM
     M = bigM
 
-    # Logic constraints a[i] = 0 => x[i]=0
-    for i in range(len(candidates)):
-        m.add_constr(x[i] <= M * a[i])
-        m.add_constr(x[i] >= 0)
+    # Linking constraints: x[i] <= M * a[i]
+    for i in range(n_candidates):
+        prob += x[i] <= M * a[i]
 
-    # Stoichiometric constraints
-    for flux in range(len(target_vector)):
-        m += (
-            mip.xsum(x[i] * candidates[i][flux].item() for i in range(len(candidates)))
+    # Stoichiometric constraints: sum(x[i] * candidates[i][flux]) = target_vector[flux]
+    for flux in range(n_fluxes):
+        prob += (
+            pulp.lpSum(x[i] * candidates[i][flux].item() for i in range(n_candidates))
             == target_vector[flux].item()
         )
 
-    # Make sure that at least one candidate is used
-    m += mip.xsum(a[i] for i in range(len(candidates))) >= 1
+    # At least one candidate must be selected
+    prob += pulp.lpSum(a) >= 1
 
-    # Define objective function
-    m.objective = mip.minimize(mip.xsum(a[i] for i in range(len(candidates))))
+    # Objective: minimize number of selected candidates
+    prob += pulp.lpSum(a)
 
-    # Solve the MILP
-    m.optimize()
+    # Solve with CBC (from Homebrew)
+    solver = pulp.PULP_CBC_CMD(msg=False, tol=tolerance)
+    prob.solve(solver)
 
-    # Determine coefficients in decomposition
-    coefficients = np.array([x[i].x for i in range(len(x))])
-
-    # Clear model variables to avoid possible issues when doing multiple MILPs consecutively
-    m.clear()
+    # Extract coefficients
+    coefficients = np.array([pulp.value(var) for var in x])
 
     return coefficients
+
 
 
 def check_conjecture(model, efms):

@@ -13,6 +13,7 @@ import cobra
 from scipy.optimize import linprog
 import copy
 from fluxcones.helpers import supp, zero, TOLERANCE
+import pulp
 
 
 class FluxCone:
@@ -166,84 +167,85 @@ class FluxCone:
 
     def get_efms_milp(self, only_reversible=False):
         """
-        Computes the EFMs of the flux cone using the milp approach
-        
-        if only_reversible is set to true, only reversible efms are calculated
+        Computes EFMs of the flux cone using a MILP approach with PuLP.
         """
-
+    
+        # Build S matrix
         if only_reversible:
             S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
         else:
             S = self.stoich
-
-        # Create the extended stoichiometric matrix for reversible reactions
+    
+        # Duplicate columns for reversible reactions
         for index in np.nonzero(self.rev)[0]:
             S = np.c_[S, -S[:, index]]
-
-        n = np.shape(S)[1]
-        
-        
-        
-        import mip
-        # Initialize the MILP model
-        m = mip.Model(sense=mip.MINIMIZE,solver_name="GLPK")
-        m.verbose = False
-
-        # Add binary variables for each reaction
-        a = [m.add_var(var_type=mip.BINARY) for _ in range(n)]
-
-        # Add continuous variables for each reaction rate
-        v = [m.add_var() for _ in range(n)]
-
-        # Add stoichiometric constraints
-        for row in S:
-            m += mip.xsum(row[i] * v[i] for i in range(n)) == 0
-
-        # Define the Big M value for constraints
+    
+        n = S.shape[1]
         M = 1000
-        for i in range(n):
-            m += a[i] <= v[i]
-            m += v[i] <= M * a[i]
-
-        # Exclude the zero vector solution
-        m += mip.xsum(a[i] for i in range(n)) >= 1
-
-        # Set the objective to minimize the number of non-zero variables
-        m.objective = mip.xsum(a[i] for i in range(n))
-
         efms = []
-
+    
+        exclusion_sets = []  # store sets of active reactions
+    
         while True:
-            # Solve the MILP model
-            m.optimize()
-
-            # Get the solution vector
-            efm = np.array([v.x for v in m.vars[:n]])
-
-            # Check for optimality
-            if efm.any() is None:
+            # Build new MILP
+            prob = pulp.LpProblem("EFM_MILP", pulp.LpMinimize)
+    
+            a = [pulp.LpVariable(f"a_{i}", cat="Binary") for i in range(n)]
+            v = [pulp.LpVariable(f"v_{i}", lowBound=0, cat="Continuous") for i in range(n)]
+    
+            # Constraints: S * v = 0
+            for row in S:
+                prob += pulp.lpSum(row[i] * v[i] for i in range(n)) == 0
+    
+            # Linking constraints
+            for i in range(n):
+                prob += v[i] <= M * a[i]
+    
+            # Non-trivial solution
+            prob += pulp.lpSum(a) >= 1
+    
+            # Add exclusion constraints for all previously found EFMs
+            for active_set in exclusion_sets:
+                prob += pulp.lpSum(a[i] for i in active_set) <= len(active_set) - 1
+    
+            # Objective: minimize number of active reactions
+            prob += pulp.lpSum(a)
+    
+            # Solve
+            solver = pulp.PULP_CBC_CMD(msg=False)
+            prob.solve(solver)
+    
+            if pulp.LpStatus[prob.status] != "Optimal":
                 break
-
-            # Add constraint to exclude the current solution in the next iteration
-            m += mip.xsum(a[i] for i in supp(efm)) <= len(supp(efm)) - 1
-
+    
+            efm = np.array([pulp.value(var) for var in v])
+            if efm is None or np.allclose(efm, 0, atol=1e-9):
+                break
+    
+            # Record EFM
             efms.append(efm)
-
+    
+            # Add the active set to exclusion list
+            active_set = [i for i, val in enumerate(efm) if abs(val) > 1e-9]
+            exclusion_sets.append(active_set)
+    
+            # Continue loop to find more EFMs
+    
         efms = np.array(efms)
-
-        # Separate positive and negative parts for reversible reactions
+    
+        # Separate reversible reaction contributions
         efms_p = efms[:, : len(self.rev)]
-        efms_m = np.zeros(np.shape(efms_p))
-
+        efms_m = np.zeros_like(efms_p)
         counter = 0
         for r in supp(self.rev):
             efms_m[:, r] = efms[:, len(self.rev) + counter]
             counter += 1
-
+    
         efms = efms_p - efms_m
-
+    
         # Remove zero rows
         return efms[np.any(efms != 0, axis=1)]
+
 
     def degree(self, vector):
         """
