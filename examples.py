@@ -27,7 +27,7 @@ def all_networks(num_metabs, num_reacs, value_list):
     degrees = []
     for model_id in tqdm.tqdm(model_ids):
         model = FluxCone(stoichs[model_id[0]], revs[model_id[1]])
-        efms = model.get_efms_cdd()
+        efms = model.get_efms_efmtool()
         res = check_conjecture(model, efms)
         if res == False:
             print("Conjecture disproven!")

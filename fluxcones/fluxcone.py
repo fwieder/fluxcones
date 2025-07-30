@@ -183,10 +183,11 @@ class FluxCone:
         n = np.shape(S)[1]
         
         
-        # IMPORTANT: set CBC_PATH before creating the model
+        import os
+        os.environ["PYMIP_CBC_LIBRARY"] = "None"  # disables loading of bundled dylib
+
         import mip
         mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
-
         # Initialize the MILP model
         m = mip.Model(sense=mip.MINIMIZE)
         m.verbose = False
