@@ -12,9 +12,6 @@ import efmtool
 import cobra
 from scipy.optimize import linprog
 import copy
-import mip
-mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
-
 from fluxcones.helpers import supp, zero, TOLERANCE
 
 
@@ -184,10 +181,14 @@ class FluxCone:
             S = np.c_[S, -S[:, index]]
 
         n = np.shape(S)[1]
-        # Initialize the MILP model
-        m = mip.Model(sense=mip.MINIMIZE)
+        
+        
+        # IMPORTANT: set CBC_PATH before creating the model
+        import mip
         mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
+        # Initialize the MILP model
+        m = mip.Model(sense=mip.MINIMIZE)
         m.verbose = False
 
         # Add binary variables for each reaction
