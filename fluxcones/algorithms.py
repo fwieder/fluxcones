@@ -1,6 +1,7 @@
 import numpy as np
 import mip
-mip.CBC_PATH = "/opt/homebrew/bin/cbc"
+mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
+
 
 from fluxcones.helpers import abs_max, supp, TOLERANCE
 from fluxcones import FluxCone
