@@ -20,7 +20,6 @@ setup(
         "efmtool",
         "scipy",
         "cobra",
-        "pycddlib",
         "tqdm"
     ],
 )
