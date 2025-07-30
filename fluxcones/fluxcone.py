@@ -8,7 +8,7 @@ Created on Tue Jun 25 13:58:32 2024
 
 import numpy as np
 import efmtool
-import cdd
+#import cdd
 import cobra
 from scipy.optimize import linprog
 import copy
@@ -166,6 +166,7 @@ class FluxCone:
 
         return efms_cols.T
 
+"""
     def get_efms_cdd(self, only_reversible=False):
         """
         Calculates EFMs of the flux cone using the double description method
@@ -218,6 +219,7 @@ class FluxCone:
                 tokeep.append(index)
 
         return unsplit[tokeep]
+"""
 
     def get_efms_milp(self, only_reversible=False):
         """
