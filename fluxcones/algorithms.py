@@ -8,13 +8,11 @@ import itertools
 
 def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM = 1000):
 
-    import os
-    os.environ["PYMIP_CBC_LIBRARY"] = "None"  # disables loading of bundled dylib
-
+   
     import mip
-    mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
-
-    m = mip.Model()
+   
+    m = mip.Model(solver_name = "GLPK")
+    
 
     # numeric tolerances:
     m.infeas_tol = tolerance

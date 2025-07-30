@@ -5,6 +5,11 @@ Created on Wed Jul 30 15:55:40 2025
 
 @author: frederik
 """
+import os
+os.environ["PYMIP_CBC_LIBRARY"] = "None"  # important! avoid wrong arch .dylib
+
+import mip
+mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
 from fluxcones import FluxCone
 
