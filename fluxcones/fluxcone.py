@@ -166,61 +166,6 @@ class FluxCone:
 
         return efms_cols.T
 
-"""
-    def get_efms_cdd(self, only_reversible=False):
-        """
-        Calculates EFMs of the flux cone using the double description method
-        
-        if only_reversible is set to true, only reversible efms are calculated
-        """
-        if only_reversible:
-            S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
-        else:
-            S = self.stoich
-
-        # Store information about original shape to be able to revert splitting
-        # of reversible reactions later
-        original_shape = np.shape(S)
-        rev_indices = np.nonzero(self.rev)[0]
-
-        # split reversible reactions by appending columns
-        S_split = np.c_[S, -S[:, rev_indices]]
-        S_split_rev = np.zeros(len(S_split[0]))
-
-        # compute generators of pointed cone by splitting (all reactions irreversible)
-        # nonegs is the matrix defining the inequalities for each irreversible reachtion
-        irr = (np.ones(len(S_split_rev)) - S_split_rev).astype(int)
-        nonegs = np.eye(len(S_split_rev))[np.nonzero(irr)[0]]
-
-        # initiate Matrix for cdd
-        if len(nonegs) > 0:
-            mat = cdd.Matrix(nonegs, number_type="float")
-            mat.extend(S_split, linear=True)
-        else:
-            mat = cdd.Matrix(S_split, linear=True)
-
-        # generate polytope and compute generators
-        poly = cdd.Polyhedron(mat)
-        res = np.array(poly.get_generators())
-
-        # reverse splitting by combining both directions that resulted from splitting
-        orig = res[:, : original_shape[1]]
-        torem = np.zeros(np.shape(orig))
-        splits = res[:, original_shape[1] :]
-
-        for i, j in enumerate(rev_indices):
-            torem[:, j] = splits[:, i]
-        unsplit = orig - torem
-        tokeep = []
-
-        # remove spurious cycles
-        for index, vector in enumerate(unsplit):
-            if len(supp(vector)) > 0:
-                tokeep.append(index)
-
-        return unsplit[tokeep]
-"""
-
     def get_efms_milp(self, only_reversible=False):
         """
         Computes the EFMs of the flux cone using the milp approach
@@ -360,7 +305,7 @@ class FluxCone:
             b_ub = np.zeros(len(A_ub))
             b_eq = np.zeros(len(A_eq))
             bounds = (-1000, 1000)
-            if abs(linprog(c, A_ub, b_ub, A_eq, b_eq, bounds).fun) < 0.1:
+            if abs(linprog(c, A_ub, b_ub, A_eq, b_eq, bounds).fun) < 0.001:
                 redundants.append(index)
                 return index
             
@@ -410,7 +355,7 @@ class FluxCone:
         blocked.reverse()
         return blocked
 
-    """ determine Face of the flux cone that contains vector """
+    """ determine Face of the flux cone that contains rep_vector """
 
     def face_defined_by(self, rep_vector):
         face = copy.deepcopy(self)
