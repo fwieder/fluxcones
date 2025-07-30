@@ -186,6 +186,7 @@ class FluxCone:
         n = np.shape(S)[1]
         # Initialize the MILP model
         m = mip.Model(sense=mip.MINIMIZE)
+        mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
         m.verbose = False
 
