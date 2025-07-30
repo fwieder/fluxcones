@@ -1,6 +1,4 @@
 import numpy as np
-import mip
-mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
 
 from fluxcones.helpers import abs_max, supp, TOLERANCE
@@ -9,6 +7,9 @@ import itertools
 
 
 def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM = 1000):
+
+    import mip
+    mip.CBC_PATH = "/opt/homebrew/opt/cbc/bin/cbc"
 
     m = mip.Model()
 
