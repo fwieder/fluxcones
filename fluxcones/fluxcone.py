@@ -166,12 +166,14 @@ class FluxCone:
         return efms_cols.T
 
 
+
     def get_efms_milp(self, only_reversible=False):
         """
         Computes EFMs of the flux cone using MILP approach with OR-Tools.
         """
         from ortools.linear_solver import pywraplp
 
+        # Build S matrix
         if only_reversible:
             S = np.r_[self.stoich, np.eye(self.num_reacs)[supp(self.irr)]]
         else:
@@ -186,34 +188,35 @@ class FluxCone:
         efms = []
         exclusion_sets = []
     
-        solver = pywraplp.Solver.CreateSolver('SCIP')
-        if not solver:
-            raise Exception("Solver SCIP not available.")
-    
         while True:
-            solver.Reset()
+            # IMPORTANT: create a fresh solver each iteration
+            solver = pywraplp.Solver.CreateSolver("SCIP")
+            if not solver:
+                raise Exception("OR-Tools SCIP solver not available.")
     
-            # Variables
+            # Decision variables
             a = [solver.BoolVar(f'a_{i}') for i in range(n)]
             v = [solver.NumVar(0.0, solver.infinity(), f'v_{i}') for i in range(n)]
     
             # Constraints: S * v = 0
             for row_idx in range(S.shape[0]):
-                solver.Add(solver.Sum(S[row_idx, i] * v[i] for i in range(n)) == 0)
+                solver.Add(
+                    sum(S[row_idx, i] * v[i] for i in range(n)) == 0
+                )
     
-            # Linking constraints: v[i] <= M * a[i]
+            # Linking constraints
             for i in range(n):
                 solver.Add(v[i] <= M * a[i])
     
-            # Non-trivial solution: sum a[i] >= 1
-            solver.Add(solver.Sum(a) >= 1)
+            # Non-trivial solution
+            solver.Add(sum(a) >= 1)
     
-            # Exclusion constraints to avoid previous solutions
+            # Exclusion constraints
             for active_set in exclusion_sets:
-                solver.Add(solver.Sum(a[i] for i in active_set) <= len(active_set) - 1)
+                solver.Add(sum(a[i] for i in active_set) <= len(active_set) - 1)
     
             # Objective: minimize number of active reactions
-            objective = solver.Minimize(solver.Sum(a))
+            solver.Minimize(sum(a))
     
             status = solver.Solve()
     
@@ -224,12 +227,14 @@ class FluxCone:
             if efm is None or np.allclose(efm, 0, atol=1e-9):
                 break
     
+            # Store solution
             efms.append(efm)
-    
             active_set = [i for i, val in enumerate(efm) if abs(val) > 1e-9]
             exclusion_sets.append(active_set)
     
         efms = np.array(efms)
+    
+        # Handle reversible reactions
         efms_p = efms[:, : len(self.rev)]
         efms_m = np.zeros_like(efms_p)
         counter = 0
@@ -239,6 +244,7 @@ class FluxCone:
     
         efms = efms_p - efms_m
         return efms[np.any(efms != 0, axis=1)]
+
 
     def degree(self, vector):
         """
