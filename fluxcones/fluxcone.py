@@ -233,7 +233,9 @@ class FluxCone:
             exclusion_sets.append(active_set)
     
         efms = np.array(efms)
-    
+        if efms.size == 0:
+            return efms  # return empty array directly
+
         # Handle reversible reactions
         efms_p = efms[:, : len(self.rev)]
         efms_m = np.zeros_like(efms_p)
