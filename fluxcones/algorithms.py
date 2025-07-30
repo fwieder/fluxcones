@@ -65,9 +65,8 @@ def check_conjecture(model, efms):
             coeffs = MILP_shortest_decomp(efm, np.delete(efms, index, axis=0))
 
             # check if efm was decomposable
-            if any(element is None for element in coeffs.ravel()):
-                # efm was not decomposable
-                continue
+            if coeffs == None:
+                return True
 
             if len(supp(coeffs)) > 2:
                 print("A counterexample was found")
