@@ -112,10 +112,11 @@ def two_gens(
 
         for pos_efm, neg_efm in itertools.product(pos, neg):
             new_vec = pos_efm - pos_efm[rev_zero_ind] / neg_efm[rev_zero_ind] * neg_efm
-            if abs_max(new_vec - vector) < TOLERANCE:
-                if all_pairs:
-                    gen_pairs.append((pos_efm, neg_efm))
-                else:
-                    return (pos_efm, neg_efm)
+            if len(supp(new_vec)) == len(supp(vector)):
+                if all(supp(new_vec) == supp(vector)):
+                    if all_pairs:
+                        gen_pairs.append((pos_efm, neg_efm))
+                    else:
+                        return (pos_efm, neg_efm)
 
     return gen_pairs
