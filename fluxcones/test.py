@@ -34,7 +34,7 @@ def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM=1000):
         coefficients = np.array([x[i].solution_value() for i in range(n)])
         return coefficients
     else:
-        print("No optimal solution found.")
+        #print("No optimal solution found.")
         return None
 
 
