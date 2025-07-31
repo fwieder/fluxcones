@@ -18,12 +18,18 @@ import pulp
 
 class FluxCone:
 
-    def __init__(self, stoichiometry: np.array, reversibility: np.array):
+    def __init__(self, stoichiometry: np.array, reversibility: np.array, cobra_model: cobra.core.model.Model = None):
         """
         This Python function initializes a class instance with stoichiometry and reversibility arrays to
         represent a chemical reaction system.
         """
-
+        
+        # Attach cobra model
+        
+        if cobmod != None:
+            self.cobra = cobra_model
+            
+        
         # Stoichiometric matrix
         self.stoich = stoichiometry  # np.array
 
@@ -44,16 +50,16 @@ class FluxCone:
         """
 
         # read sbml-file
-        sbml_model = cobra.io.read_sbml_model(path_to_sbml)
+        cobra_model = cobra.io.read_sbml_model(path_to_sbml)
 
         # extract stoichiometric matrix
-        stoich = cobra.util.array.create_stoichiometric_matrix(sbml_model)
+        stoich = cobra.util.array.create_stoichiometric_matrix(cobra_model)
 
         # extract reversibility vector
-        rev = np.array([rea.reversibility for rea in sbml_model.reactions]).astype(int)
+        rev = np.array([rea.reversibility for rea in cobra_model.reactions]).astype(int)
 
         # initialize class object from extracted parameters
-        return cls(stoich, rev)
+        return cls(stoich, rev,cobra_model)
     @classmethod
     def from_bigg_id(cls,bigg_id: str):
         """
@@ -71,7 +77,7 @@ class FluxCone:
         rev = np.array([rea.reversibility for rea in bigg_model.reactions]).astype(int)
 
         # initialize class object from extracted parameters
-        return cls(stoich, rev)
+        return cls(stoich, rev,bigg_model)
         
     def get_lin_dim(self):
         """
