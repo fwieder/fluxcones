@@ -319,13 +319,15 @@ class FluxCone:
                 redundants.append(index)
                 return index
             
-        
+    # Needs to be fixed!!!!
+######################################################################################################################################################    
     def make_irredundant(self):
         redundant = self.get_redundant(supp(self.irr))
-
+        redundants = []
         while redundants != None:
             self.make_rev(redundants[0])
             redundant = self.get_redundant(supp(self.irr))
+######################################################################################################################################################
 
     """ determine indices of blocked irreversible reactions """
 
