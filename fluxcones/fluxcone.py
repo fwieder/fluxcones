@@ -26,7 +26,7 @@ class FluxCone:
         
         # Attach cobra model
         
-        if cobmod != None:
+        if cobra_model != None:
             self.cobra = cobra_model
             
         
