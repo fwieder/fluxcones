@@ -1,4 +1,5 @@
 *.pyc
 Biomodels
 build
+testing
 *.egg-info
