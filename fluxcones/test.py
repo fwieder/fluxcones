@@ -84,13 +84,12 @@ if __name__ == "__main__":
     from fluxcones.helpers import supp
     from fluxcones.algorithms import two_gens
     from tqdm import tqdm 
-    model = FluxCone.from_bigg_id("iAB_RBC_283")
+    model = FluxCone.from_sbml("/Users/frederik/Downloads/iAF1260_m9.xml")
     solution = model.cobra.optimize()
     v = np.array(solution.fluxes).round(7)
     face = model.face_defined_by(v)
     face_efms = face.get_efms_efmtool()
     print(len(face_efms))
-    face_degs = [model.degree(efm) for efm in tqdm(face_efms)]
+    #face_degs = [model.degree(efm) for efm in tqdm(face_efms)]
     
-    
-    
+    /Users/frederik/Downloads/RAC_1.json
