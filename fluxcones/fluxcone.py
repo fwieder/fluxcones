@@ -100,21 +100,21 @@ class FluxCone:
 
     def is_in(self, vec):
         """
-        Returns True if a given vector is within a specified flux cone
+        Returns True if a given vector is within a specified flux cone.
         """
-        # test whether v_irr >= 0
-        if (
-            len(vec[self.irr_supp(vec)]) > 0
-            and min(vec[self.irr_supp(vec)]) < 0
-        ):
-            # Not in cone, because there is an irreversible reaction with negative flux
+    
+        # Check non-negativity on irreversible reactions
+        irr_indices = self.irr_supp(vec)
+        if len(irr_indices) > 0 and np.min(vec[irr_indices]) < 0:
+            # Not in cone: irreversible reaction with negative flux
             return False
-
-        # test whether S*v = 0
-        if all(supp(np.dot(self.stoich, vec), TOLERANCE) is np.array([])):
+    
+        # Check S * v == 0 within tolerance
+        residual = np.dot(self.stoich, vec)
+        # supp() presumably returns indices where abs(residual) > TOLERANCE
+        if len(supp(residual, TOLERANCE)) == 0:
             return True
-
-        # S*v not equal to 0
+    
         return False
 
     def is_efm(self, vector):
