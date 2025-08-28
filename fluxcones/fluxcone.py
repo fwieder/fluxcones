@@ -60,6 +60,7 @@ class FluxCone:
 
         # initialize class object from extracted parameters
         return cls(stoich, rev,cobra_model)
+    
     @classmethod
     def from_bigg_id(cls,bigg_id: str):
         """
@@ -78,7 +79,20 @@ class FluxCone:
 
         # initialize class object from extracted parameters
         return cls(stoich, rev,bigg_model)
+    
+    @classmethod
+    def from_cobra_model(cls,cobra_model:cobra.core.model.Model):
         
+        # extract stoichiometric matrix
+        stoich = cobra.util.array.create_stoichiometric_matrix(cobra_model)
+
+        # extract reversibility vector
+        rev = np.array([rea.reversibility for rea in cobra_model.reactions]).astype(int)
+
+        # initialize class object from extracted parameters
+        return cls(stoich, rev,cobra_model)
+    
+    
     def get_lin_dim(self):
         """
         Calculate and returns the linear dimension of the flux cone based on its row and column spaces.
@@ -139,7 +153,7 @@ class FluxCone:
             "zero": "1e-10",
             "compression": "default",
             "log": "console",
-            "level": "OFF",
+                "level": "ON",
             "maxthreads": "-1",
             "normalize": "max",
             "adjacency-method": "pattern-tree-minzero",

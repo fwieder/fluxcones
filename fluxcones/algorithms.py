@@ -4,44 +4,66 @@ import numpy as np
 from fluxcones.helpers import abs_max, supp, TOLERANCE
 from fluxcones import FluxCone
 import itertools
-from ortools.linear_solver import pywraplp
+import pulp
 
-def MILP_shortest_decomp(target_vector, candidates, tolerance=1e-7, bigM=1000):
-    solver = pywraplp.Solver.CreateSolver('CBC')
-    if not solver:
-        raise Exception("CBC solver unavailable in OR-Tools.")
 
-    n = len(candidates)
-    dim = len(target_vector)
+def nonneg_lincomb(v: np.ndarray, A: np.ndarray, bigM: float = 1e6) -> np.ndarray:
+    """
+    Express a vector v as a sparse nonnegative linear combination of rows of A.
+    Minimizes L1 reconstruction error, then sparsity (#nonzero lambdas).
 
-    # Variables
-    a = [solver.BoolVar(f'a_{i}') for i in range(n)]
-    x = [solver.NumVar(0.0, solver.infinity(), f'x_{i}') for i in range(n)]
+    Parameters
+    ----------
+    v : np.ndarray (shape: (n,))
+        Target vector.
+    A : np.ndarray (shape: (m, n))
+        Candidate row vectors.
+    bigM : float
+        Upper bound on λ_i values (should be >= any feasible coefficient).
 
-    # Constraints: x[i] <= M * a[i]
-    for i in range(n):
-        solver.Add(x[i] <= bigM * a[i])
+    Returns
+    -------
+    np.ndarray (shape: (m,))
+        Sparse nonnegative coefficients λ.
+    """
+    m, n = A.shape
+    assert v.shape[0] == n, "Dimension mismatch: v must have same length as A's columns."
 
-    # Stoichiometric constraints
-    for flux in range(dim):
-        constraint_expr = solver.Sum(x[i] * candidates[i][flux].item() for i in range(n))
-        solver.Add(constraint_expr == target_vector[flux].item())
+    # Define problem
+    prob = pulp.LpProblem("SparseNonNegLinComb", pulp.LpMinimize)
 
-    # At least one candidate is used
-    solver.Add(solver.Sum(a[i] for i in range(n)) >= 1)
+    # λ_i ≥ 0
+    lambdas = [pulp.LpVariable(f"lambda_{i}", lowBound=0) for i in range(m)]
 
-    # Objective: minimize number of active candidates (sum of a)
-    solver.Minimize(solver.Sum(a))
+    # Binary usage indicators
+    y = [pulp.LpVariable(f"y_{i}", cat="Binary") for i in range(m)]
 
-    status = solver.Solve()
+    # Link λ and y: λ_i <= M * y_i
+    for i in range(m):
+        prob += lambdas[i] <= bigM * y[i]
 
-    if status == pywraplp.Solver.OPTIMAL:
-        coefficients = np.array([x[i].solution_value() for i in range(n)])
-        return coefficients
-    else:
-        print("No optimal solution found.")
-        return None
+    # Slack variables for L1 error
+    slacks_plus = [pulp.LpVariable(f"splus_{j}", lowBound=0) for j in range(n)]
+    slacks_minus = [pulp.LpVariable(f"sminus_{j}", lowBound=0) for j in range(n)]
 
+    # Constraints: A^T λ - v = slack_plus - slack_minus
+    for j in range(n):
+        prob += (pulp.lpSum(A[i, j] * lambdas[i] for i in range(m)) - v[j] 
+                 == slacks_plus[j] - slacks_minus[j])
+
+    # Objective: first minimize reconstruction error, then #nonzeros
+    # Use a big weight to prioritize reconstruction
+    error_term = pulp.lpSum(slacks_plus) + pulp.lpSum(slacks_minus)
+    sparsity_term = pulp.lpSum(y)
+    prob += 1e6 * error_term + sparsity_term
+
+    # Solve
+    solver = pulp.HiGHS(msg=False)
+    prob.solve(solver)
+
+    # Extract solution
+    solution = np.array([pulp.value(lmbd) for lmbd in lambdas])
+    return solution
 
 
 
@@ -62,7 +84,7 @@ def check_conjecture(model, efms):
                 # Decomposition of length 2 was found
                 continue
 
-            coeffs = MILP_shortest_decomp(efm, np.delete(efms, index, axis=0))
+            coeffs = nonneg_lincomb(efm,efms)
 
             # check if efm was decomposable
             if coeffs == None:
